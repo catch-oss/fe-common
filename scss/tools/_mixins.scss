@@ -1,0 +1,64 @@
+@mixin define-font($font-name, $font, $weight: normal, $style: normal) {
+    @font-face {
+        font-family: $font-name;
+        font-weight: $weight;
+        font-style: $style;
+        src: url(font-path('#{$font}.eot'));
+        src: url(font-path('#{$font}.eot')) format('embedded-opentype'),
+             url(font-path('#{$font}.woff')) format('woff'),
+             url(font-path('#{$font}.ttf')) format('truetype'),
+             url(font-path('#{$font}.svg')) format('svg');
+    }
+}
+
+@mixin prefixed-prop($prop-name, $prop-val) {
+    -webkit-#{$prop-name}: $prop-val;
+       -moz-#{$prop-name}: $prop-val;
+        -ms-#{$prop-name}: $prop-val;
+         -o-#{$prop-name}: $prop-val;
+            #{$prop-name}: $prop-val;
+}
+
+@mixin omega-reset($nth: null, $cols: null) {
+  	@if ($nth and $cols) {
+		&:nth-child(#{$nth}) { margin-right: flex-gutter($cols); }
+	    &:nth-child(#{$nth}+1) { clear: none }
+  	}
+  	@else if ($nth) {
+	    &:nth-child(#{$nth}) { margin-right: flex-gutter(); }
+	    &:nth-child(#{$nth}+1) { clear: none }
+  	} @else {
+	    & { margin-right: flex-gutter(); }
+	    & { clear: none }
+  	}
+}
+
+// for use with icomoon
+@mixin icon($name, $after: false) {
+    @extend .icon-#{$name};
+    @if ($after) {
+        &:after {
+            font-family: 'icomoon';
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    } @else {
+        &:before {
+            font-family: 'icomoon';
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    }
+}
