@@ -1,0 +1,32 @@
+// Change the grid settings
+$gutter: em(24); // Gutter between each two columns
+$grid-columns: 12;
+$max-width: 1200px;
+
+$width-vsm: 320px !default;
+$width-sm: 480px !default;
+$width-md: 768px !default;
+$width-md-lg: 900px !default;
+$width-lg: 1024px !default;
+$width-vlg: 1200px !default;
+
+// Define your breakpoints
+$extra-small: new-breakpoint(min-width $width-vsm);
+$small: new-breakpoint(min-width $width-sm);
+$medium: new-breakpoint(min-width $width-md);
+$medium-large: new-breakpoint(min-width $width-md-lg);
+$large: new-breakpoint(min-width $width-lg);
+$extra-large: new-breakpoint(min-width $width-vlg);
+
+$visual-grid-color: red;
+$visual-grid-index: front;
+$visual-grid-opacity: 0.1;
+
+$visual-grid: false;
+
+// ------------------------------------------------------------
+// Set Bourbon's flex-grid variables to match what Neat is doing
+// http://bourbon.io/docs/#flex-grid
+// ------------------------------------------------------------
+$fg-column: $column;
+$fg-gutter: $gutter;
