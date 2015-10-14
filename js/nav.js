@@ -9,7 +9,7 @@
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.accordion = factory(root.jQuery);
+        root.catch.modal = factory(root.jQuery);
     }
 
 }(this, function ($, undefined) {
@@ -18,13 +18,16 @@
 
         $(function() {
 
-            $('.accordion-header')
-                .off('click.accordion')
-                .on('click.accordion',function(e){
+            // nav trigger
+            $('header .nav-trigger')
+                .off('click.nav-trigger')
+                .on ('click.nav-trigger',function(e){
                     e.preventDefault();
-                    $(this).toggleClass("active");
+                    $('#primary-nav').toggleClass('active');
+                    $('body').toggleClass('nav-active');
+                    $(this).toggleClass('icon-close');
                 });
-        });
-    }
 
-}))
+        });
+    };
+}));

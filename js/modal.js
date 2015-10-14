@@ -16,30 +16,35 @@
 
     return function() {
 
-        $('.modal-link').off('click.modal').on('click.modal',function(e) {
+        $(function() {
 
-            e.preventDefault();
 
-            var target = $(this).data('modal') || $(this).attr('href'),
-                $target = $(target);
+            $('.modal-link').off('click.modal').on('click.modal',function(e) {
 
-            if (!$('.modal-overlay').length)
-                $('body').append('<div class="modal-overlay"></div>');
+                e.preventDefault();
 
-            if($target.length){
-                $('body').toggleClass('modal-visible').data('activeModal',target);
-                $target.toggleClass('hidden').css('max-height',('100%'));
-            }
-        });
+                var target = $(this).data('modal') || $(this).attr('href'),
+                    $target = $(target);
 
-        $('.modal-overlay, .modal-close, .modal-close-one').off('click.modal').on('click.modal', function(e){
+                if (!$('.modal-overlay').length)
+                    $('body').append('<div class="modal-overlay"></div>');
 
-            e.preventDefault();
+                if($target.length){
+                    $('body').toggleClass('modal-visible').data('activeModal',target);
+                    $target.toggleClass('hidden').css('max-height',('100%'));
+                }
+            });
 
-            var $target = $($('body').data('activeModal'));
+            $('.modal-overlay, .modal-close, .modal-close-one').off('click.modal').on('click.modal', function(e){
 
-            $('body').toggleClass('modal-visible');
-            $target.toggleClass('hidden');
+                e.preventDefault();
+
+                var $target = $($('body').data('activeModal'));
+
+                $('body').toggleClass('modal-visible');
+                $target.toggleClass('hidden');
+            });
+
         });
     };
 
