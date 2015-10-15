@@ -1,5 +1,3 @@
-$accordian-green: #3FA195;
-
 .accordion-header {
 	clear: both;
 
@@ -37,7 +35,7 @@ $accordian-green: #3FA195;
 // active
 // ------
 
-.accordion-header .active {
+.accordion-header.active {
 	border-bottom: 0;
 
 	+ .accordion-body {
@@ -58,22 +56,20 @@ $accordian-green: #3FA195;
 // -----
 
 @include media($medium) {
-	.accordion-header {
-		&.simple {
-			+ .accordion-body {
-				height: auto;
-				visibility: visible;
-				opacity: 1;
-				height: auto !important;
-				border: 0;
-				border-top: 0;
-				margin-bottom: -1px;
+	.accordion-header.active {
+		+ .accordion-body {
+			height: auto;
+			visibility: visible;
+			opacity: 1;
+			height: auto !important;
+			border: 0;
+			border-top: 0;
+			margin-bottom: -1px;
 
-				* {
-					height: auto;
-					margin: inherit;
-					margin-bottom: 1em;
-				}
+			* {
+				height: auto;
+				margin: inherit;
+				margin-bottom: 1em;
 			}
 		}
 	}
