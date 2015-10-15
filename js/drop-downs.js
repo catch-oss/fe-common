@@ -1,10 +1,10 @@
 ;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
-    if (typeof define === 'function' && define.amd) define(['jquery', './../../dropasaurus/dropasaurus', './../../dropasaurus/simple-dropdown'], factory);
+    if (typeof define === 'function' && define.amd) define(['jquery', './../../droposaurus/droposaurus', './../../droposaurus/simple-dropdown'], factory);
 
     // Node, CommonJS-like
-    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./../../dropasaurus/dropasaurus'), require('./../../dropasaurus/simple-dropdown'));
+    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./../../droposaurus/droposaurus'), require('./../../droposaurus/simple-dropdown'));
 
     // Browser globals (root is window)
     else {
@@ -12,7 +12,7 @@
         root.catch.dropDowns = factory(root.jQuery);
     }
 
-}(this, function ($, dropasaurus, simpleDD, undefined) {
+}(this, function ($, droposaurus, simpleDD, undefined) {
 
     return {
         formSelect: function(selector, options, params) {
