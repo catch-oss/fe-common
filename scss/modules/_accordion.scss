@@ -19,7 +19,6 @@ $accordian-green: #3FA195;
 
 	&:after {
 		margin-top: 3px;
-		font-size: rem($bu);
 	}
 }
 
@@ -39,20 +38,19 @@ $accordian-green: #3FA195;
 // ------
 
 .accordion-header .active {
-		color: color("brand1");
-		border-bottom: 0;
-		+ .accordion-body {
-			visibility: visible;
-			opacity: 1;
-			height: auto;
-			border: solid 1px color("even-lighterest-grey");
-			border-top: 0;
-			padding: rem($bu);
-			margin-bottom: -1px;
-		}
-		&:after {
-			@include transform(rotate(-180deg));
-		}
+	border-bottom: 0;
+
+	+ .accordion-body {
+		visibility: visible;
+		opacity: 1;
+		height: auto;
+		border: solid 1px;
+		border-top: 0;
+		margin-bottom: -1px;
+	}
+
+	&:after {
+		@include transform(rotate(-180deg));
 	}
 }
 
@@ -69,7 +67,6 @@ $accordian-green: #3FA195;
 				height: auto !important;
 				border: 0;
 				border-top: 0;
-				padding: rem($bu);
 				margin-bottom: -1px;
 
 				* {
