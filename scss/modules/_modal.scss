@@ -1,6 +1,5 @@
 body.modal-visible ,body.modal-active {
 	overflow: hidden;
-	// position: fixed; // hacks for iOS browser
 }
 
 .modal {
@@ -21,22 +20,24 @@ body.modal-visible ,body.modal-active {
 		text-align: center;
 		display: block;
 		margin-top: 20px;
-		font-size: 16px;
-		line-height: 20px;
 		padding-bottom: 20px;
 		border-bottom: 1px solid #E3E3E3;
-		padding-right: 30px;
+		// padding-right: 30px;
+		// font-size: 16px;
+		// line-height: 20px;
 
 		&:before {
-			display: none;
+	    position: absolute;
+	    left: 70px;
+	    right: 0px;
 		}
 
-		&:after {
-			content: "×";
-			display: inline-block;
-			margin-left: 10px;
-			vertical-align: bottom;
-		}
+		// &:after {
+		// 	content: "×";
+		// 	display: inline-block;
+		// 	margin-left: 10px;
+		// 	vertical-align: bottom;
+		// }
 	}
 
 	.modal-body {
@@ -62,10 +63,15 @@ body.modal-visible ,body.modal-active {
 	======================================*/
 
 	@include media($medium) {
-		padding: 0;
 		background-color: transparent;
+		height: auto;
+		padding: 0;
 		width: 600px;
 		right: 0;
+	  top: 50%;
+	  transform: translateY(-50%);
+	  -webkit-transform: translateY(-50%);
+	  -ms-transform: translateY(-50%);
 
 		.modal-close-wrapper-mobile {
 			height: 36px;
@@ -80,6 +86,12 @@ body.modal-visible ,body.modal-active {
 			padding: 0;
 			text-decoration: none;
 			border: 0;
+
+			&:before{
+		    position: absolute;
+		    right: 0;
+		    left: auto;
+			}
 		}
 
 		.modal-dialog {
