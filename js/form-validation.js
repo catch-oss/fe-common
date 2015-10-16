@@ -25,7 +25,7 @@
          root.catch.formValidation = factory(root.jQuery);
      }
 
-}(this, function ($, undefined) {
+}(this, function ($, parsley, bodyToucher, undefined) {
 
     return function(docNavHeight) {
 
