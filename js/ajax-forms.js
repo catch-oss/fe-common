@@ -1,10 +1,10 @@
 ;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
-    if (typeof define === 'function' && define.amd) define(['jquery'], factory);
+    if (typeof define === 'function' && define.amd) define(['jquery', './modals'], factory);
 
     // Node, CommonJS-like
-    else if (typeof exports === 'object') module.exports = factory(require('jquery'));
+    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./modals'));
 
     // Browser globals (root is window)
     else {
@@ -12,11 +12,11 @@
         root.catch.ajaxForms = factory(root.jQuery);
     }
 
-}(this, function ($, undefined) {
+}(this, function ($, modals, undefined) {
 
     'use strict';
 
-    return function(selector, cb, namespace, successTestCb) {
+    var ajaxForms = function(selector, cb, namespace, successTestCb) {
 
         $(function() {
 
@@ -138,7 +138,7 @@
                                 if (replace == undefined) $form.html($($(data).find(selector)[idx]).html());
                                 else $(replace).html($(data).find(replace).html());
 
-                                twoDegrees.ajaxForms(selector, cb);
+                                ajaxForms(selector, cb);
 
                                 if (typeof picturefill == 'function') picturefill();
                                 if (typeof cb == 'function') cb($this, data);
@@ -155,14 +155,14 @@
                                 if (textStatus == 'success' && successTestCb(data, textStatus, jqXHR)) {
                                     if (msg != undefined) {
                                         $body.append($template);
-                                        twoDegrees.modal();
+                                        modals();
                                         $('#ajax-form-modal-trigger').trigger('tap');
                                         $('.modal-close, .body-overlay').on('tap',function(e) { $template.remove(); });
                                     }
                                 } else {
                                     if (msgFail != undefined) {
                                         $body.append($templateFail);
-                                        twoDegrees.modal();
+                                        modals();
                                         $('#ajax-form-modal-trigger').trigger('tap');
                                         $('.modal-close, .body-overlay').on('tap',function(e) { $templateFail.remove(); });
                                     }
@@ -173,7 +173,8 @@
                     .find('.form-action')
                         .off('tap.' + namespace)
                         .off('click.' + namespace)
-                        .on('click.' + namespace + ' tap.' + namespace, function(e) {
+                        .off('change.' + namespace)
+                        .on('click.' + namespace + ' tap.' + namespace + ' change.' + namespace, function(e) {
 
                             if (!$(this).attr('data-allow-default')) e.preventDefault();
 
@@ -209,7 +210,7 @@
                                     if (replace == undefined) $form.html($($(data).find(selector)[idx]).html());
                                     else $(replace).html($(data).find(replace).html());
 
-                                    twoDegrees.ajaxForms(selector, cb);
+                                    ajaxForms(selector, cb);
 
                                     if (typeof picturefill == 'function') picturefill();
                                     if (typeof cb == 'function') cb($this, data);
@@ -225,14 +226,14 @@
                                     if (textStatus == 'success' && successTestCb(data, textStatus, jqXHR)) {
                                         if (msg != undefined) {
                                             $body.append($template);
-                                            twoDegrees.modal();
+                                            modals();
                                             $('#ajax-form-modal-trigger').trigger('tap');
                                             $('.modal-close, .body-overlay').on('tap',function(e) { $template.remove(); });
                                         }
                                     } else {
                                         if (msgFail != undefined) {
                                             $body.append($templateFail);
-                                            twoDegrees.modal();
+                                            modals();
                                             $('#ajax-form-modal-trigger').trigger('tap');
                                             $('.modal-close, .body-overlay').on('tap',function(e) { $templateFail.remove(); });
                                         }
@@ -244,4 +245,6 @@
             })
         });
     };
-})(jQuery);
+
+    return ajaxForms;
+}));
