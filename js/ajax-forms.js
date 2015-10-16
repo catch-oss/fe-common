@@ -1,9 +1,22 @@
-;(function($, undefined) {
-    $(function() {
+;(function (root, factory) {
 
-        "use strict";
+    // AMD. Register as an anonymous module depending on jQuery.
+    if (typeof define === 'function' && define.amd) define(['jquery'], factory);
 
-        twoDegrees.ajaxForms = function(selector, cb, namespace, successTestCb) {
+    // Node, CommonJS-like
+    else if (typeof exports === 'object') module.exports = factory(require('jquery'));
+
+    // Browser globals (root is window)
+    else {
+        root.catch = (root.catch || {});
+        root.catch.ajaxForms = factory(root.jQuery);
+    }
+
+}(this, function ($, undefined) {
+
+    return function(selector, cb, namespace, successTestCb) {
+
+        $(function() {
 
             if (namespace == undefined) namespace = 'ajax-form';
             if (selector == undefined) selector = '.ajax-form';
@@ -227,7 +240,6 @@
                             }
                         });
             })
-        };
-
-    });
+        });
+    };
 })(jQuery);
