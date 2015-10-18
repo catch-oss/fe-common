@@ -9,7 +9,7 @@
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.accordion = factory(root.jQuery);
+        root.catch.accordions = factory(root.jQuery);
     }
 
 }(this, function ($, undefined) {
