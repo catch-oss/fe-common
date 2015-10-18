@@ -42,7 +42,7 @@
                 var $target = $($('body').data('activeModal'));
 
                 $('body').toggleClass('modal-visible');
-                $target.toggleClass('hidden');
+                $target.toggleClass('hidden').trigger('modal:close');
             });
 
         });
