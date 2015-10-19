@@ -16,36 +16,38 @@
 
     'use strict';
 
-    var ajaxForms = function(selector, cb, namespace, successTestCb) {
+    var ajaxForms = function(selector, cb, namespace, successTestCb, modalTemplate) {
 
         $(function() {
 
-            if (namespace == undefined) namespace = 'ajax-form';
-            if (selector == undefined) selector = '.ajax-form';
-            if (successTestCb == undefined) successTestCb = function(data, textStatus, jqXHR) { return true; };
+            if (namespace === undefined)
+                namespace = 'ajax-form';
 
-            var trigger =   '<a class="modal-trigger" id="ajax-form-modal-trigger" href="#ajax-form-modal"></a>',
-                template =  '<div class="modal" id="ajax-form-modal">' +
-                                '<div class="modal-dialog modal--compact">' +
-                                    '<div class="modal-close-wrapper-mobile">' +
-                                        '<div class="modal-close-wrapper-mobile-inner">' +
-                                            '<a href="" class="modal-close icon-close icon-after">Close</a>' +
+            if (selector === undefined)
+                selector = '.ajax-form';
+
+            if (successTestCb === undefined)
+                successTestCb = function(data, textStatus, jqXHR) { return true; };
+
+            if (modalTemplate === undefined)
+                modalTemplate = '<div class="modal hidden" id="ajax-form-modal">' +
+                                    '<div class="modal-dialog modal--compact">' +
+                                        '<div class="modal-close-wrapper-mobile">' +
+                                            '<div class="modal-close-wrapper-mobile-inner">' +
+                                                '<a href="" class="modal-close icon-close">Close</a>' +
+                                            '</div>' +
+                                        '</div>' +
+                                        '<div class="modal-body">' +
+                                            '<div class="modal-dialog-inner modal-dialog-inner-body">' +
+                                                '<h1>{{title}}</h1>' +
+                                                '<div>{{content}}</div>' +
+                                            '</div>' +
                                         '</div>' +
                                     '</div>' +
-                                    '<div class="modal-header modal-header-wrapper">' +
-                                        '<div class="modal-dialog-inner">' +
-                                            '<h3>{{title}}</h3>' +
-                                            '<a href="" class="modal-close icon-close icon-after desktop">Close</a>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="modal-body">' +
-                                        '<div class="modal-dialog-inner modal-dialog-inner-body">{{content}}</div>' +
-                                    '</div>' +
-                                    '<div class="modal-footer"><div class="modal-dialog-inner">' +
-                                        '<a href="" class="modal-close btn">OK</a>' +
-                                    '</div></div>' +
-                                '</div>' +
-                            '</div>',
+                                '</div>';
+
+            var trigger = '<a class="modal-trigger" id="ajax-form-modal-trigger" data-modal="#ajax-form-modal"></a>',
+                template =  $(modalTemplate).attr('id', 'ajax-form-modal')[0].outerHTML,
                 uid = function($elem, idBase) {
 
                     var elementID = $elem.attr('id'),

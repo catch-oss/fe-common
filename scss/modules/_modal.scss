@@ -1,7 +1,3 @@
-body.modal-visible ,body.modal-active {
-	overflow: hidden;
-}
-
 .modal {
 	z-index: 200;
 	bottom: 0;
@@ -49,29 +45,60 @@ body.modal-visible ,body.modal-active {
 	}
 
 	h2 {
-		.dashboard & {
-			margin: 0;
-		}
-
 		font-size: 28px;
 		line-height: 36px;
 
+		.dashboard & {
+			margin: 0;
+		}
 	}
+}
 
-	/*=====================================
-	=            MEDIA QUERIES            =
-	======================================*/
+.modal-overlay,
+.body-overlay {
+	display: none;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 100;
+	position: fixed;
+	background-color: #000000;
+	opacity: .5;
+}
 
+// -----
+// State
+// -----
+
+// modal-visible
+// -------------
+
+.modal-visible .modal-overlay,
+.modal-visible .body-overlay {
+	display: block;
+}
+
+body.modal-visible, body.modal-active {
+	overflow: hidden;
+}
+
+// Media Queries
+// -------------
+
+.modal {
 	@include media($medium) {
 		background-color: transparent;
 		height: auto;
 		padding: 0;
 		width: 600px;
 		right: 0;
-	  top: 50%;
-	  transform: translateY(-50%);
-	  -webkit-transform: translateY(-50%);
-	  -ms-transform: translateY(-50%);
+		top: 50%;
+		transform: translateY(-50%);
+		-webkit-transform: translateY(-50%);
+		-ms-transform: translateY(-50%);
 
 		.modal-close-wrapper-mobile {
 			height: 36px;
@@ -88,9 +115,9 @@ body.modal-visible ,body.modal-active {
 			border: 0;
 
 			&:before{
-		    position: absolute;
-		    right: 0;
-		    left: auto;
+			position: absolute;
+			right: 0;
+			left: auto;
 			}
 		}
 
@@ -104,18 +131,4 @@ body.modal-visible ,body.modal-active {
 			background-color: #fff;
 		}
 	}
-}
-
-.modal-overlay {
-	display: none;
-	height: 100%;
-	width: 100%;
-	z-index: 100;
-	position: fixed;
-	background-color: #000000;
-	opacity: .5;
-}
-
-.modal-visible .modal-overlay {
-	display: block;
 }
