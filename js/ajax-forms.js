@@ -178,25 +178,26 @@
 
                             if (!$(this).attr('data-allow-default')) e.preventDefault();
 
+                            // look for most of the info locally or fall back to the form for params
                             var $this = $(this),
                                 $form = $this.closest('form'),
                                 $body = $('.body').length ? $('.body') : $('body'),
-                                replace = $this.attr('data-replace'),
-                                scrollTo = $this.attr('data-scroll-to'),
-                                msg = $this.attr('data-success-message'),
-                                title = $this.attr('data-success-title'),
-                                msgFail = $this.attr('data-fail-message'),
-                                titleFail = $this.attr('data-fail-title'),
+                                replace = $this.attr('data-replace') || $form.attr('data-replace'),
+                                scrollTo = $this.attr('data-scroll-to') || $form.attr('data-scroll-to'),
+                                msg = $this.attr('data-success-message') || $form.attr('data-success-message'),
+                                title = $this.attr('data-success-title') || $form.attr('data-success-title'),
+                                msgFail = $this.attr('data-fail-message') || $form.attr('data-fail-message'),
+                                titleFail = $this.attr('data-fail-title') || $form.attr('data-fail-title'),
                                 $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg)),
                                 $templateFail = $(trigger + template.replace(/\{\{title\}\}/, titleFail).replace(/\{\{content\}\}/, msgFail)),
-                                action = $this.attr('data-action'),
-                                disabledClass = $this.attr('data-disabled-class') || 'disabled',
-                                maxSubmissions = $this.attr('data-max-submissions'),
+                                action = $this.attr('data-action') || $form.attr('data-action'),
+                                disabledClass = $this.attr('data-disabled-class') || $form.attr('data-disabled-class') || 'disabled',
+                                maxSubmissions = $this.attr('data-max-submissions') || $form.attr('data-max-submissions'),
                                 disabled =  $this.is('.' + disabledClass),
-                                submissionCount = $this.attr('data-submission-count') || 0,
+                                submissionCount = $this.attr('data-submission-count') || $form.attr('data-submission-count') || 0,
                                 method = $this.attr('data-method') ? $this.attr('data-method') : 'get',
                                 validate = $this.is('[data-validate]'),
-                                validateOnly = $this.attr('data-ajax-validate-only');
+                                validateOnly = $this.attr('data-ajax-validate-only') || $form.attr('data-ajax-validate-only');
 
                             if (
                                 !$('html').is('.loading') &&
