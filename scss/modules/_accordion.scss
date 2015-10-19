@@ -42,9 +42,7 @@
 		visibility: visible;
 		opacity: 1;
 		height: auto;
-		border: solid 1px;
 		border-top: 0;
-		margin-bottom: -1px;
 	}
 
 	&:after {
@@ -62,13 +60,11 @@
 			visibility: visible;
 			opacity: 1;
 			height: auto !important;
-			border: 0;
 			border-top: 0;
 			margin-bottom: -1px;
 
 			* {
 				height: auto;
-				margin: inherit;
 				margin-bottom: 1em;
 			}
 		}
