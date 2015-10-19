@@ -782,7 +782,7 @@
                         // https://github.com/guillaumepotier/Parsley.js/issues/826
                         // this is a hack that should act as a work around until a patch is released
                         $form.on('submit', function(e) {
-                            if (!$form.validate('validate')) {
+                            if (!$form.validator('validate')) {
                                 e.preventDefault();
                             }
                             $form.find('[type="submit"]').each(function(idx){
