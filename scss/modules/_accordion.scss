@@ -46,7 +46,7 @@
 	}
 
 	&:after {
-		@include transform(rotate(-180deg));
+		@include prefixed(transform, rotate(-180deg));
 	}
 }
 
