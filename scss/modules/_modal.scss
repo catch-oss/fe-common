@@ -11,29 +11,29 @@
 	position: fixed;
 	overflow: auto;
 
+	// close button
 	.modal-close {
+		font-size: 22px;
+		line-height: 20px;
 		position: relative;
 		text-align: center;
 		display: block;
 		margin-top: 20px;
 		padding-bottom: 20px;
 		border-bottom: 1px solid #E3E3E3;
-		// padding-right: 30px;
-		// font-size: 16px;
-		// line-height: 20px;
 
 		&:before {
-	    position: absolute;
-	    left: 70px;
-	    right: 0px;
-			top: 3px;
+			font-size: 20px;
+			position: absolute;
+			left: 75px;
+			right: 0px;
 		}
 
 		// &:after {
-		// 	content: "×";
-		// 	display: inline-block;
-		// 	margin-left: 10px;
-		// 	vertical-align: bottom;
+		//     content: "×";
+		//     display: inline-block;
+		//     margin-left: 10px;
+		//     vertical-align: bottom;
 		// }
 	}
 
@@ -53,6 +53,15 @@
 			margin: 0;
 		}
 	}
+
+	h1 {
+		margin: 10px 0 0;
+	}
+
+	p {
+		font-size: 18px;
+		line-height: 24px;
+	}
 }
 
 .modal-overlay,
@@ -67,7 +76,7 @@
 	z-index: 100;
 	position: fixed;
 	background-color: #000000;
-	opacity: .5;
+	opacity: .8;
 }
 
 // -----
@@ -90,16 +99,20 @@ body.modal-visible, body.modal-active {
 // -------------
 
 .modal {
+
+	@include media($small) {
+		h1 {
+			font-size: 40px;
+			line-height: 48px;
+		}
+	}
+
 	@include media($medium) {
 		background-color: transparent;
-		height: auto;
 		padding: 0;
-		width: 600px;
 		right: 0;
 		top: 50%;
-		transform: translateY(-50%);
-		-webkit-transform: translateY(-50%);
-		-ms-transform: translateY(-50%);
+		@include prefixed(transform, translateY(-50%));
 
 		.modal-close-wrapper-mobile {
 			height: 36px;
@@ -111,15 +124,15 @@ body.modal-visible, body.modal-active {
 			position: absolute;
 			right: 0;
 			margin: 0;
-			padding-right: 20px;
-			top: 0;
+			padding: 0;
+			padding-right: 28px;
 			text-decoration: none;
 			border: 0;
 
 			&:before{
-				position: absolute;
-				right: 0;
-				left: auto;
+			position: absolute;
+			right: 0;
+			left: auto;
 			}
 		}
 
@@ -130,6 +143,7 @@ body.modal-visible, body.modal-active {
 		}
 
 		.modal-body {
+			@include prefixed(border-radius, 3px);
 			background-color: #fff;
 		}
 	}
