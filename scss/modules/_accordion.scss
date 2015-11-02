@@ -1,0 +1,72 @@
+.accordion-header {
+	clear: both;
+
+	// Remove all height from body when not active - This is because Firefox generates space in some circumstances
+	&:not(.active) {
+		+ .accordion-body {
+			* {
+				height: 0;
+				margin: 0;
+			}
+		}
+	}
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	&:after {
+		margin-top: 3px;
+	}
+}
+
+.accordion-body {
+	@include prefixed(transition, all .02s ease-in);
+	@include prefixed(transition, opacity .05s ease-in .02s);
+	visibility: hidden;
+	height: 0;
+	opacity: 0;
+}
+
+// ---------------------------
+// state
+// ---------------------------
+
+// active
+// ------
+
+.accordion-header.active {
+	border-bottom: 0;
+
+	+ .accordion-body {
+		visibility: visible;
+		opacity: 1;
+		height: auto;
+		border-top: 0;
+	}
+
+	&:after {
+		@include prefixed(transform, rotate(-180deg));
+	}
+}
+
+// media
+// -----
+
+@include media($medium) {
+	.accordion-header.active {
+		+ .accordion-body {
+			height: auto;
+			visibility: visible;
+			opacity: 1;
+			height: auto !important;
+			border-top: 0;
+			margin-bottom: -1px;
+
+			* {
+				height: auto;
+				margin-bottom: 1em;
+			}
+		}
+	}
+}

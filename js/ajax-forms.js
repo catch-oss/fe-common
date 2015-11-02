@@ -1,36 +1,53 @@
-;(function($, undefined) {
-    $(function() {
+;(function (root, factory) {
 
-        "use strict";
+    // AMD. Register as an anonymous module depending on jQuery.
+    if (typeof define === 'function' && define.amd) define(['jquery', './modals'], factory);
 
-        twoDegrees.ajaxForms = function(selector, cb, namespace, successTestCb) {
+    // Node, CommonJS-like
+    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./modals'));
 
-            if (namespace == undefined) namespace = 'ajax-form';
-            if (selector == undefined) selector = '.ajax-form';
-            if (successTestCb == undefined) successTestCb = function(data, textStatus, jqXHR) { return true; };
+    // Browser globals (root is window)
+    else {
+        root.catch = (root.catch || {});
+        root.catch.ajaxForms = factory(root.jQuery);
+    }
 
-            var trigger =   '<a class="modal-trigger" id="ajax-form-modal-trigger" href="#ajax-form-modal"></a>',
-                template =  '<div class="modal" id="ajax-form-modal">' +
-                                '<div class="modal-dialog modal--compact">' +
-                                    '<div class="modal-close-wrapper-mobile">' +
-                                        '<div class="modal-close-wrapper-mobile-inner">' +
-                                            '<a href="" class="modal-close icon-close icon-after">Close</a>' +
+}(this, function ($, modals, undefined) {
+
+    'use strict';
+
+    var ajaxForms = function(selector, cb, namespace, successTestCb, modalTemplate) {
+
+        $(function() {
+
+            if (namespace === undefined)
+                namespace = 'ajax-form';
+
+            if (selector === undefined)
+                selector = '.ajax-form';
+
+            if (successTestCb === undefined)
+                successTestCb = function(data, textStatus, jqXHR) { return true; };
+
+            if (modalTemplate === undefined)
+                modalTemplate = '<div class="modal hidden" id="ajax-form-modal">' +
+                                    '<div class="modal-dialog modal--compact">' +
+                                        '<div class="modal-close-wrapper-mobile">' +
+                                            '<div class="modal-close-wrapper-mobile-inner">' +
+                                                '<a href="" class="modal-close icon-close">Close</a>' +
+                                            '</div>' +
+                                        '</div>' +
+                                        '<div class="modal-body">' +
+                                            '<div class="modal-dialog-inner modal-dialog-inner-body">' +
+                                                '<h1>{{title}}</h1>' +
+                                                '<div>{{content}}</div>' +
+                                            '</div>' +
                                         '</div>' +
                                     '</div>' +
-                                    '<div class="modal-header modal-header-wrapper">' +
-                                        '<div class="modal-dialog-inner">' +
-                                            '<h3>{{title}}</h3>' +
-                                            '<a href="" class="modal-close icon-close icon-after desktop">Close</a>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="modal-body">' +
-                                        '<div class="modal-dialog-inner modal-dialog-inner-body">{{content}}</div>' +
-                                    '</div>' +
-                                    '<div class="modal-footer"><div class="modal-dialog-inner">' +
-                                        '<a href="" class="modal-close btn">OK</a>' +
-                                    '</div></div>' +
-                                '</div>' +
-                            '</div>',
+                                '</div>';
+
+            var trigger = '<a class="modal-trigger" id="ajax-form-modal-trigger" data-modal="#ajax-form-modal"></a>',
+                template =  $(modalTemplate).attr('id', 'ajax-form-modal')[0].outerHTML,
                 uid = function($elem, idBase) {
 
                     var elementID = $elem.attr('id'),
@@ -123,10 +140,9 @@
                                 if (replace == undefined) $form.html($($(data).find(selector)[idx]).html());
                                 else $(replace).html($(data).find(replace).html());
 
-                                twoDegrees.ajaxForms(selector, cb);
+                                ajaxForms(selector, cb);
 
                                 if (typeof picturefill == 'function') picturefill();
-                                if (typeof cb == 'function') cb($this, data);
 
                                 $this.attr('data-submission-count', submissionCount + 1);
                                 if (maxSubmissions != undefined && submissionCount + 1 >= maxSubmissions) $this.addClass(disabledClass);
@@ -140,47 +156,52 @@
                                 if (textStatus == 'success' && successTestCb(data, textStatus, jqXHR)) {
                                     if (msg != undefined) {
                                         $body.append($template);
-                                        twoDegrees.modal();
+                                        modals();
                                         $('#ajax-form-modal-trigger').trigger('tap');
                                         $('.modal-close, .body-overlay').on('tap',function(e) { $template.remove(); });
                                     }
                                 } else {
                                     if (msgFail != undefined) {
                                         $body.append($templateFail);
-                                        twoDegrees.modal();
+                                        modals();
                                         $('#ajax-form-modal-trigger').trigger('tap');
                                         $('.modal-close, .body-overlay').on('tap',function(e) { $templateFail.remove(); });
                                     }
                                 }
+
+                                if (typeof cb == 'function') cb($this, data);
+
                             });
                         }
                     })
                     .find('.form-action')
                         .off('tap.' + namespace)
                         .off('click.' + namespace)
-                        .on('click.' + namespace + ' tap.' + namespace, function(e) {
+                        .off('change.' + namespace)
+                        .on('click.' + namespace + ' tap.' + namespace + ' change.' + namespace, function(e) {
 
                             if (!$(this).attr('data-allow-default')) e.preventDefault();
 
+                            // look for most of the info locally or fall back to the form for params
                             var $this = $(this),
                                 $form = $this.closest('form'),
                                 $body = $('.body').length ? $('.body') : $('body'),
-                                replace = $this.attr('data-replace'),
-                                scrollTo = $this.attr('data-scroll-to'),
-                                msg = $this.attr('data-success-message'),
-                                title = $this.attr('data-success-title'),
-                                msgFail = $this.attr('data-fail-message'),
-                                titleFail = $this.attr('data-fail-title'),
+                                replace = $this.attr('data-replace') || $form.attr('data-replace'),
+                                scrollTo = $this.attr('data-scroll-to') || $form.attr('data-scroll-to'),
+                                msg = $this.attr('data-success-message') || $form.attr('data-success-message'),
+                                title = $this.attr('data-success-title') || $form.attr('data-success-title'),
+                                msgFail = $this.attr('data-fail-message') || $form.attr('data-fail-message'),
+                                titleFail = $this.attr('data-fail-title') || $form.attr('data-fail-title'),
                                 $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg)),
                                 $templateFail = $(trigger + template.replace(/\{\{title\}\}/, titleFail).replace(/\{\{content\}\}/, msgFail)),
-                                action = $this.attr('data-action'),
-                                disabledClass = $this.attr('data-disabled-class') || 'disabled',
-                                maxSubmissions = $this.attr('data-max-submissions'),
+                                action = $this.attr('data-action') || $form.attr('data-action'),
+                                disabledClass = $this.attr('data-disabled-class') || $form.attr('data-disabled-class') || 'disabled',
+                                maxSubmissions = $this.attr('data-max-submissions') || $form.attr('data-max-submissions'),
                                 disabled =  $this.is('.' + disabledClass),
-                                submissionCount = $this.attr('data-submission-count') || 0,
+                                submissionCount = $this.attr('data-submission-count') || $form.attr('data-submission-count') || 0,
                                 method = $this.attr('data-method') ? $this.attr('data-method') : 'get',
                                 validate = $this.is('[data-validate]'),
-                                validateOnly = $this.attr('data-ajax-validate-only');
+                                validateOnly = $this.attr('data-ajax-validate-only') || $form.attr('data-ajax-validate-only');
 
                             if (
                                 !$('html').is('.loading') &&
@@ -194,10 +215,9 @@
                                     if (replace == undefined) $form.html($($(data).find(selector)[idx]).html());
                                     else $(replace).html($(data).find(replace).html());
 
-                                    twoDegrees.ajaxForms(selector, cb);
+                                    ajaxForms(selector, cb);
 
                                     if (typeof picturefill == 'function') picturefill();
-                                    if (typeof cb == 'function') cb($this, data);
 
                                     if (maxSubmissions != undefined && submissionCount + 1 >= maxSubmissions) $this.addClass(disabledClass);
                                     $('html').removeClass('loading');
@@ -210,24 +230,27 @@
                                     if (textStatus == 'success' && successTestCb(data, textStatus, jqXHR)) {
                                         if (msg != undefined) {
                                             $body.append($template);
-                                            twoDegrees.modal();
+                                            modals();
                                             $('#ajax-form-modal-trigger').trigger('tap');
                                             $('.modal-close, .body-overlay').on('tap',function(e) { $template.remove(); });
                                         }
                                     } else {
                                         if (msgFail != undefined) {
                                             $body.append($templateFail);
-                                            twoDegrees.modal();
+                                            modals();
                                             $('#ajax-form-modal-trigger').trigger('tap');
                                             $('.modal-close, .body-overlay').on('tap',function(e) { $templateFail.remove(); });
                                         }
                                     }
 
+                                    if (typeof cb == 'function') cb($this, data);
+
                                 });
                             }
                         });
             })
-        };
+        });
+    };
 
-    });
-})(jQuery);
+    return ajaxForms;
+}));

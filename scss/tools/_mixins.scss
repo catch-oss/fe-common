@@ -11,7 +11,7 @@
     }
 }
 
-@mixin prefixed-prop($prop-name, $prop-val) {
+@mixin prefixed($prop-name, $prop-val) {
     -webkit-#{$prop-name}: $prop-val;
        -moz-#{$prop-name}: $prop-val;
         -ms-#{$prop-name}: $prop-val;

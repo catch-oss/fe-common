@@ -9,19 +9,22 @@
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.accordion = factory(root.jQuery);
+        root.catch.accordions = factory(root.jQuery);
     }
 
 }(this, function ($, undefined) {
 
     return function() {
 
-        $('.accordion-header')
-            .off('click.accordion')
-            .on('click.accordion',function(e){
-                e.preventDefault();
-                $(this).toggleClass("active");
-            });
+        $(function() {
+
+            $('.accordion-header')
+                .off('click.accordion')
+                .on('click.accordion',function(e){
+                    e.preventDefault();
+                    $(this).toggleClass("active");
+                });
+        });
     }
 
 }))
