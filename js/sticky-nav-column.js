@@ -1,10 +1,10 @@
 ;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
-    if (typeof define === 'function' && define.amd) define(['jquery', './../body-toucher/body-toucher', './../dimensionator/dimensionator', './doc-nav'], factory);
+    if (typeof define === 'function' && define.amd) define(['jquery', './../../body-toucher/body-toucher', './../../dimensionator/dimensionator', './dock-nav'], factory);
 
     // Node, CommonJS-like
-    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./../body-toucher/body-toucher'), require('./../dimensionator/dimensionator'), require('./doc-nav'));
+    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./../../body-toucher/body-toucher'), require('./../../dimensionator/dimensionator'), require('./dock-nav'));
 
     // Browser globals (root is window)
     else {
@@ -12,7 +12,7 @@
         root.catch.dockNav = factory(root.jQuery);
     }
 
-}(this, function ($, bodyToucher, dimensionator, docNav, undefined) {
+}(this, function ($, bodyToucher, dimensionator, dockNav, undefined) {
 
     'use strict';
 
@@ -216,4 +216,4 @@
             setTimeout(function(){$(window).trigger('resize');},0);
         }
     };
-});
+}));

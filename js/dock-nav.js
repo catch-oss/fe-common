@@ -1,10 +1,10 @@
 ;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
-    if (typeof define === 'function' && define.amd) define(['jquery', './../body-toucher/body-toucher'], factory);
+    if (typeof define === 'function' && define.amd) define(['jquery', './../../body-toucher/body-toucher'], factory);
 
     // Node, CommonJS-like
-    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./../body-toucher/body-toucher'));
+    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./../../body-toucher/body-toucher'));
 
     // Browser globals (root is window)
     else {
