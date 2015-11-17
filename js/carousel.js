@@ -9,7 +9,7 @@
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.dropDowns = factory(root.jQuery);
+        root.catch.carousel = factory(root.jQuery);
     }
 
 }(this, function ($) {
