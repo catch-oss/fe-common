@@ -1,10 +1,10 @@
 ;(function (root, factory) {
 
      // AMD. Register as an anonymous module depending on jQuery.
-     if (typeof define === 'function' && define.amd) define(['jquery', './../../pagr/pagr'], factory);
+     if (typeof define === 'function' && define.amd) define(['jquery', './../../pagr/pagr', './accordions'], factory);
 
      // Node, CommonJS-like
-     else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./../../pagr/pagr'));
+     else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./../../pagr/pagr'), require('./accordions'));
 
      // Browser globals (root is window)
      else {
@@ -12,7 +12,7 @@
          root.catch.pagination = factory(root.jQuery);
      }
 
-}(this, function ($, pagr, undefined) {
+}(this, function ($, pagr, accordions, undefined) {
 
     'use strict';
 
@@ -91,8 +91,8 @@
 
                 },
                 onAfterPage: function(pagr, e) {
-                    picturefill();
-                    twoDegrees.accordion();
+                    if (typeof pictureFill == 'function') picturefill();
+                    accordions();
                     if (pagr.currentPage() == pagr.getMax()) $('.page-link[data-page="next"]').addClass('btn--disabled disabled');
                     $('.pagination-appended-total').html(pagr.appendedTotal());
                     $('.pagination-total').html(pagr.getTotal());
