@@ -116,6 +116,10 @@
                             replace = $this.attr('data-replace'),
                             scrollTo = $this.attr('data-scroll-to'),
                             msg = $this.attr('data-success-message'),
+                            embedTracking = $this.attr('data-success-tracking-embed'),
+                            gaTracking = $this.attr('data-success-tracking-ga'),
+                            gtmDataLayer = $this.attr('data-gtm-data-layer') || 'dataLayer',
+                            gtmTracking = $this.attr('data-success-tracking-gtm'),
                             title = $this.attr('data-success-title'),
                             msgFail = $this.attr('data-fail-message'),
                             titleFail = $this.attr('data-fail-title'),
@@ -160,6 +164,22 @@
                                         $('#ajax-form-modal-trigger').trigger('tap');
                                         $('.modal-close, .body-overlay').on('tap',function(e) { $template.remove(); });
                                     }
+                                    // just chuck in the embed code
+                                    if (embedTracking) {
+                                        $('body').append(embedTracking);
+                                    }
+                                    // expects gtmTracking to be {key: value, key2: value2}
+                                    // see https://developers.google.com/tag-manager/devguide?hl=en for more info
+                                    if (gtmTracking) {
+                                        gtmTracking = JSON.parse(gtmTracking);
+                                        window[gtmDataLayer].push(gtmTracking);
+                                    }
+                                    // expects gaTracking to be {action: 'send', data {hitType: 'pageview'}}
+                                    // see https://developers.google.com/analytics/devguides/collection/analyticsjs/how-analyticsjs-works for more info
+                                    if (gaTracking) {
+                                        gaTracking = JSON.parse(gaTracking);
+                                        window.ga(gaTracking.action, gaTracking.data);
+                                    }
                                 } else {
                                     if (msgFail != undefined) {
                                         $body.append($templateFail);
@@ -189,6 +209,10 @@
                                 replace = $this.attr('data-replace') || $form.attr('data-replace'),
                                 scrollTo = $this.attr('data-scroll-to') || $form.attr('data-scroll-to'),
                                 msg = $this.attr('data-success-message') || $form.attr('data-success-message'),
+                                embedTracking = $this.attr('data-success-tracking-embed') || $form.attr('data-success-tracking-embed'),
+                                gaTracking = $this.attr('data-success-tracking-ga') || $form.attr('data-success-tracking-ga'),
+                                gtmTracking = $this.attr('data-success-tracking-gtm') || $form.attr('data-success-tracking-gtm'),
+                                gtmDataLayer = $this.attr('data-gtm-data-layer') || $form.attr('data-gtm-data-layer'),
                                 title = $this.attr('data-success-title') || $form.attr('data-success-title'),
                                 msgFail = $this.attr('data-fail-message') || $form.attr('data-fail-message'),
                                 titleFail = $this.attr('data-fail-title') || $form.attr('data-fail-title'),
@@ -233,6 +257,22 @@
                                             modals();
                                             $('#ajax-form-modal-trigger').trigger('tap');
                                             $('.modal-close, .body-overlay').on('tap',function(e) { $template.remove(); });
+                                        }
+                                        // just chuck in the embed code
+                                        if (embedTracking) {
+                                            $('body').append(embedTracking);
+                                        }
+                                        // expects gtmTracking to be {key: value, key2: value2}
+                                        // see https://developers.google.com/tag-manager/devguide?hl=en for more info
+                                        if (gtmTracking) {
+                                            gtmTracking = JSON.parse(gtmTracking);
+                                            window[gtmDataLayer].push(gtmTracking);
+                                        }
+                                        // expects gaTracking to be {action: 'send', data {hitType: 'pageview'}}
+                                        // see https://developers.google.com/analytics/devguides/collection/analyticsjs/how-analyticsjs-works for more info
+                                        if (gaTracking) {
+                                            gaTracking = JSON.parse(gaTracking);
+                                            window.ga(gaTracking.action, gaTracking.data);
                                         }
                                     } else {
                                         if (msgFail != undefined) {

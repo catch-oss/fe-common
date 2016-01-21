@@ -17,10 +17,12 @@
 
     'use strict';
 
-    return function() {
+    return function(selector) {
+
+        selector = selector || 'input:not(.no-label), select:not(.no-label), textarea:not(.no-label)';
 
         $(function() {
-            $('input:not(.no-label), select:not(.no-label), textarea:not(.no-label)').labelizr({classSwitchOnly: true});
+            $(selector).labelizr({classSwitchOnly: true});
         });
 
     };

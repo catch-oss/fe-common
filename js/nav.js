@@ -14,6 +14,8 @@
 
 }(this, function ($, undefined) {
 
+    'use strict';
+
     return function() {
 
         $(function() {

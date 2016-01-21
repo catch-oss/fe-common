@@ -1,0 +1,6 @@
+.dockable-nav-container {
+	&.docked {
+		position: fixed;
+		top: 0;
+	}
+}

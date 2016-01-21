@@ -33,8 +33,8 @@
                         $('body').append('<div class="modal-overlay"></div>');
 
                     if($target.length){
-                        $('body').toggleClass('modal-visible').attr('data-activeModal',target);
-                        $target.toggleClass('hidden').css('max-height',('100%'));
+                        $('body').addClass('modal-visible').attr('data-activeModal',target);
+                        $target.removeClass('hidden').css('max-height',('100%'));
                     }
                 });
 
@@ -47,8 +47,8 @@
 
                     var $target = $($('body').attr('data-activeModal'));
 
-                    $('body').toggleClass('modal-visible');
-                    $target.toggleClass('hidden').trigger('modal:close');
+                    $('body').removeClass('modal-visible');
+                    $target.addClass('hidden').trigger('modal:close');
                 });
 
         });
