@@ -124,6 +124,7 @@
                             msgFail = $this.attr('data-fail-message'),
                             titleFail = $this.attr('data-fail-title'),
                             $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg)),
+                            $templateFail = $(trigger + template.replace(/\{\{title\}\}/, titleFail).replace(/\{\{content\}\}/, msgFail)),
                             disabledClass = $this.attr('data-disabled-class') || 'disabled',
                             maxSubmissions = $this.attr('data-max-submissions'),
                             disabled =  $this.is('.' + disabledClass),
