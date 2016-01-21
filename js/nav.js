@@ -9,7 +9,7 @@
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.modal = factory(root.jQuery);
+        root.catch.nav = factory(root.jQuery);
     }
 
 }(this, function ($, undefined) {
