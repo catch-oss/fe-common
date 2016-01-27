@@ -48,7 +48,7 @@
             // textField 	text 	Name of the text field for Ajax response
             // htmlField 	html 	Name of the html field for Ajax response
             var defaults = {
-
+                displayDropdownOnFocus: true
             }
 
             // mobile mask
