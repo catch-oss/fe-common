@@ -43,8 +43,8 @@ div {
 			li {
 				white-space: nowrap;
 				span {
-					font-family: $font_0, $font_1, $font_2;
-					font-size: 12px;
+					// font-family: $font_0, $font_1, $font_2;
+					// font-size: 12px;
 				}
 			}
 			&.TokensContainer {
@@ -58,7 +58,7 @@ div {
 				border: 1px solid $color_celeste_approx;
 				li {
 					&.TokenSearch {
-						@extend %extend_1;
+						// @extend %extend_1;
 						input {
 							font-family: $font_0, $font_1, $font_2;
 							font-size: 12px;
@@ -71,11 +71,11 @@ div {
 						}
 					}
 					&.Token {
-						border: 1px solid $color_mischka_approx;
-						background-color: $color_porcelain_approx;
-						padding: 0 5px;
-						line-height: 18px;
-						@extend %extend_1;
+						// border: 1px solid $color_mischka_approx;
+						// background-color: $color_porcelain_approx;
+						// padding: 0 5px;
+						// line-height: 18px;
+						// @extend %extend_1;
 						&.MovingShadow {
 							border: 1px solid $color_vis_vis_approx;
 							background-color: $color_orange_white_approx;
@@ -85,14 +85,14 @@ div {
 							filter: alpha(opacity=50);
 						}
 						a.Close {
-							font-family: $font_0, $font_1, $font_3;
-							font-size: 16px !important;
-							line-height: 18px;
-							float: right;
-							margin: 1px 0 0 5px;
-							padding: 0;
+							// font-family: $font_0, $font_1, $font_3;
+							// font-size: 16px !important;
+							// line-height: 18px;
+							// float: right;
+							// margin: 1px 0 0 5px;
+							// padding: 0;
 							cursor: pointer;
-							color: $color_rock_blue_approx;
+							// color: $color_rock_blue_approx;
 							&:hover {
 								background: transparent;
 								text-decoration: none;
