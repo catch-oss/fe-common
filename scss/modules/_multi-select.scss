@@ -49,25 +49,25 @@ div {
 			}
 			&.TokensContainer {
 				cursor: text;
-				padding: 0 5px 5px 0;
-				height: 100px;
+				// padding: 0 5px 5px 0;
+				// height: 100px;
 				overflow-y: auto;
-				background-color: $white;
+				// background-color: $white;
 				//Instead of the line below you could use @include user-select($select)
 				user-select: none;
-				border: 1px solid $color_celeste_approx;
+				// border: 1px solid $color_celeste_approx;
 				li {
 					&.TokenSearch {
 						// @extend %extend_1;
 						input {
-							font-family: $font_0, $font_1, $font_2;
-							font-size: 12px;
-							margin: 0;
-							padding: 1px 0;
-							background-color: transparent;
-							line-height: 18px;
-							border: none;
-							outline: none;
+							// font-family: $font_0, $font_1, $font_2;
+							// font-size: 12px;
+							// margin: 0;
+							// padding: 1px 0;
+							// background-color: transparent;
+							// line-height: 18px;
+							// border: none;
+							// outline: none;
 						}
 					}
 					&.Token {
