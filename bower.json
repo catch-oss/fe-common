@@ -29,7 +29,7 @@
     "normalize-scss"            : "~3.0.2",
     "requirejs"                 : "~2.1.11",
     "jquery"                    : "~1.11.3",
-    "jquery-tokenize"           : "https://github.com/azt3k/Tokenize.git"
+    "jquery-tokenize"           : "https://github.com/azt3k/Tokenize.git#master"
   },
   "resolutions": {
     "jquery": "~1.11.3"
