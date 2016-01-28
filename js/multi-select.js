@@ -51,23 +51,52 @@
                     var defaults = {
                         displayDropdownOnFocus: true,
                         onAddToken: function(val, text, e) {
-                            $(e.select).trigger('change');
+
+                            var $sel = $(e.select),
+                                $cont = $(e.tokensContainer);
+
+                            $cont.find('.multi-select-input-label')
+                                 .text($sel.attr('data-filled-label'));
+
+                            $sel.trigger('change');
                         },
                         onRemoveToken: function(val, e) {
-                            $(e.select).trigger('change');
+
+                            var $sel = $(e.select),
+                                $cont = $(e.tokensContainer);
+
+                            if ($cont.find('.Token').length < 1)
+                                $cont.find('.multi-select-input-label')
+                                     .text($sel.attr('data-empty-label'));
+
+                            $sel.trigger('change');
                         }
                     }
 
                     // mobile mask
-                    $(selector)
-                        .tokenize(
-                            $.extend(
-                                {},
-                                defaults,
-                                conf
-                            )
-                        );
+                    $(selector).each(function(i){
 
+                        // scope the locals
+                        var inst = $(this).tokenize(
+                                $.extend(
+                                    {},
+                                    defaults,
+                                    conf
+                                )
+                            ),
+                            $sel = $(inst.select),
+                            $input = $(inst.searchInput),
+                            $cont = $(inst.tokensContainer);
+
+                        $input
+                            .attr('id', 'multi-select-' + i)
+                            .before(
+                                '<label class="multi-select-input-label" for="multi-select-' + i + '">' +
+                                    $sel.attr('data-' + ($cont.find('.Token').length < 1 ? 'empty' : 'filled') + '-label') +
+                                '</label>'
+                            );
+
+                    })
                 });
             },
             // this is quite a nasty hack, but with the current loading arrangement there's race conditions in terms of
