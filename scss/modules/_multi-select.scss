@@ -49,25 +49,25 @@ div {
 			}
 			&.TokensContainer {
 				cursor: text;
-				padding: 0 5px 5px 0;
-				height: 100px;
+				// padding: 0 5px 5px 0;
+				// height: 100px;
 				overflow-y: auto;
-				background-color: $white;
+				// background-color: $white;
 				//Instead of the line below you could use @include user-select($select)
 				user-select: none;
-				border: 1px solid $color_celeste_approx;
+				// border: 1px solid $color_celeste_approx;
 				li {
 					&.TokenSearch {
 						// @extend %extend_1;
 						input {
-							font-family: $font_0, $font_1, $font_2;
-							font-size: 12px;
-							margin: 0;
-							padding: 1px 0;
-							background-color: transparent;
-							line-height: 18px;
-							border: none;
-							outline: none;
+							// font-family: $font_0, $font_1, $font_2;
+							// font-size: 12px;
+							// margin: 0;
+							// padding: 1px 0;
+							// background-color: transparent;
+							// line-height: 18px;
+							// border: none;
+							// outline: none;
 						}
 					}
 					&.Token {
@@ -115,22 +115,22 @@ div {
 				}
 			}
 			&.Dropdown {
-				border: 1px solid $color_celeste_approx;
+				// border: 1px solid $color_celeste_approx;
 				//Instead of the line below you could use @include box-sizing($bs)
 				box-sizing: border-box;
 				display: none;
 				width: 100%;
-				padding: 5px 0;
-				margin: -1px 0 0;
+				// padding: 5px 0;
+				// margin: -1px 0 0;
 				position: absolute;
-				background-color: $white;
+				// background-color: $white;
 				overflow-y: auto;
 				//Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
-				box-shadow: 0 5px 10px $black_20;
+				// box-shadow: 0 5px 10px $black_20;
 				//Instead of the line below you could use @include background-clip($clip)
 				background-clip: padding-box;
 				//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-				border-radius: 0 0 6px 6px;
+				// border-radius: 0 0 6px 6px;
 				z-index: 20;
 				li {
 					padding: 5px 20px;
