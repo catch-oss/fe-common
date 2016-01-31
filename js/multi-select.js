@@ -86,16 +86,72 @@
                             ),
                             $sel = $(inst.select),
                             $input = $(inst.searchInput),
-                            $cont = $(inst.tokensContainer);
+                            $cont = $(inst.tokensContainer),
+                            closing = false;
 
-                        $input
-                            .attr('id', 'multi-select-' + i)
-                            .before(
-                                '<label class="multi-select-input-label" for="multi-select-' + i + '">' +
-                                    $sel.attr('data-' + ($cont.find('.Token').length < 1 ? 'empty' : 'filled') + '-label') +
-                                '</label>'
+                        // modify the click handler on the container
+                        $cont.off('click').on('click', function(e) {
+
+                            // block refocus
+                            if (closing) {
+                                console.log('blocking cont click handler');
+                                closing = false;
+                            }
+
+                            // the original handler
+                            else {
+                                console.log('cont click handler');
+                                e.stopImmediatePropagation();
+                                inst.searchInput.get(0).focus();
+                                inst.updatePlaceholder();
+                                if(inst.dropdown.is(':hidden') && inst.searchInput.val() != ''){
+                                    inst.search();
+                                }
+                            }
+                        });
+
+                        // modify the blur handler on the input
+                        $input.off('blur').on('blur', function() {
+                            if (closing) {
+                                $cont.removeClass('Focused');
+                                inst.dropdownHide();
+                                closing = false;
+                            }
+                            else {
+                                // we intend to close
+                                closing = true;
+                            }
+                        });
+
+                        // update input
+                        $input.attr('id', 'multi-select-' + i);
+
+                        // don't add more than one button
+                        if (!$('#multi-select-button-' + i).length) {
+                            $input.before(
+                                $(
+                                    '<button class="multi-select-input-label" id="multi-select-button-' + i + '">' +
+                                        $sel.attr('data-' + ($cont.find('.Token').length < 1 ? 'empty' : 'filled') + '-label') +
+                                    '</button>'
+                                ).on('click', function(e) {
+
+                                    // prevent the default behaviour
+                                    e.preventDefault();
+
+                                    // prevent the event from propagating to the parent handlers
+                                    e.stopPropagation();
+
+                                    // trigger focus / blur appropriately
+                                    if ($cont.is('.Focused') || closing) {
+                                        $input.trigger('blur');
+                                    }
+                                    else {
+                                        // focus doesn't seem to trigger properly so we are using click
+                                        $input.trigger('click');
+                                    }
+                                })
                             );
-
+                        }
                     })
                 });
             },
