@@ -73,6 +73,12 @@
                         }
                     }
 
+                    // unbind the tokenizer document - this is really bad and it's expected this will breaks omething else
+                    $(document).off('click');
+
+                    // unbind the custom handlers:
+                    $(document).off('click.multi')
+
                     // mobile mask
                     $(selector).each(function(i){
 
@@ -120,6 +126,20 @@
                             else {
                                 // we intend to close
                                 closing = true;
+                            }
+                        });
+
+                        // modify the document handler
+                        $(document).on('click.multi', function(){
+
+                            // manually close the thing
+                            closing = true;
+                            $input.trigger('blur');
+
+                            if(inst.options.maxElements == 1){
+                                if(inst.searchInput.val()){
+                                    inst.tokenAdd(inst.searchInput.val(), '');
+                                }
                             }
                         });
 
