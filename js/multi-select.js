@@ -50,6 +50,7 @@
                     // htmlField 	html 	Name of the html field for Ajax response
                     var defaults = {
                         displayDropdownOnFocus: true,
+                        nbDropdownElements: 99999999999,
                         onAddToken: function(val, text, e) {
 
                             var $sel = $(e.select),
