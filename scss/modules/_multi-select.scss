@@ -133,16 +133,15 @@ div {
 				// border-radius: 0 0 6px 6px;
 				z-index: 20;
 				li {
-					padding: 5px 20px;
 					overflow: hidden;
 					cursor: pointer;
 					&.Hover {
-						color: $white;
-						text-decoration: none;
-						background-color: $color_lochmara_approx;
-						background-image: linear-gradient(to bottom, $color_lochmara_approx, $color_deep_cerulean_approx);
-						background-repeat: repeat-x;
-						filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
+						// color: $white;
+						// text-decoration: none;
+						// background-color: $color_lochmara_approx;
+						// background-image: linear-gradient(to bottom, $color_lochmara_approx, $color_deep_cerulean_approx);
+						// background-repeat: repeat-x;
+						// filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
 					}
 				}
 			}
