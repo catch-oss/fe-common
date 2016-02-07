@@ -74,7 +74,14 @@
                         }
                     }
 
-                    // unbind the tokenizer document - this is really bad and it's expected this will breaks omething else
+                    // update conf
+                    conf = $.extend(
+                        {},
+                        defaults,
+                        conf
+                    );
+
+                    // unbind the tokenizer document - this is really bad and it's expected this will breaks something else
                     $(document).off('click');
 
                     // unbind the custom handlers:
@@ -83,14 +90,15 @@
                     // mobile mask
                     $(selector).each(function(i){
 
+                        // set the value of $this
+                        var $this = $(this);
+
+                        if ($this.attr('data-base-url')) {
+                            conf.datas = $this.attr('data-base-url');
+                        }
+
                         // scope the locals
-                        var inst = $(this).tokenize(
-                                $.extend(
-                                    {},
-                                    defaults,
-                                    conf
-                                )
-                            ),
+                        var inst = $(this).tokenize(conf),
                             $sel = $(inst.select),
                             $input = $(inst.searchInput),
                             $cont = $(inst.tokensContainer),
