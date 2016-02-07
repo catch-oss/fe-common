@@ -16,7 +16,7 @@
 
     'use strict';
 
-    return function(selector, conf) {
+    return function(selector, conf, undefined) {
 
         var attach = function() {
                 $(function() {
@@ -93,12 +93,15 @@
                         // set the value of $this
                         var $this = $(this);
 
-                        if ($this.attr('data-base-url')) {
-                            conf.datas = $this.attr('data-base-url');
+                        // clone the fonf into a local context
+                        var localConf = $.extend({}, conf);
+
+                        if ($this.attr('data-base-url') !== undefined) {
+                            localConf.datas = $this.attr('data-base-url');
                         }
 
                         // scope the locals
-                        var inst = $(this).tokenize(conf),
+                        var inst = $(this).tokenize(localConf),
                             $sel = $(inst.select),
                             $input = $(inst.searchInput),
                             $cont = $(inst.tokensContainer),
@@ -109,13 +112,13 @@
 
                             // block refocus
                             if (closing) {
-                                console.log('blocking cont click handler');
+                                // console.log('blocking cont click handler');
                                 closing = false;
                             }
 
                             // the original handler
                             else {
-                                console.log('cont click handler');
+                                // console.log('cont click handler');
                                 e.stopImmediatePropagation();
                                 inst.searchInput.get(0).focus();
                                 inst.updatePlaceholder();
