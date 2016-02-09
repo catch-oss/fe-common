@@ -105,10 +105,11 @@
 
                             // extract body
                             var re = /<body[^>]*>((.|[\n\r])*)<\/body>/im,
-                                m = re.exec(data);
+                                m = re.exec(data),
+                                pre = m ? m[1] : data;
 
                             // re assign cleaned html
-                            data = '<div>' + m[1] + '</div>';
+                            data = '<div>' + pre + '</div>';
 
                             // extract the content
                             var $content = $(data).find(contentSelector);
