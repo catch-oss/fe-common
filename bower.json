@@ -16,7 +16,7 @@
     "respond"                   : "~1.4.2",
     "selectivizr"               : "https://raw.githubusercontent.com/keithclark/selectivizr/master/selectivizr.js",
     "tablizr"                   : "~0.3.0",
-    "pagr"                      : "~0.1.11",
+    "pagr"                      : "~0.3.0",
     "polyholder"                : "~1.0.1",
     "labelizr"                  : "~0.2.0",
     "picturefill"               : "~2.1.0",
