@@ -13,6 +13,7 @@ $width-vlg: 1200px !default;
 // Define your breakpoints
 $extra-small: new-breakpoint(min-width $width-vsm);
 $small: new-breakpoint(min-width $width-sm);
+$mobile-only: new-breakpoint(max-width $width-md);
 $medium: new-breakpoint(min-width $width-md);
 $medium-large: new-breakpoint(min-width $width-md-lg);
 $large: new-breakpoint(min-width $width-lg);
