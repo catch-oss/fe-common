@@ -23,7 +23,7 @@
             // do the UA sniffing
             sniffUA();
 
-            selector = selector || '.cta-multi.cta-carousel .cta-wrapper';
+            selector = selector || '.cta-multi.cta-carousel .cta-wrapper, .carousel-wrapper';
 
             $(selector).each(function() {
 
