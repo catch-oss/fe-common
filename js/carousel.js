@@ -1,10 +1,10 @@
 ;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
-    if (typeof define === 'function' && define.amd) define(['jquery', './../../slidatron/slidatron', './../../jquery.event.drag-drop/index'], factory);
+    if (typeof define === 'function' && define.amd) define(['jquery', './../../slidatron/slidatron', './sniff-ua'], factory);
 
     // Node, CommonJS-like
-    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./../../slidatron/slidatron'), require('./../../jquery.event.drag-drop/index'));
+    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./../../slidatron/slidatron'), require('./sniff-ua'));
 
     // Browser globals (root is window)
     else {
@@ -12,7 +12,7 @@
         root.catch.carousel = factory(root.jQuery);
     }
 
-}(this, function ($) {
+}(this, function ($, slidatron, sniffUA) {
 
 	'use strict';
 
@@ -20,19 +20,33 @@
 
     	$(function() {
 
+            // do the UA sniffing
+            sniffUA();
+
             selector = selector || '.cta-multi.cta-carousel .cta-wrapper';
 
             $(selector).each(function() {
 
                 var $this = $(this),
-                    drag = $this.is('.no-drag *') ? false : 'touch';
+                    drag = $this.is('.no-drag *') ? false : 'touch',
+                    allowDefault = false,
+                    translateY = $('html').is('.android--stock'); // use translateY on android stock - see below
+
+                // we only allowDefault on the header carousel on old android
+                // so as the user can scroll through it,
+                // allowing default triggers scroll and breaks touchmove on the stock android browser
+                if (!$('html').is('.android--stock') || $this.is('header *')) {
+                    allowDefault = true;
+                    translateY = false;
+                }
 
                 $this.slidatron({
                     classNameSpace  : "slider",
                     adaptiveHeight  : true,
-                    translateY      : true,
-                    transition      : 'opacity',
+                    translateY      : translateY,
+                    transition      : $this.is('.transition-slide') ? 'left' : 'opacity',
                     drag            : drag,
+                    allowDefault    : allowDefault,
                     autoSlide       : $this.is('.auto-slide *'),
                     cursor          : '',
                     onAfterInit     : function($elem, tron) {
