@@ -1,44 +1,22 @@
-;(function($) {
+;(function (root, factory) {
 
-    "use strict";
+    // AMD. Register as an anonymous module depending on jQuery.
+    if (typeof define === 'function' && define.amd) define(['jquery'], factory);
 
-    $(function(){
+    // Node, CommonJS-like
+    else if (typeof exports === 'object') module.exports = factory(require('jquery'));
 
-        twoDegrees.tabs = function() {
+    // Browser globals (root is window)
+    else {
+        root.catch = (root.catch || {});
+        root.catch.tabs = factory(root.jQuery);
+    }
 
-            function nested_connector() {
-                if($('.nested-tab-finish-wrapper[aria-hidden="false"] li[aria-selected="true"]').length) {
-                    $('.connector').remove();
+}(this, function ($, undefined) {
 
-                    // containers
-                    var $tabContainer = $('.panel[aria-hidden="false"]'),
-                        $finishTab = $tabContainer.find('li[aria-selected="true"]'),
-                        $startTab = $('.tabs.nested.start li[aria-selected="true"]');
+    return function() {
 
-                    // values
-                    var $nestedStartTabWidth = $startTab.width() /2,
-                        $nestedFinishTabWidth = $finishTab.width() /2,
-                        $nestedStartPosition = $startTab.offset(),
-                        $nestedFinishPosition = $finishTab.offset();
-
-                    // work out the length
-                    var $diff = ($nestedStartTabWidth - $nestedFinishTabWidth) +
-                        ($nestedStartPosition.left - $nestedFinishPosition.left);
-
-                    var $connector = $('<div class="connector"></span>');
-
-                    $finishTab.append($connector);
-
-                    if ($diff < 0) {
-                        $diff = Math.abs($diff);
-                        $connector.css({'right': '50%','width':$diff+'px'});
-                    } else {
-                        $connector.css({'left': '50%','width':$diff+'px'});
-                    }
-                } else {
-                    $('.tabs.nested.start li[aria-selected="true"]').addClass('no-pseudo');
-                }
-            }
+        $(function() {
 
         	$("li[role='tab']")
                 .off('click.tabs')
@@ -57,8 +35,6 @@
                     tabpan.removeClass("hidden");
                     //tabpan.className = "panel";
                     tabpan.attr("aria-hidden", "false");
-
-                    nested_connector();
                 });
 
             //This adds keyboard accessibility by adding the enter key to the basic click event.
@@ -87,15 +63,11 @@
 
                             tabpan.attr("aria-hidden", "false");
                             tabpan.removeClass("hidden");
-                            //tabpan.className = "panel";
-
 
                         }
                     }
                 });
+        });
+    }
 
-            nested_connector();
-        }
-    });
-
-})(jQuery);
+}))
