@@ -43,6 +43,7 @@
             // create the validator plugin interface
             $.fn.validator = function(options, args) {
                 if (options == 'validate') return $(this).parsley().validate(args);
+                if (options == 'destroy') return $(this).parsley().destroy();
             };
 
             var megaSelector,
@@ -727,31 +728,34 @@
                                 });
                             }
 
-                            $elem.parsley()
-                                .unsubscribe('parsley:field:error')
-                                .subscribe('parsley:field:error', function(){
+                            // lets check to see we are getting the object we expect
+                            var $parsley = $elem.parsley();
+                            if ($parsley.unsubscribe !== undefined)
+                                $parsley
+                                    .unsubscribe('parsley:field:error')
+                                    .subscribe('parsley:field:error', function(){
 
-                                    setTimeout(function(){
-                                        $correctContainer.find('li').each(function(idx){
+                                        setTimeout(function(){
+                                            $correctContainer.find('li').each(function(idx){
 
-                                            // keep the first one and remove the rest
+                                                // keep the first one and remove the rest
 
-                                            var cls = $(this).attr('class'),
-                                                $all = $correctContainer.find('[class="' + cls + '"]'),
-                                                keep = $all.length ? $all[0].outerHTML : '';
+                                                var cls = $(this).attr('class'),
+                                                    $all = $correctContainer.find('[class="' + cls + '"]'),
+                                                    keep = $all.length ? $all[0].outerHTML : '';
 
-                                            if ($all.length > 1) {
-                                                $all.remove();
-                                                $correctContainer.append(keep);
-                                            }
+                                                if ($all.length > 1) {
+                                                    $all.remove();
+                                                    $correctContainer.append(keep);
+                                                }
 
-                                        });
-                                    },0);
-                                })
-                                .unsubscribe('parsley:field:success')
-                                .subscribe('parsley:field:success', function(){
-                                    $correctContainer.removeClass('filled').find('li').remove();
-                                });
+                                            });
+                                        },0);
+                                    })
+                                    .unsubscribe('parsley:field:success')
+                                    .subscribe('parsley:field:success', function(){
+                                        $correctContainer.removeClass('filled').find('li').remove();
+                                    });
                         });
 
                         // add classes to form once it's validated
