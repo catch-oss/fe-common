@@ -74,8 +74,8 @@
             onBeforeRequest: function($form) {
 
                 // hide the form modal if the form is in one
-                var $modals = $form.closest('#ajax-modal-modal');
-                if ($modals.length) {
+                var $modal = $form.closest('#ajax-modal-modal');
+                if ($modal.length) {
                     $modal.hide();
                 }
 
@@ -84,6 +84,11 @@
             },
             onAfterCloseResultModal: function($form, result) {
 
+                // show the form modal if the form is in one
+                var $modal = $form.closest('#ajax-modal-modal');
+                if ($modal.length) {
+                    $modal.show();
+                }
             },
             onAfterRequest: function($form) {
 
