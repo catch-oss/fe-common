@@ -71,24 +71,9 @@
         ajaxForms({
             selector: selector,
             namespace: 'ss-ajax',
-            onBeforeRequest: function($form) {
-
-                // hide the form modal if the form is in one
-                var $modal = $form.closest('#ajax-modal-modal');
-                if ($modal.length) {
-                    $modal.hide();
-                }
-
-                // lifecycle callbacks
-                if (typeof onBeforeRequest == 'function') onBeforeRequest();
-            },
+            onBeforeRequest: onBeforeRequest,
             onAfterCloseResultModal: function($form, result) {
-
-                // show the form modal if the form is in one
-                var $modal = $form.closest('#ajax-modal-modal');
-                if ($modal.length) {
-                    $modal.show();
-                }
+                console.log($form);
             },
             onAfterRequest: function($form) {
 

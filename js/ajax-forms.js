@@ -34,6 +34,8 @@
             }
         }
 
+        console.log(conf)
+
         $(function() {
 
             var namespace = conf.namespace || 'ajax-form',
@@ -41,6 +43,7 @@
                 successTestCb = conf.successTestCb || function(data, textStatus, jqXHR) { return true; },
                 onBeforeRequest = conf.onBeforeRequest || null,
                 onAfterRequest = conf.onAfterRequest || null,
+                onAfterCloseResultModal = conf.onAfterCloseResultModal || null,
                 modalTemplate = conf.modalTemplate ||
                     '<div class="modal hidden" id="ajax-form-modal">' +
                         '<div class="modal-dialog modal--compact">' +
@@ -192,16 +195,19 @@
                                                 onAfterCloseResultModal($this, {success: true, message: 'success'});
                                         });
                                     }
+
                                     // just chuck in the embed code
                                     if (embedTracking) {
                                         $('body').append(embedTracking);
                                     }
+
                                     // expects gtmTracking to be {key: value, key2: value2}
                                     // see https://developers.google.com/tag-manager/devguide?hl=en for more info
                                     if (gtmTracking) {
                                         gtmTracking = JSON.parse(gtmTracking);
                                         window[gtmDataLayer].push(gtmTracking);
                                     }
+
                                     // expects gaTracking to be {action: 'send', data {hitType: 'pageview'}}
                                     // see https://developers.google.com/analytics/devguides/collection/analyticsjs/how-analyticsjs-works for more info
                                     if (gaTracking) {
