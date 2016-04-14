@@ -65,8 +65,9 @@
         $(function() {
 
             // handle args
-            var selector = conf.selector || '.ss-ajax-form';
-                selector = conf.onAfterRequest || null;
+            var selector = conf.selector || '.ss-ajax-form',
+                onAfterRequest = conf.onAfterRequest || null,
+                onBeforeRequest = conf.onBeforeRequest || null;
 
             // ajax forms it
             ajaxForms({
