@@ -62,68 +62,68 @@
             }
         }
 
-        $(function() {
+        // handle args
+        var selector = conf.selector || '.ss-ajax-form',
+            onAfterRequest = conf.onAfterRequest || null,
+            onBeforeRequest = conf.onBeforeRequest || null;
 
-            // handle args
-            var selector = conf.selector || '.ss-ajax-form',
-                onAfterRequest = conf.onAfterRequest || null,
-                onBeforeRequest = conf.onBeforeRequest || null;
+        // ajax forms it
+        ajaxForms({
+            selector: selector,
+            namespace: 'ss-ajax',
+            onBeforeRequest: function($form) {
 
-            // ajax forms it
-            ajaxForms({
-                selector: selector,
-                namespace: 'ss-ajax',
-                onBeforeRequest: function($form) {
+                // hide the form modal if the form is in one
+                var $modals = $form.closest('#ajax-modal-modal');
+                if ($modals.length) {
+                    $modal.hide();
+                }
 
-                    // hide the form modal if the form is in one
-                    $modals = $form.closest('#ajax-modal-modal');
-                    if ($modals.length) {
-                        $modal.hide();
-                    }
+                // lifecycle callbacks
+                if (typeof onBeforeRequest == 'function') onBeforeRequest();
+            },
+            onAfterCloseResultModal: function($form, result) {
 
-                    // lifecycle callbacks
-                    if (typeof onBeforeRequest == 'function') onBeforeRequest();
-                },
-                onAfterRequest: function($form) {
+            },
+            onAfterRequest: function($form) {
 
-                    // attach the form stuf
-                    dropDowns.formSelect();
-                    placeholders();
-                    floatLabels();
+                // attach the form stuf
+                dropDowns.formSelect();
+                placeholders();
+                floatLabels();
 
-                    // sort the validators
-                    if (typeof $form.validator == 'function') $form.validator('destroy');
-                    formValidation();
+                // sort the validators
+                if (typeof $form.validator == 'function') $form.validator('destroy');
+                formValidation();
 
-                    // handle messaging
-                    var $alert = $form.find('.alert');
-                    if ($alert.length) {
-                        $form.attr(
-                            $alert.is('.error') ? 'data-fail-message' : 'data-success-message',
-                            $alert.html()
-                        )
-                    }
-                    $('form .alert').remove(); // remove the message from the form
+                // handle messaging
+                var $alert = $form.find('.alert');
+                if ($alert.length) {
+                    $form.attr(
+                        $alert.is('.error') ? 'data-fail-message' : 'data-success-message',
+                        $alert.html()
+                    )
+                }
+                $('form .alert').remove(); // remove the message from the form
 
-                    // forward if it is desired
-                    if ($('[data-forward]').length) {
-                        setTimeout(function() {
-                            window.location = $('[data-forward]').attr('data-forward');
-                        }, 5000);
-                    }
+                // forward if it is desired
+                if ($('[data-forward]').length) {
+                    setTimeout(function() {
+                        window.location = $('[data-forward]').attr('data-forward');
+                    }, 5000);
+                }
 
-                    // lifecycle callbacks
-                    if (typeof onAfterRequest == 'function') onAfterRequest();
-                },
-                successTestCb: function(data) {
+                // lifecycle callbacks
+                if (typeof onAfterRequest == 'function') onAfterRequest();
+            },
+            successTestCb: function(data) {
 
-                    var case1 = $(data).find('.error-list.filled').length === 0,
-                        case2 = $(data).find('.form-group.error').length === 0,
-                        case3 = $(data).find('.alert-error').length === 0;
+                var case1 = $(data).find('.error-list.filled').length === 0,
+                    case2 = $(data).find('.form-group.error').length === 0,
+                    case3 = $(data).find('.alert-error').length === 0;
 
-                    return case1 && case2 && case3;
-                },
-            });
+                return case1 && case2 && case3;
+            },
         });
     };
 }))

@@ -18,23 +18,23 @@
 
     var ajaxForms = function() {
 
-        $(function() {
+        var conf = arguments[0];
 
-            var conf = arguments[0];
-
-            // handle old syntax
-            // selector, onAfterRequest, namespace, successTestCb, modalTemplate
-            if (typeof conf != 'object') {
-                conf = {
-                    selector: arguments[0],
-                    onAfterRequest: arguments[1],
-                    namespace: arguments[2],
-                    successTestCb: arguments[3],
-                    modalTemplate: arguments[4],
-                    onBeforeRequest: arguments[5],
-                    onAfterCloseResultModal: arguments[6]
-                }
+        // handle old syntax
+        // selector, onAfterRequest, namespace, successTestCb, modalTemplate
+        if (typeof conf != 'object') {
+            conf = {
+                selector: arguments[0],
+                onAfterRequest: arguments[1],
+                namespace: arguments[2],
+                successTestCb: arguments[3],
+                modalTemplate: arguments[4],
+                onBeforeRequest: arguments[5],
+                onAfterCloseResultModal: arguments[6]
             }
+        }
+
+        $(function() {
 
             var namespace = conf.namespace || 'ajax-form',
                 selector = conf.selector || '.ajax-form',
@@ -189,7 +189,7 @@
 
                                             // lifecycle callback
                                             if (typeof onAfterCloseResultModal == 'function')
-                                                onAfterCloseResultModal({success: true, message: 'success'});
+                                                onAfterCloseResultModal($this, {success: true, message: 'success'});
                                         });
                                     }
                                     // just chuck in the embed code
@@ -220,7 +220,7 @@
 
                                             // lifecycle callback
                                             if (typeof onAfterCloseResultModal == 'function')
-                                                onAfterCloseResultModal({success: false, message: 'fail'});
+                                                onAfterCloseResultModal($this, {success: false, message: 'fail'});
                                         });
                                     }
                                 }
@@ -306,7 +306,7 @@
 
                                                 // lifecycle callback
                                                 if (typeof onAfterCloseResultModal == 'function')
-                                                    onAfterCloseResultModal({success: true, message: 'success'});
+                                                    onAfterCloseResultModal($form, {success: true, message: 'success'});
                                             });
                                         }
                                         // just chuck in the embed code
@@ -337,7 +337,7 @@
 
                                                 // lifecycle callback
                                                 if (typeof onAfterCloseResultModal == 'function')
-                                                    onAfterCloseResultModal({success: false, message: 'fail'});
+                                                    onAfterCloseResultModal($form, {success: false, message: 'fail'});
                                             });
                                         }
                                     }
