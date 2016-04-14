@@ -9,42 +9,54 @@
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.ajaxForms = factory(root.jQuery);
+        root.catch.ajaxForms = factory(root.jQuery, root.catch.modals);
     }
 
 }(this, function ($, modals, undefined) {
 
     'use strict';
 
-    var ajaxForms = function(selector, cb, namespace, successTestCb, modalTemplate) {
+    var ajaxForms = function() {
 
         $(function() {
 
-            if (namespace === undefined)
-                namespace = 'ajax-form';
+            var conf = arguments[0];
 
-            if (selector === undefined)
-                selector = '.ajax-form';
+            // handle old syntax
+            // selector, onAfterRequest, namespace, successTestCb, modalTemplate
+            if (typeof conf != 'object') {
+                conf = {
+                    selector: arguments[0],
+                    onAfterRequest: arguments[1],
+                    namespace: arguments[2],
+                    successTestCb: arguments[3],
+                    modalTemplate: arguments[4],
+                    onBeforeRequest: arguments[5],
+                    onAfterCloseResultModal: arguments[6]
+                }
+            }
 
-            if (successTestCb === undefined)
-                successTestCb = function(data, textStatus, jqXHR) { return true; };
-
-            if (modalTemplate === undefined)
-                modalTemplate = '<div class="modal hidden" id="ajax-form-modal">' +
-                                    '<div class="modal-dialog modal--compact">' +
-                                        '<div class="modal-close-wrapper-mobile">' +
-                                            '<div class="modal-close-wrapper-mobile-inner">' +
-                                                '<a href="" class="modal-close icon-close">Close</a>' +
-                                            '</div>' +
-                                        '</div>' +
-                                        '<div class="modal-body">' +
-                                            '<div class="modal-dialog-inner modal-dialog-inner-body">' +
-                                                '<h1>{{title}}</h1>' +
-                                                '<div>{{content}}</div>' +
-                                            '</div>' +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>';
+            var namespace = conf.namespace || 'ajax-form',
+                selector = conf.selector || '.ajax-form',
+                successTestCb = conf.successTestCb || function(data, textStatus, jqXHR) { return true; },
+                onBeforeRequest = conf.onBeforeRequest || null,
+                onAfterRequest = conf.onAfterRequest || null,
+                modalTemplate = conf.modalTemplate ||
+                    '<div class="modal hidden" id="ajax-form-modal">' +
+                        '<div class="modal-dialog modal--compact">' +
+                            '<div class="modal-close-wrapper-mobile">' +
+                                '<div class="modal-close-wrapper-mobile-inner">' +
+                                    '<a href="" class="modal-close icon-close">Close</a>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="modal-body">' +
+                                '<div class="modal-dialog-inner modal-dialog-inner-body">' +
+                                    '<h1>{{title}}</h1>' +
+                                    '<div>{{content}}</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
 
             var trigger = '<a class="modal-trigger" id="ajax-form-modal-trigger" data-modal="#ajax-form-modal"></a>',
                 template =  $(modalTemplate).attr('id', 'ajax-form-modal')[0].outerHTML,
@@ -64,7 +76,7 @@
                     }
                     return elementID;
                 },
-                ajaxProxy = function(action, $form, cb) {
+                ajaxProxy = function(action, $form, onAfterRequest) {
 
                     var enctype = $form.attr('enctype') ? $form.attr('enctype') : 'application/x-www-form-urlencoded',
                         method = $form.attr('method') ? $form.attr('method') : 'get';
@@ -76,11 +88,11 @@
 
                         // override listener
                         $target[0].onload = function() {
-                            cb($target.contents().find("body").html(), 'success');
+                            onAfterRequest($target.contents().find("body").html(), 'success');
                         };
 
                     }
-                    else $[method](action, $form.serialize(), cb);
+                    else $[method](action, $form.serialize(), onAfterRequest);
                 };
 
             $(selector).each(function(idx){
@@ -139,13 +151,20 @@
                             (maxSubmissions == undefined || parseInt(submissionCount) < parseInt(maxSubmissions)) &&
                             (!validate || (validate && $this.validator('validate', validateOnly)))
                         ) {
+
+                            // We are loading
                             $('html').addClass('loading');
+
+                            // lifecycle call back
+                            if (typeof onBeforeRequest == 'function') onBeforeRequest($this);
+
+                            // make the request
                             ajaxProxy($this.attr('action'), $this, function(data, textStatus, jqXHR) {
 
                                 if (replace == undefined) $form.html($($(data).find(selector)[idx]).html());
                                 else $(replace).html($(data).find(replace).html());
 
-                                ajaxForms(selector, cb);
+                                ajaxForms(conf);
 
                                 if (typeof picturefill == 'function') picturefill();
 
@@ -163,7 +182,15 @@
                                         $body.append($template);
                                         modals();
                                         $('#ajax-form-modal-trigger').trigger('tap');
-                                        $('.modal-close, .body-overlay').on('tap',function(e) { $template.remove(); });
+                                        $('.modal-close, .body-overlay').on('tap',function(e) {
+
+                                            // remove the modal
+                                            $template.remove();
+
+                                            // lifecycle callback
+                                            if (typeof onAfterCloseResultModal == 'function')
+                                                onAfterCloseResultModal({success: true, message: 'success'});
+                                        });
                                     }
                                     // just chuck in the embed code
                                     if (embedTracking) {
@@ -186,11 +213,19 @@
                                         $body.append($templateFail);
                                         modals();
                                         $('#ajax-form-modal-trigger').trigger('tap');
-                                        $('.modal-close, .body-overlay').on('tap',function(e) { $templateFail.remove(); });
+                                        $('.modal-close, .body-overlay').on('tap',function(e) {
+
+                                            // remove the modal
+                                            $templateFail.remove();
+
+                                            // lifecycle callback
+                                            if (typeof onAfterCloseResultModal == 'function')
+                                                onAfterCloseResultModal({success: false, message: 'fail'});
+                                        });
                                     }
                                 }
 
-                                if (typeof cb == 'function') cb($this, data);
+                                if (typeof onAfterRequest == 'function') onAfterRequest($this, data);
 
                             });
                         }
@@ -234,13 +269,20 @@
                                 (maxSubmissions == undefined || parseInt(submissionCount) < parseInt(maxSubmissions)) &&
                                 (!validate || (validate && $this.closest('form').validator('validate', validateOnly)))
                             ) {
+
+                                // We are loading
                                 $('html').addClass('loading');
+
+                                // lifecycle call back
+                                if (typeof onBeforeRequest == 'function') onBeforeRequest($this);
+
+                                // make the request
                                 ajaxProxy($this.attr('action'), $form, function(data, textStatus, jqXHR) {
 
                                     if (replace == undefined) $form.html($($(data).find(selector)[idx]).html());
                                     else $(replace).html($(data).find(replace).html());
 
-                                    ajaxForms(selector, cb);
+                                    ajaxForms(conf);
 
                                     if (typeof picturefill == 'function') picturefill();
 
@@ -257,7 +299,15 @@
                                             $body.append($template);
                                             modals();
                                             $('#ajax-form-modal-trigger').trigger('tap');
-                                            $('.modal-close, .body-overlay').on('tap',function(e) { $template.remove(); });
+                                            $('.modal-close, .body-overlay').on('tap',function(e) {
+
+                                                // remove the modal
+                                                $template.remove();
+
+                                                // lifecycle callback
+                                                if (typeof onAfterCloseResultModal == 'function')
+                                                    onAfterCloseResultModal({success: true, message: 'success'});
+                                            });
                                         }
                                         // just chuck in the embed code
                                         if (embedTracking) {
@@ -280,11 +330,20 @@
                                             $body.append($templateFail);
                                             modals();
                                             $('#ajax-form-modal-trigger').trigger('tap');
-                                            $('.modal-close, .body-overlay').on('tap',function(e) { $templateFail.remove(); });
+                                            $('.modal-close, .body-overlay').on('tap',function(e) {
+
+                                                // remove the modal
+                                                $templateFail.remove();
+
+                                                // lifecycle callback
+                                                if (typeof onAfterCloseResultModal == 'function')
+                                                    onAfterCloseResultModal({success: false, message: 'fail'});
+                                            });
                                         }
                                     }
 
-                                    if (typeof cb == 'function') cb($this, data);
+                                    // lifecycle call back
+                                    if (typeof onAfterRequest == 'function') onAfterRequest($this, data);
 
                                 });
                             }
