@@ -34,8 +34,6 @@
             }
         }
 
-        console.log(conf)
-
         $(function() {
 
             var namespace = conf.namespace || 'ajax-form',
@@ -184,8 +182,8 @@
                                     if (msg != undefined) {
                                         $body.append($template);
                                         modals();
-                                        $('#ajax-form-modal-trigger').trigger('tap');
-                                        $('.modal-close, .body-overlay').on('tap',function(e) {
+                                        $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
+                                        $('.modal-close, .body-overlay').on('tap click',function(e) {
 
                                             // remove the modal
                                             $template.remove();
@@ -218,8 +216,8 @@
                                     if (msgFail != undefined) {
                                         $body.append($templateFail);
                                         modals();
-                                        $('#ajax-form-modal-trigger').trigger('tap');
-                                        $('.modal-close, .body-overlay').on('tap',function(e) {
+                                        $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
+                                        $('.modal-close, .body-overlay').on('tap click',function(e) {
 
                                             // remove the modal
                                             $templateFail.remove();

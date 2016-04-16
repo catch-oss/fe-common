@@ -44,15 +44,19 @@
                         // if the active modal exists
                         if ($activeModal.length) {
 
-                            // get the modal history
-                            var rawModalHistory = $('body').attr('data-modalHistory') || null,
-                                modalHistoy = rawModalHistory ? JSON.parse(rawModalHistory) : [];
+                            // don't push the modal we are displaying into the history
+                            if ($target[0] !== $activeModal[0]) {
 
-                            // push the active modal onto the stack
-                            modalHistoy.push(activeModal);
+                                // get the modal history
+                                var rawModalHistory = $('body').attr('data-modalHistory') || null,
+                                    modalHistory = rawModalHistory ? JSON.parse(rawModalHistory) : [];
 
-                            // stash it for later
-                            $('body').attr('data-modalHistory', JSON.stringify(modalHistoy));
+                                // push the active modal onto the stack
+                                modalHistory.push(activeModal);
+
+                                // stash it for later
+                                $('body').attr('data-modalHistory', JSON.stringify(modalHistory));
+                            }
 
                             // hide it
                             $activeModal.addClass('hidden');
@@ -74,10 +78,7 @@
 
                     // get the modal history
                     var rawModalHistory = $('body').attr('data-modalHistory') || null,
-                        modalHistoy = rawModalHistory ? JSON.parse(rawModalHistory) : [];
-
-                    console.log(rawModalHistory);
-                    console.log(modalHistory);
+                        modalHistory = rawModalHistory ? JSON.parse(rawModalHistory) : [];
 
                     // hide the modal and trigger the close event
                     $target.addClass('hidden').trigger('modal:close');
@@ -90,7 +91,7 @@
                             $prevModal = $(prevModal);
 
                         // stash the modified history for later
-                        $('body').attr('data-modalHistory', JSON.stringify(modalHistoy));
+                        $('body').attr('data-modalHistory', JSON.stringify(modalHistory));
 
                         // show the previous modal
                         $('body').addClass('modal-visible').attr('data-activeModal', prevModal);
@@ -99,7 +100,7 @@
 
                     // nothing to restore close everything
                     else {
-                        $('body').removeClass('modal-visible');
+                        $('body').removeClass('modal-visible').attr('data-activeModal', '');
                     }
 
                 });

@@ -9,7 +9,7 @@
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.ajaxModals = factory(root.jQuery);
+        root.catch.ajaxModals = factory(root.jQuery, root.catch.modals);
     }
 
 }(this, function ($, modals, undefined) {

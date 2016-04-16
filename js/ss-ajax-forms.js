@@ -59,32 +59,54 @@
                 selector: arguments[0],
                 onAfterRequest: arguments[1],
                 onBeforeRequest: arguments[2],
+                bindDefaultFormModules: arguments[3]
             }
         }
 
         // handle args
         var selector = conf.selector || '.ss-ajax-form',
             onAfterRequest = conf.onAfterRequest || null,
-            onBeforeRequest = conf.onBeforeRequest || null;
+            onBeforeRequest = conf.onBeforeRequest || null,
+            bindDefaultFormModules = conf.bindDefaultFormModules === undefined ? true : conf.bindDefaultFormModules;
 
         // ajax forms it
         ajaxForms({
             selector: selector,
             namespace: 'ss-ajax',
-            onBeforeRequest: onBeforeRequest,
+            onBeforeRequest: function($form) {
+
+                // hide the form modal if the form is in one
+                var $modal = $form.closest('#ajax-modal-modal');
+                if ($modal.length) {
+                    $modal.addClass('hidden');
+                }
+
+                // lifecycle callbacks
+                if (typeof onBeforeRequest == 'function') onBeforeRequest();
+            },
             onAfterCloseResultModal: function($form, result) {
-                console.log($form);
+
+                // hide the form modal if the form is in one
+                var $modal = $form.closest('#ajax-modal-modal');
+                if ($modal.length) {
+                    if (result.success) {
+                        $modal.find('.modal-close').trigger('click');
+                    }
+                }
             },
             onAfterRequest: function($form) {
 
-                // attach the form stuf
-                dropDowns.formSelect();
-                placeholders();
-                floatLabels();
+                if (bindDefaultFormModules) {
 
-                // sort the validators
-                if (typeof $form.validator == 'function') $form.validator('destroy');
-                formValidation();
+                    // attach the form stuf
+                    dropDowns.formSelect({touchBody: false});
+                    placeholders();
+                    floatLabels();
+
+                    // sort the validators
+                    if (typeof $form.validator == 'function') $form.validator('destroy');
+                    formValidation();
+                }
 
                 // handle messaging
                 var $alert = $form.find('.alert');
