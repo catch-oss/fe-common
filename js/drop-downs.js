@@ -27,9 +27,9 @@
                 $(selector).simpleDropdown(options, params);
             });
         },
-        dropDowns: function() {
-            twoDegrees.formSelect();
-            twoDegrees.simpleDropdown();
+        dropDowns: function(selector, options, params) {
+            this.formSelect(selector, options, params);
+            this.simpleDropdown(selector, options, params);
         }
     };
 
