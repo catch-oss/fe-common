@@ -44,6 +44,8 @@
             var selector = conf.selector || '.ajax-modal',
                 namespace = conf.namespace || 'ajax-modal',
                 modalTemplate = conf.modalTemplate || defaultTemplate,
+                onBeforeRequest = conf.onBeforeRequest || null,
+                onBeforeShow = conf.onBeforeShow || null,
                 onAfterRequest = conf.onAfterRequest || null;
 
             // prep modal
@@ -71,8 +73,8 @@
             // navigate to the right location
             window.onpopstate = function(e) {
                 if (typeof e.state.url !== 'undefined') {
-                    window.location.href = event.state.url;
-                    window.reload();
+                    window.location.href = e.state.url;
+                    if (typeof window.reload !== undefined) window.reload();
                 }
             };
 
@@ -97,6 +99,9 @@
                         // indicate that we are loading
                         $('html').addClass('loading');
 
+                        // lifecycle callback
+                        if (typeof onBeforeRequest == 'function') onBeforeRequest($el);
+
                         // make the request
                         $.get(url, null, function(data, textStatus, jqXHR) {
 
@@ -117,6 +122,9 @@
                             // prepare the modal
                             var $modal = $(trigger + template.replace(/\{\{content\}\}/, $content.html()));
 
+                            // lifecycle callback
+                            if (typeof onBeforeShow == 'function') onBeforeShow($modal);
+
                             // inject the modal
                             $('body').append($modal);
                             modals();
@@ -134,7 +142,7 @@
                             // rebind handlers
                             ajaxModals(conf);
                             if (typeof picturefill == 'function') picturefill();
-                            if (typeof onAfterRequest == 'function') onAfterRequest();
+                            if (typeof onAfterRequest == 'function') onAfterRequest($modal);
 
                             // update history
                             if (typeof window.history.pushState !== undefined)
