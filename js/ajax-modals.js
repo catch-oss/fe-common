@@ -81,14 +81,17 @@
             // handle each elem that matches the selector
             $(selector).each(function(idx) {
 
-                // vars
-                var $el = $(this),
-                    elId = uid($el),
-                    url = $el.attr('href'),
-                    contentSelector = $el.attr('data-content-selector') || 'body';
+                // this wont change
+                var $el = $(this);
 
-                // hanlde the click
+                // handle the click
                 $el.off('click.' + namespace).on('click.' + namespace, function(e) {
+
+                    // vars (these might)
+                    var $el = $(this),
+                        elId = uid($el),
+                        url = $el.attr('href'),
+                        contentSelector = $el.attr('data-content-selector') || 'body';
 
                     // don't go anywhere
                     e.preventDefault();
