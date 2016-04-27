@@ -72,7 +72,7 @@
 
             // navigate to the right location
             window.onpopstate = function(e) {
-                if (typeof e.state.url !== 'undefined') {
+                if (e.state && typeof e.state.url !== 'undefined') {
                     window.location.href = e.state.url;
                     if (typeof window.reload !== undefined) window.reload();
                 }
