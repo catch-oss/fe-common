@@ -31,28 +31,28 @@
 	.modal-body {
 		padding: 20px 4%;
 
-		p {
-			color: #666;
-		}
+		// p {
+		// 	color: #666;
+		// }
 	}
 
 	h2 {
-		font-size: 28px;
-		line-height: 36px;
+		// font-size: 28px;
+		// line-height: 36px;
 
 		.dashboard & {
 			margin: 0;
 		}
 	}
 
-	h1 {
-		margin: 10px 0 0;
-	}
-
-	p {
-		font-size: 18px;
-		line-height: 24px;
-	}
+	// h1 {
+	// 	margin: 10px 0 0;
+	// }
+	//
+	// p {
+	// 	font-size: 18px;
+	// 	line-height: 24px;
+	// }
 }
 
 .modal-overlay,
@@ -91,12 +91,12 @@ body.modal-visible, body.modal-active {
 
 .modal {
 
-	@include media($small) {
-		h1 {
-			font-size: 40px;
-			line-height: 48px;
-		}
-	}
+	// @include media($small) {
+	// 	h1 {
+	// 		font-size: 40px;
+	// 		line-height: 48px;
+	// 	}
+	// }
 
 	@include media($medium) {
 		background-color: transparent;
@@ -117,10 +117,10 @@ body.modal-visible, body.modal-active {
 			text-decoration: none;
 			border: 0;
 
-			&:before{
-			position: absolute;
-			right: 0;
-			left: auto;
+			&:before {
+				position: absolute;
+				right: 0;
+				left: auto;
 			}
 		}
 
