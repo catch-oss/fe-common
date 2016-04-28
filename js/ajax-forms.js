@@ -53,7 +53,7 @@
                             '<div class="modal-body">' +
                                 '<div class="modal-dialog-inner modal-dialog-inner-body">' +
                                     '<h1>{{title}}</h1>' +
-                                    '<p>{{content}}</p>' +
+                                    '<div>{{content}}</div>' +
                                 '</div>' +
                             '</div>' +
                         '</div>' +
