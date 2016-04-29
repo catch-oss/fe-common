@@ -102,6 +102,20 @@
                         // indicate that we are loading
                         $('html').addClass('loading');
 
+                        // look to see if there is already an active modal
+                        var activeModal = $('body').attr('data-activeModal'),
+                            $activeModal = $(activeModal);
+
+                        // if the active modal exists
+                        if ($activeModal.length) {
+
+                            // hide it
+                            $activeModal.addClass('hidden');
+
+                            // remove any existing ajax modal stuff in the page
+                            $('#ajax-modal-modal, #ajax-modal-modal-trigger').remove();
+                        }
+
                         // lifecycle callback
                         if (typeof onBeforeRequest == 'function') onBeforeRequest($el);
 
