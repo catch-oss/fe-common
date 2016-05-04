@@ -46,7 +46,8 @@
                 modalTemplate = conf.modalTemplate || defaultTemplate,
                 onBeforeRequest = conf.onBeforeRequest || null,
                 onBeforeShow = conf.onBeforeShow || null,
-                onAfterRequest = conf.onAfterRequest || null;
+                onAfterRequest = conf.onAfterRequest || null,
+                defaultContentSelector = conf.defaultContentSelector || 'body';
 
             // prep modal
             var trigger = '<a class="modal-trigger" id="ajax-modal-modal-trigger" data-modal="#ajax-modal-modal"></a>',
@@ -91,7 +92,7 @@
                     var $el = $(this),
                         elId = uid($el),
                         url = $el.attr('href'),
-                        contentSelector = $el.attr('data-content-selector') || 'body';
+                        contentSelector = $el.attr('data-content-selector') || defaultContentSelector;
 
                     // don't go anywhere
                     e.preventDefault();
