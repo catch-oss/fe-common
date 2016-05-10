@@ -33,8 +33,5 @@
 	},
 	"resolutions": {
 		"jquery": "~1.12.3"
-	},
-	"scripts": {
-		"postinstall": "bin/postinstall"
 	}
 }
