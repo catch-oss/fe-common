@@ -4,8 +4,8 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # go to the modernizr dir
-cd $DIR/../../modernizr
+cd "$DIR/../../modernizr"
 
 # build modernizr
 npm install
-./bin/modernizr -c lib/config-all.json
+./bin/modernizr -c "$DIR/../conf/modernizr-build.json"
