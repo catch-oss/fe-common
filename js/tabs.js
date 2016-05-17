@@ -22,7 +22,7 @@
             var pushHistory = function($el) {
 
                     var url = $el.attr('data-url') || null,
-                        elID = uid($el)
+                        elId = uid($el)
 
                     if (typeof window.history.pushState !== undefined && url)
                         history.pushState({id: elId, url: url}, '', url);
