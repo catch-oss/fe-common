@@ -1,37 +1,37 @@
 {
-  "name": "catch-fe-common",
-  "version": "0.0.1",
-  "authors": [
-    "Aaron Latham-Anderson <aaron@catch.co.nz>"
-  ],
-  "license": "Contributor License Agreement",
-  "private": true,
-  "dependencies": {
-    "html5-boilerplate"         : "~5.1.0",
-    "neat"                      : "~1.7.2",
-    "bourbon"                   : "~4.2.1",
-    "jquery"                    : "~1.11.1",
-    "jquery-mobile"             : "~1.4.5",
-    "modernizr"                 : "~2.8.3",
-    "respond"                   : "~1.4.2",
-    "selectivizr"               : "https://raw.githubusercontent.com/keithclark/selectivizr/master/selectivizr.js",
-    "tablizr"                   : "~0.3.0",
-    "pagr"                      : ">=0.4.2",
-    "polyholder"                : "~1.0.1",
-    "labelizr"                  : "~0.2.0",
-    "picturefill"               : "~2.1.0",
-    "droposaurus"               : "git@gl.catch.co.nz:catch/droposaurus.git",
-    "graphraptor"               : "git@gl.catch.co.nz:catch/graphraptor.git",
-    "confirmadon"               : "~0.1.0",
-    "slidatron"                 : ">=0.5.3",
-    "jquery-mask-plugin"        : "https://raw.githubusercontent.com/igorescobar/jQuery-Mask-Plugin/master/dist/jquery.mask.js",
-    "parsleyjs"                 : "2.0.7",
-    "normalize-scss"            : "~3.0.2",
-    "requirejs"                 : "~2.1.11",
-    "jquery"                    : "~1.11.3",
-    "jquery-tokenize"           : "https://github.com/azt3k/Tokenize.git#master"
-  },
-  "resolutions": {
-    "jquery": "~1.11.3"
-  }
+	"name": "catch-fe-common",
+	"version": "0.0.1",
+	"authors": [
+		"Aaron Latham-Anderson <aaron@catch.co.nz>"
+	],
+	"license": "Contributor License Agreement",
+	"private": true,
+	"dependencies": {
+		"html5-boilerplate": "~5.1.0",
+		"neat": "~1.7.2",
+		"bourbon": "~4.2.1",
+		"jquery": "~1.12.3",
+		"jquery-mobile": "~1.4.5",
+		"modernizr": "~3.3.1",
+		"respond": "~1.4.2",
+		"selectivizr2": "~1.0.8",
+		"tablizr": "~0.3.0",
+		"pagr": ">=0.4.2",
+		"polyholder": "~1.0.1",
+		"labelizr": "~0.2.0",
+		"picturefill": "~2.1.0",
+		"droposaurus": "git@gl.catch.co.nz:catch/droposaurus.git",
+		"graphraptor": "git@gl.catch.co.nz:catch/graphraptor.git",
+		"confirmadon": "~0.1.0",
+		"slidatron": ">=0.5.3",
+		"jquery-mask-plugin": "https://raw.githubusercontent.com/igorescobar/jQuery-Mask-Plugin/master/dist/jquery.mask.js",
+		"parsleyjs": "2.0.7",
+		"normalize-scss": "~3.0.2",
+		"requirejs": "~2.1.11",
+		"jquery": "~1.11.3",
+		"jquery-tokenize": "https://github.com/azt3k/Tokenize.git#master"
+	},
+	"resolutions": {
+		"jquery": "~1.12.3"
+	}
 }
