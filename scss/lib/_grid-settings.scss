@@ -1,5 +1,5 @@
 // Change the grid settings
-$gutter: em(24); // Gutter between each two columns
+$gutter: em(24) !default; // Gutter between each two columns
 $grid-columns: 12;
 $max-width: 1200px;
 
