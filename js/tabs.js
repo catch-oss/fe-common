@@ -35,7 +35,7 @@
 
                     if (!elementID) {
                         elementID = idBase;
-                        while (!elementID || $('#' + elementID).length) {
+                        while (!elementID || $('[id=' + elementID + ']').length) {
                             elementID = idBase + '-' + i;
                             i++;
                         }
@@ -51,7 +51,7 @@
                     var $this = $(this),
                         $tabsParent = $this.closest('.tabs'),
                         tabpanid = $this.attr("aria-controls"),
-                        $tabpan = $("#" + tabpanid);
+                        $tabpan = $('[id=' + tabpanid + ']');
 
                     $tabsParent.find("li[role='tab']:not(this)").attr("aria-selected", "false");
                     $this.attr("aria-selected", "true").trigger('change');
@@ -86,7 +86,7 @@
                             $(this).attr("aria-selected", "false");
 
                             var tabpanid = $("li[aria-selected='true']").attr("aria-controls"),
-                                $tabpan = $("#" + tabpanid);
+                                $tabpan = $('[id=' + tabpanid + ']');
 
                             $("div[role='tabpanel']:not(tabpan)").attr("aria-hidden", "true");
                             $("div[role='tabpanel']:not(tabpan)").addClass("hidden");
