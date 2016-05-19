@@ -1,7 +1,2 @@
-@function image-path($file) {
-	@return $image-path + $file;
-}
-
-@function font-path($file) {
-	@return $font-path + $file;
-}
+@import
+"functions/asset-helpers";
