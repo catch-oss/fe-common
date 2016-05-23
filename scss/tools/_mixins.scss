@@ -26,24 +26,37 @@
 
 @mixin prefixed($prop-name, $prop-val) {
 	-webkit-#{$prop-name}: $prop-val;
-	   -moz-#{$prop-name}: $prop-val;
-		-ms-#{$prop-name}: $prop-val;
-		 -o-#{$prop-name}: $prop-val;
-			#{$prop-name}: $prop-val;
+	-moz-#{$prop-name}: $prop-val;
+	-ms-#{$prop-name}: $prop-val;
+	-o-#{$prop-name}: $prop-val;
+	#{$prop-name}: $prop-val;
 }
 
 @mixin omega-reset($nth: null, $cols: null) {
-	  @if ($nth and $cols) {
-		&:nth-child(#{$nth}) { margin-right: flex-gutter($cols); }
-		&:nth-child(#{$nth}+1) { clear: none }
-	  }
-	  @else if ($nth) {
-		&:nth-child(#{$nth}) { margin-right: flex-gutter(); }
-		&:nth-child(#{$nth}+1) { clear: none }
-	  } @else {
-		& { margin-right: flex-gutter(); }
-		& { clear: none }
-	  }
+	@if ($nth and $cols) {
+		&:nth-child(#{$nth}) {
+			margin-right: flex-gutter($cols);
+		}
+		&:nth-child(#{$nth}+1) {
+			clear: none;
+		}
+	}
+	@else if ($nth) {
+		&:nth-child(#{$nth}) {
+			margin-right: flex-gutter();
+		}
+		&:nth-child(#{$nth}+1) {
+			clear: none;
+		}
+	}
+	@else {
+		& {
+			margin-right: flex-gutter();
+		}
+		& {
+			clear: none;
+		}
+	}
 }
 
 // for use with icomoon
