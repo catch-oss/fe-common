@@ -16,18 +16,26 @@
 
     'use strict';
 
-    return function() {
+    return function(conf) {
+
+        conf = conf || {};
+        conf.triggerSelector = conf.triggerSelector || 'header .nav-trigger';
+        conf.navSelector = conf.navSelector || '#primary-nav';
+        conf.navActiveClass = conf.navActiveClass || 'active';
+        conf.documentActiveClass = conf.documentActiveClass || 'nav-active';
+        conf.triggerActiveClass = conf.triggerActiveClass || 'icon-close';
 
         $(function() {
 
             // nav trigger
-            $('header .nav-trigger')
+            $(conf.triggerSelector)
                 .off('click.nav-trigger')
-                .on ('click.nav-trigger',function(e){
+                .on('click.nav-trigger', function(e) {
                     e.preventDefault();
-                    $('#primary-nav').toggleClass('active');
-                    $('body').toggleClass('nav-active');
-                    $(this).toggleClass('icon-close');
+                    var isActive = $(this).is('.' + conf.triggerActiveClass);
+                    $(conf.navSelector).toggleClass(conf.navActiveClass, !isActive);
+                    $('body').toggleClass(conf.documentActiveClass, !isActive);
+                    $(this).toggleClass(conf.triggerActiveClass, !isActive);
                 });
 
         });
