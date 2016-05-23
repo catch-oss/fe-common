@@ -32,10 +32,10 @@
                 .off('click.nav-trigger')
                 .on('click.nav-trigger', function(e) {
                     e.preventDefault();
-                    var isActive = $(this).is('.' + conf.triggerActiveClass);
+                    var isActive = $(conf.navSelector).is('.' + conf.navActiveClass);
                     $(conf.navSelector).toggleClass(conf.navActiveClass, !isActive);
                     $('body').toggleClass(conf.documentActiveClass, !isActive);
-                    $(this).toggleClass(conf.triggerActiveClass, !isActive);
+                    $(conf.triggerSelector).toggleClass(conf.triggerActiveClass, !isActive);
                 });
 
         });
