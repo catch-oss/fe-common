@@ -3,11 +3,11 @@
 		font-family: $font-name;
 		font-weight: $weight;
 		font-style: $style;
-		src: url(font-path('#{$font}.eot'));
-		src: url(font-path('#{$font}.eot')) format('embedded-opentype'),
-			 url(font-path('#{$font}.woff')) format('woff'),
-			 url(font-path('#{$font}.ttf')) format('truetype'),
-			 url(font-path('#{$font}.svg')) format('svg');
+		src: url(font-path("#{$font}.eot"));
+		src: url(font-path("#{$font}.eot")) format("embedded-opentype"),
+			 url(font-path("#{$font}.woff")) format("woff"),
+			 url(font-path("#{$font}.ttf")) format("truetype"),
+			 url(font-path("#{$font}.svg")) format("svg");
 	}
 }
 
@@ -16,11 +16,11 @@
 		font-family: $font-name;
 		font-weight: $weight;
 		font-style: $style;
-		src: url(lib-font-path('#{$font}.eot'));
-		src: url(lib-font-path('#{$font}.eot')) format('embedded-opentype'),
-			 url(lib-font-path('#{$font}.woff')) format('woff'),
-			 url(lib-font-path('#{$font}.ttf')) format('truetype'),
-			 url(lib-font-path('#{$font}.svg')) format('svg');
+		src: url(lib-font-path("#{$font}.eot"));
+		src: url(lib-font-path("#{$font}.eot")) format("embedded-opentype"),
+			 url(lib-font-path("#{$font}.woff")) format("woff"),
+			 url(lib-font-path("#{$font}.ttf")) format("truetype"),
+			 url(lib-font-path("#{$font}.svg")) format("svg");
 	}
 }
 
@@ -51,7 +51,7 @@
 	@extend .icon-#{$name};
 	@if ($after) {
 		&:after {
-			font-family: 'icomoon';
+			font-family: "icomoon";
 			speak: none;
 			font-style: normal;
 			font-weight: normal;
@@ -63,7 +63,7 @@
 		}
 	} @else {
 		&:before {
-			font-family: 'icomoon';
+			font-family: "icomoon";
 			speak: none;
 			font-style: normal;
 			font-weight: normal;
