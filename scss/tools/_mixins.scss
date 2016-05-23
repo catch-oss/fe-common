@@ -11,6 +11,19 @@
 	}
 }
 
+@mixin define-lib-font($font-name, $font, $weight: normal, $style: normal) {
+	@font-face {
+		font-family: $font-name;
+		font-weight: $weight;
+		font-style: $style;
+		src: url(lib-font-path('#{$font}.eot'));
+		src: url(lib-font-path('#{$font}.eot')) format('embedded-opentype'),
+			 url(lib-font-path('#{$font}.woff')) format('woff'),
+			 url(lib-font-path('#{$font}.ttf')) format('truetype'),
+			 url(lib-font-path('#{$font}.svg')) format('svg');
+	}
+}
+
 @mixin prefixed($prop-name, $prop-val) {
 	-webkit-#{$prop-name}: $prop-val;
 	   -moz-#{$prop-name}: $prop-val;
