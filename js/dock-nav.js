@@ -25,18 +25,33 @@
         else {
 
             // handle nav
-            if($nav.length){
+            if ($nav.length) {
 
+                // set the default dock point
                 var dockPoint = $nav.offsetTop();
 
+                // on scroll...
                 $scrollElemPos
-                .off('scroll.dockNav')
-                .on('scroll.dockNav',function(){
+                    .off('scroll.dockNav')
+                    .on('scroll.dockNav',function(){
+                        $nav.toggleClass('docked', $(this).scrollTop() > dockPoint);
+                    });
 
-                    var scroll = $(this).scrollTop();
-                    $nav.toggleClass('docked', scroll > dockPoint);
+                // on resize...
+                $(window)
+                    .off('resize.dockNav')
+                    .on('resize.dockNav', function() {
 
-                });
+                        // is it currently docked
+                        var isDocked = $nav.is('.docked');
+
+                        // undock and reset the scroll point
+                        $nav.removeClass('docked');
+                        dockPoint = $nav.offsetTop();
+
+                        // conditionally redock
+                        $nav.toggleClass('docked', isDocked);
+                    });
             }
         }
     }
