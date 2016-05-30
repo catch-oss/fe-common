@@ -1,15 +1,15 @@
 @function image-path($file) {
-	@return $image-path + $file;
+	@return $image-path + "/" + $file;
 }
 
 @function font-path($file) {
-	@return $font-path + $file;
+	@return $font-path + "/" + $file;
 }
 
 @function lib-image-path($file) {
-	@return $lib-image-path + $file;
+	@return $lib-image-path + "/" + $file;
 }
 
 @function lib-font-path($file) {
-	@return $lib-font-path + $file;
+	@return $lib-font-path + "/" + $file;
 }
