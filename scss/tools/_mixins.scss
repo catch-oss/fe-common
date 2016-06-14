@@ -24,6 +24,18 @@
 	}
 }
 
+// this should prob accept a list of types
+@mixin define-crippled-lib-font($font-name, $font, $weight: normal, $style: normal) {
+	@font-face {
+		font-family: $font-name;
+		font-weight: $weight;
+		font-style: $style;
+		src: url(lib-font-path("#{$font}.eot"));
+		src: url(lib-font-path("#{$font}.eot")) format("embedded-opentype"),
+			 url(lib-font-path("#{$font}.woff")) format("woff");
+	}
+}
+
 @mixin prefixed($prop-name, $prop-val) {
 	-webkit-#{$prop-name}: $prop-val;
 	-moz-#{$prop-name}: $prop-val;
@@ -37,6 +49,7 @@
 		&:nth-child(#{$nth}) {
 			margin-right: flex-gutter($cols);
 		}
+
 		&:nth-child(#{$nth}+1) {
 			clear: none;
 		}
@@ -45,6 +58,7 @@
 		&:nth-child(#{$nth}) {
 			margin-right: flex-gutter();
 		}
+
 		&:nth-child(#{$nth}+1) {
 			clear: none;
 		}
@@ -53,6 +67,7 @@
 		& {
 			margin-right: flex-gutter();
 		}
+
 		& {
 			clear: none;
 		}
@@ -74,7 +89,8 @@
 			-webkit-font-smoothing: antialiased;
 			-moz-osx-font-smoothing: grayscale;
 		}
-	} @else {
+	}
+	@else {
 		&:before {
 			font-family: "icomoon";
 			speak: none;
