@@ -62,6 +62,7 @@
                             autoSlide       : $this.is('.auto-slide *'),
                             cursor          : '',
                             onAfterInit     : function($elem, tron) {
+
                                 $elem
                                 .off('click.showStopper')
                                 .on('click.showStopper', function() {
@@ -78,6 +79,8 @@
                                     .on('click.showStopper', function() {
                                         tron.startShow();
                                     })
+
+                                $(window).trigger('resize');
 
                             }
                         },
