@@ -80,7 +80,9 @@
                                         tron.startShow();
                                     })
 
-                                $(window).trigger('resize');
+                                setTimeout(function() {
+                                    $(window).trigger('resize');
+                                });
 
                             }
                         },
