@@ -63,6 +63,8 @@
                     $tabpan.attr("aria-hidden", "false");
 
                     pushHistory($this);
+
+                    $(window).trigger('resize');
                 });
 
             //This adds keyboard accessibility by adding the enter key to the basic click event.
