@@ -131,26 +131,24 @@ textarea {
 
 @media print {
 
-	//original selectors
-	//*, *:before, *:after
-	%extend-2 {
+	* {
 		background: transparent !important;
 		color: $black !important;
-		//Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
 		box-shadow: none !important;
-		//Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
 		text-shadow: none !important;
-	}
-
-	* {
-		@extend %extend-2;
 
 		&::before {
-			@extend %extend-2;
+			background: transparent !important;
+			color: $black !important;
+			box-shadow: none !important;
+			text-shadow: none !important;
 		}
 
 		&::after {
-			@extend %extend-2;
+			background: transparent !important;
+			color: $black !important;
+			box-shadow: none !important;
+			text-shadow: none !important;
 		}
 	}
 
