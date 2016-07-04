@@ -86,48 +86,48 @@
 
                         // generate embed code if there's a link
                         if (matches = link.match(/(youtube\.com|youtu\.be)\/(v\/|u\/|embed\/|watch\?v=)?([^#\&\?]*).*/)) {
-                            r.href = 'http://www.youtube.com/embed/' + matches[3] +
+                            r.href = '//www.youtube.com/embed/' + matches[3] +
                                     '?autohide=2&fs=0&rel=0&enablejsapi=1&modestbranding=1&showinfo=0' +
                                     (autoplay ? '&autoplay=1' : '');
                             r.type = 'iframe';
                         }
                         else if (matches = link.match(/vimeo.com\/(video\/)?(\d+)\/?(.*)/)) {
-                            r.href = 'http://player.vimeo.com/video/' + matches[2] +
+                            r.href = '//player.vimeo.com/video/' + matches[2] +
                                     '?hd=1&api=1&show_title=1&show_byline=1&badge=0&show_portrait=0&color=&fullscreen=1' +
                                     (id ? '&player_id=' + id : '') + (autoplay ? '&autoplay=1' : '');
                             r.type = 'iframe';
                         }
                         else if (matches = link.match(/vimeo.com\/channels\/(.+)\/(\d+)\/?/)) {
-                            r.href = 'http://player.vimeo.com/video/' + matches[2] +
+                            r.href = '//player.vimeo.com/video/' + matches[2] +
                                     '?hd=1&api=1&show_title=1&show_byline=1&badge=0&show_portrait=0&color=&fullscreen=1' +
                                     (id ? '&player_id=' + id : '') + (autoplay ? '&autoplay=1' : '');
                             r.type = 'iframe';
                         }
                         else if (matches = link.match(/metacafe.com\/watch\/(\d+)\/?(.*)/)) {
-                            r.href = 'http://www.metacafe.com/fplayer/' + matches[1] +
+                            r.href = '//www.metacafe.com/fplayer/' + matches[1] +
                                     '/.swf' + (autoplay ? '?playerVars=autoPlay=yes' : '');
                             r.type = 'swf';
                         }
                         else if (matches = link.match(/dailymotion.com\/video\/(.*)\/?(.*)/)) {
-                            r.href = 'http://www.dailymotion.com/swf/video/' + matches[1] +
+                            r.href = '//www.dailymotion.com/swf/video/' + matches[1] +
                                     '?additionalInfos=0' + (autoplay ? '&autoStart=1' : '');
                             r.type = 'swf';
                         }
                         else if (matches = link.match(/twitvid\.com\/([a-zA-Z0-9_\-\?\=]+)/)) {
-                            r.href = 'http://www.twitvid.com/embed.php?guid=' + matches[1] +
+                            r.href = '//www.twitvid.com/embed.php?guid=' + matches[1] +
                                     (autoplay ? '&autoplay=1' : '&autoplay=0');
                             r.type = 'iframe';
                         }
                         else if (matches = link.match(/twitpic\.com\/(?!(?:place|photos|events)\/)([a-zA-Z0-9\?\=\-]+)/)) {
-                            r.href = 'http://twitpic.com/show/full/' + matches[1];
+                            r.href = '//twitpic.com/show/full/' + matches[1];
                             r.type = 'image';
                         }
                         else if (matches = link.match(/(instagr\.am|instagram\.com)\/p\/([a-zA-Z0-9_\-]+)\/?/)) {
-                            r.href = 'http://' + matches[1] + '/p/' + matches[2] + '/media/?size=l';
+                            r.href = '//' + matches[1] + '/p/' + matches[2] + '/media/?size=l';
                             r.type = 'image';
                         }
                         else if (matches = link.match(/maps\.google\.com\/(\?ll=|maps\/?\?q=)(.*)/)) {
-                            r.href = 'http://maps.google.com/' + matches[1] + '' + matches[2] +
+                            r.href = '//maps.google.com/' + matches[1] + '' + matches[2] +
                                     '&output=' + ((strpos(matches[2], 'layer=c')) ? 'svembed' : 'embed');
                             r.type = 'iframe';
                         }
