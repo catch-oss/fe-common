@@ -94,13 +94,13 @@
                         else if (matches = link.match(/vimeo.com\/(video\/)?(\d+)\/?(.*)/)) {
                             r.href = 'http://player.vimeo.com/video/' + matches[2] +
                                     '?hd=1&api=1&show_title=1&show_byline=1&badge=0&show_portrait=0&color=&fullscreen=1' +
-                                    ($id ? '&player_id=' + $id : '') + (autoplay ? '&autoplay=1' : '');
+                                    (id ? '&player_id=' + id : '') + (autoplay ? '&autoplay=1' : '');
                             r.type = 'iframe';
                         }
                         else if (matches = link.match(/vimeo.com\/channels\/(.+)\/(\d+)\/?/)) {
                             r.href = 'http://player.vimeo.com/video/' + matches[2] +
                                     '?hd=1&api=1&show_title=1&show_byline=1&badge=0&show_portrait=0&color=&fullscreen=1' +
-                                    ($id ? '&player_id=' + $id : '') + (autoplay ? '&autoplay=1' : '');
+                                    (id ? '&player_id=' + id : '') + (autoplay ? '&autoplay=1' : '');
                             r.type = 'iframe';
                         }
                         else if (matches = link.match(/metacafe.com\/watch\/(\d+)\/?(.*)/)) {
