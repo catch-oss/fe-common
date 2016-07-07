@@ -34,6 +34,7 @@
                 $scrollElemPos
                     .off('scroll.dockNav')
                     .on('scroll.dockNav',function(){
+                        console.log(dockPoint, $(this).scrollTop());
                         $nav.toggleClass('docked', $(this).scrollTop() > dockPoint);
                     });
 
@@ -41,6 +42,8 @@
                 $(window)
                     .off('resize.dockNav')
                     .on('resize.dockNav', function() {
+
+                        console.log('resize');
 
                         // is it currently docked
                         var isDocked = $nav.is('.docked');
@@ -51,6 +54,9 @@
 
                         // conditionally redock
                         $nav.toggleClass('docked', isDocked);
+
+                        // trigger scroll
+                        $scrollElemPos.trigger('scroll.dockNav');
                     });
             }
         }

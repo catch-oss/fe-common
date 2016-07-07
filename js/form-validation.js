@@ -27,10 +27,18 @@
 
 }(this, function ($, parsley, bodyToucher, undefined) {
 
-    return function(docNavHeight) {
+    return function(conf) {
 
-        // fall back to using a sticky nav clear of 0
-        docNavHeight = docNavHeight || 0;
+        // opts
+        var opts = typeof conf == 'object' ? conf : {};
+
+        // backwards compatible...
+        if (typeof conf == 'string' || typeof opts == 'number' || typeof opts == 'function')
+            opts.docNavHeight = conf;
+
+        // defaults
+        opts.docNavHeight = opts.docNavHeight === undefined ? 0 : opts.docNavHeight;
+        opts.animateScroll = opts.animateScroll === undefined ? true : opts.animateScroll;
 
         $(function() {
 
@@ -772,11 +780,21 @@
 
                                 var $el = $('input.error, select.error, textarea.error').first(),
                                     $scrollElem = $.scrollElem(true),
-                                    clearHeight = typeof docNavHeight == 'function' ? docNavHeight() : docNavHeight;
+                                    clearHeight = typeof opts.docNavHeight == 'function' ? opts.docNavHeight() : opts.docNavHeight;
 
-                                if ($el.length) {
-                                    $scrollElem.animate({ scrollTop: $el.offsetTop() - clearHeight }, 400);
+                                if ($el.length && !$scrollElem.is(':animated')) {
+
+                                    // scroll to the el
+                                    opts.animateScroll
+                                        ? $scrollElem.animate({ scrollTop: $el.offsetTop() - clearHeight }, 400)
+                                        : $scrollElem.scrollTop($el.offsetTop() - clearHeight);
+
+                                    // focus
                                     $el.focus();
+
+                                    // trigger the docknav resize
+                                    $(window).trigger('resize.dockNav');
+
                                 }
 
                             });
