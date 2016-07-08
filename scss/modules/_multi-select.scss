@@ -1,21 +1,17 @@
+// we don't choose these
+// scss-lint:disable SelectorFormat
+
 //colors
 $white: white;
-$color_mischka_approx: #ccd5e3;
-$color_porcelain_approx: #eff2f7;
-$color_vis_vis_approx: #fcefa1;
-$color_orange_white_approx: #fbf9ee;
-$color_alto_approx: #ddd;
-$color_celeste_approx: #ccc;
-$color_rock_blue_approx: #a6b4ce;
-$black_20: rgba(0, 0, 0, 0.2);
-$color_lochmara_approx: #0081c2;
-$color_deep_cerulean_approx: #0077b3;
+$color-vis-vis-approx: #fcefa1;
+$color-orange-white-approx: #fbf9ee;
+$color-alto-approx: #ddd;
 
 //fonts
-$font_0: Arial;
-$font_1: Helvetica;
-$font_2: sans-serif;
-$font_3: sans-serif !important;
+$font0: Arial;
+$font1: Helvetica;
+$font2: sans-serif;
+$font3: sans-serif !important;
 
 //@extend-elements
 //original selectors
@@ -29,7 +25,7 @@ $font_3: sans-serif !important;
 div {
 
 	&.TokenizeMeasure {
-		font-family: $font_0, $font_1, $font_2;
+		font-family: $font0, $font1, $font2;
 		font-size: 12px;
 	}
 
@@ -45,65 +41,32 @@ div {
 
 			li {
 				white-space: nowrap;
-
-				span {
-					// font-family: $font_0, $font_1, $font_2;
-					// font-size: 12px;
-				}
 			}
 
 			&.TokensContainer {
 				cursor: text;
-				// padding: 0 5px 5px 0;
-				// height: 100px;
 				overflow-y: auto;
-				// background-color: $white;
-				//Instead of the line below you could use @include user-select($select)
 				user-select: none;
-				// border: 1px solid $color_celeste_approx;
 
 				li {
-					&.TokenSearch {
-						// @extend %extend_1;
-
-						input {
-							// font-family: $font_0, $font_1, $font_2;
-							// font-size: 12px;
-							// margin: 0;
-							// padding: 1px 0;
-							// background-color: transparent;
-							// line-height: 18px;
-							// border: none;
-							// outline: none;
-						}
-					}
 
 					&.Token {
-						// border: 1px solid $color_mischka_approx;
-						// background-color: $color_porcelain_approx;
-						// padding: 0 5px;
-						// line-height: 18px;
-						// @extend %extend_1;
 
 						&.MovingShadow {
-							border: 1px solid $color_vis_vis_approx;
-							background-color: $color_orange_white_approx;
+							border: 1px solid $color-vis-vis-approx;
+							background-color: $color-orange-white-approx;
 						}
 
 						&.PendingDelete {
 							opacity: 0.5;
+							// ie
+							// scss-lint:disable SpaceAroundOperator
 							filter: alpha(opacity=50);
+							// scss-lint:enable SpaceAroundOperator
 						}
 
 						a.Close {
-							// font-family: $font_0, $font_1, $font_3;
-							// font-size: 16px !important;
-							// line-height: 18px;
-							// float: right;
-							// margin: 1px 0 0 5px;
-							// padding: 0;
 							cursor: pointer;
-							// color: $color_rock_blue_approx;
 
 							&:hover {
 								background: transparent;
@@ -113,7 +76,7 @@ div {
 					}
 
 					&.Placeholder {
-						color: $color_alto_approx;
+						color: $color-alto-approx;
 						position: absolute;
 						line-height: 20px;
 						padding: 5px 0 0 5px;
@@ -131,36 +94,17 @@ div {
 			}
 
 			&.Dropdown {
-				// border: 1px solid $color_celeste_approx;
-				//Instead of the line below you could use @include box-sizing($bs)
 				box-sizing: border-box;
 				display: none;
 				width: 100%;
-				// padding: 5px 0;
-				// margin: -1px 0 0;
 				position: absolute;
-				// background-color: $white;
 				overflow-y: auto;
-				//Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
-				// box-shadow: 0 5px 10px $black_20;
-				//Instead of the line below you could use @include background-clip($clip)
 				background-clip: padding-box;
-				//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-				// border-radius: 0 0 6px 6px;
 				z-index: 20;
 
 				li {
 					overflow: hidden;
 					cursor: pointer;
-
-					&.Hover {
-						// color: $white;
-						// text-decoration: none;
-						// background-color: $color_lochmara_approx;
-						// background-image: linear-gradient(to bottom, $color_lochmara_approx, $color_deep_cerulean_approx);
-						// background-repeat: repeat-x;
-						// filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
-					}
 				}
 			}
 		}

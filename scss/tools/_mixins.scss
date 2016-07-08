@@ -64,13 +64,8 @@
 		}
 	}
 	@else {
-		& {
-			margin-right: flex-gutter();
-		}
-
-		& {
-			clear: none;
-		}
+		margin-right: flex-gutter();
+		clear: none;
 	}
 }
 
@@ -78,7 +73,7 @@
 @mixin icon($name, $after: false) {
 	@extend .icon-#{$name};
 	@if ($after) {
-		&:after {
+		&::after {
 			font-family: "icomoon";
 			speak: none;
 			font-style: normal;
@@ -91,7 +86,7 @@
 		}
 	}
 	@else {
-		&:before {
+		&::before {
 			font-family: "icomoon";
 			speak: none;
 			font-style: normal;
@@ -107,7 +102,7 @@
 
 //Centered Vertically
 @mixin vertically-centered {
-	display:block;
+	display: block;
 	position: relative;
 	top: 50%;
 	-webkit-transform: translateY(-50%);
@@ -120,6 +115,9 @@
 	display: inline-block;
 	vertical-align: baseline;
 	zoom: 1;
+	// this is a hack
+	// scss-lint:disable PropertySpelling
 	*display: inline;
 	*vertical-align: auto;
+	// scss-lint:enable PropertySpelling
 }

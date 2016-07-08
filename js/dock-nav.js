@@ -51,6 +51,9 @@
 
                         // conditionally redock
                         $nav.toggleClass('docked', isDocked);
+
+                        // trigger scroll
+                        $scrollElemPos.trigger('scroll.dockNav');
                     });
             }
         }

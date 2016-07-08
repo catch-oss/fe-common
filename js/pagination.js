@@ -93,7 +93,9 @@
                 onAfterPage: function(pagr, e) {
                     if (typeof pictureFill == 'function') picturefill();
                     accordions();
-                    if (pagr.currentPage() == pagr.getMax()) $('.page-link[data-page="next"]').addClass('btn--disabled disabled');
+                    var nextButton = $('.page-link[data-page="next"]');
+                    nextButton.toggleClass('btn--disabled', nextButton.is(".disabled"))
+                        .trigger('noMorePages', [nextButton.is(".disabled")]);
                     $('.pagination-appended-total').html(pagr.appendedTotal());
                     $('.pagination-total').html(pagr.getTotal());
                 }
