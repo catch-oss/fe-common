@@ -1,14 +1,17 @@
+//colors
+$white: #fff;
+$black: #000;
+$modal-grey: #e3e3e3;
+
 .modal {
 	z-index: 200;
 	bottom: 0;
 	margin: 0 auto;
-	// height: 100%;
-	// width: 100%;
 	right: 0;
 	left: 0;
 	top: 0;
 	padding: 0 0 20px;
-	background-color: #fff;
+	background-color: $white;
 	position: fixed;
 	overflow: auto;
 
@@ -19,40 +22,25 @@
 		display: block;
 		margin-top: 20px;
 		padding-bottom: 20px;
-		border-bottom: 1px solid #E3E3E3;
+		border-bottom: 1px solid $modal-grey;
 
-		&:before {
+		&::before {
 			position: absolute;
 			left: 75px;
-			right: 0px;
+			right: 0;
 		}
 	}
 
 	.modal-body {
 		padding: 20px 4%;
-
-		// p {
-		// 	color: #666;
-		// }
 	}
 
 	h2 {
-		// font-size: 28px;
-		// line-height: 36px;
 
 		.dashboard & {
 			margin: 0;
 		}
 	}
-
-	// h1 {
-	// 	margin: 10px 0 0;
-	// }
-	//
-	// p {
-	// 	font-size: 18px;
-	// 	line-height: 24px;
-	// }
 }
 
 .modal-overlay,
@@ -66,8 +54,8 @@
 	bottom: 0;
 	z-index: 100;
 	position: fixed;
-	background-color: #000000;
-	opacity: .8;
+	background-color: $black;
+	opacity: 0.8;
 }
 
 // -----
@@ -82,28 +70,21 @@
 	display: block;
 }
 
-body.modal-visible, body.modal-active {
+body.modal-visible,
+body.modal-active {
 	overflow: hidden;
 }
 
 // Media Queries
 // -------------
 
-.modal {
-
-	// @include media($small) {
-	// 	h1 {
-	// 		font-size: 40px;
-	// 		line-height: 48px;
-	// 	}
-	// }
-
-	@include media($medium) {
+@include media($medium) {
+	.modal {
+		@include prefixed(transform, translateY(-50%));
 		background-color: transparent;
 		padding: 0;
 		bottom: auto;
 		top: 50%;
-		@include prefixed(transform, translateY(-50%));
 
 		.modal-close-wrapper-mobile {
 			height: 36px;
@@ -111,13 +92,13 @@ body.modal-visible, body.modal-active {
 		}
 
 		.modal-close {
-			color: #fff;
+			color: $white;
 			position: absolute;
 			right: 0;
 			text-decoration: none;
 			border: 0;
 
-			&:before {
+			&::before {
 				position: absolute;
 				right: 0;
 				left: auto;
@@ -132,7 +113,7 @@ body.modal-visible, body.modal-active {
 
 		.modal-body {
 			@include prefixed(border-radius, 3px);
-			background-color: #fff;
+			background-color: $white;
 		}
 	}
 }

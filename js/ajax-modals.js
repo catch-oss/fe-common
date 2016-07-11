@@ -47,6 +47,7 @@
                 onBeforeRequest = conf.onBeforeRequest || null,
                 onBeforeShow = conf.onBeforeShow || null,
                 onAfterRequest = conf.onAfterRequest || null,
+                useHistory = conf.useHistory === undefined ? true : conf.useHistory,
                 defaultContentSelector = conf.defaultContentSelector || 'body';
 
             // prep modal
@@ -71,13 +72,24 @@
                     return elementID;
                 };
 
-            // navigate to the right location
-            window.onpopstate = function(e) {
-                if (e.state && typeof e.state.url !== 'undefined') {
-                    window.location.href = e.state.url;
-                    if (typeof window.reload !== undefined) window.reload();
-                }
-            };
+            // add a popstate handler if history is on
+            if (useHistory) {
+
+                // navigate to the right location
+                // what would be awesome is if we stashed all the info
+                // to fire another ajax modal request and display that
+                // instead we are just triggering a page reload
+                window.onpopstate = function(e) {
+
+                    // if this is a state we pushed then set the location
+                    if (e.state && typeof e.state.url !== 'undefined')
+                        window.location.href = e.state.url;
+
+                    // make sure the page reloads
+                    if (typeof window.location.reload !== 'undefined' && $('body').attr('data-activeModal'))
+                        window.location.reload();
+                };
+            }
 
             // handle each elem that matches the selector
             $(selector).each(function(idx) {
@@ -149,9 +161,13 @@
                             $('#ajax-modal-modal-trigger').trigger('tap');
                             $('.modal-close, .body-overlay').on('tap click', function(e) {
 
-                                // update history
-                                if (typeof window.history.pushState !== undefined)
-                                    history.pushState({id: elId, url: originalURL}, '', originalURL);
+                                // push page into the history if history is on
+                                if (useHistory) {
+
+                                    // update history
+                                    if (typeof window.history.pushState !== undefined)
+                                        history.pushState({id: elId, url: originalURL, type: 'modal'}, '', originalURL);
+                                }
 
                                 // remove modal
                                 $modal.remove();
