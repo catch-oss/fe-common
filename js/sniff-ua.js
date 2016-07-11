@@ -46,33 +46,34 @@
 			}
 
             // Conditional HTML comments don't work for ie10+ so UA sniff it ...
-            var getInternetExplorerVersion = function() {
+            detectIE = function() {
+                var ua = window.navigator.userAgent,
+                    msie = ua.indexOf('MSIE ');
 
-                var rv = -1;
-
-                if (navigator.appName == 'Microsoft Internet Explorer'){
-                    var ua = navigator.userAgent;
-                    var re  = new RegExp('MSIE ([0-9]{1,}[\.0-9]{0,})');
-
-                    if (re.exec(ua) !== null) {
-                        rv = parseFloat( RegExp.$1 );
-                    }
+                if (msie > 0) {
+                    // IE 10 or older => return version number
+                    return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
                 }
 
-                else if (navigator.appName == 'Netscape'){
-                    var ua = navigator.userAgent;
-                    var re  = new RegExp('Trident/.*rv:([0-9]{1,}[\.0-9]{0,})');
-
-                    if (re.exec(ua) !== null) {
-                        rv = parseFloat( RegExp.$1 );
-                    }
+                var trident = ua.indexOf('Trident/');
+                if (trident > 0) {
+                    // IE 11 => return version number
+                    var rv = ua.indexOf('rv:');
+                    return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
                 }
 
-                return rv;
+                var edge = ua.indexOf('Edge/');
+                if (edge > 0) {
+                    // Edge (IE 12+) => return version number
+                    return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+                }
+
+                // other browser
+                return false;
             };
 
             // let everyone know it's ie10 or greater
-            if (getInternetExplorerVersion() >= 10){
+            if (detectIE() >= 10) {
                 $('html').addClass('ie gt-ie9');
             }
 		});
