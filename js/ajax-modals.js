@@ -86,7 +86,7 @@
                         window.location.href = e.state.url;
 
                     // make sure the page reloads
-                    if (typeof window.location.reload !== 'undefined')
+                    if (typeof window.location.reload !== 'undefined' && $('body').attr('data-activeModal'))
                         window.location.reload();
                 };
             }
