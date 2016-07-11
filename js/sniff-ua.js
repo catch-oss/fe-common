@@ -19,7 +19,7 @@
 		$(function() {
 
 			// vars
-			var is_android, is_chrome, res, ua, is_ios;
+			var is_android, is_chrome, res, ua, is_ios, detectIE;
 
 			// do the sniffing
 			ua = navigator.userAgent;
