@@ -111,8 +111,6 @@
                     if (typeof pictureFill == 'function') picturefill();
                     accordions();
 
-                    console.log('events');
-
                     // update classes and emit events
                     $els.each(function() {
                         var $this = $(this);
