@@ -178,9 +178,13 @@
                             if (typeof picturefill == 'function') picturefill();
                             if (typeof onAfterRequest == 'function') onAfterRequest($modal);
 
-                            // update history
-                            if (typeof window.history.pushState !== undefined)
-                                history.pushState({id: elId, url: url}, '', url);
+                            // push page into the history if history is on
+                            if (useHistory) {
+
+                                // update history
+                                if (typeof window.history.pushState !== undefined)
+                                    history.pushState({id: elId, url: url}, '', url);
+                            }
 
                         }, 'html');
                     }
