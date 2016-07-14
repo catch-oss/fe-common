@@ -90,12 +90,35 @@
                         pagr.$element.attr('data-sort-by', $('.pagination-sort a.selected').attr('data-sort'));
 
                 },
+                onInit: function(pagr, e) {
+
+                    // find next buttons
+                    var $els = $('.page-link[data-page="next"]');
+
+                    // update classes and emit events
+                    $els.each(function() {
+                        var $this = $(this);
+                        $this.toggleClass('btn--disabled', $this.is(".disabled"))
+                             .trigger('noMorePages', [$this.is(".disabled")]);
+                    });
+                },
                 onAfterPage: function(pagr, e) {
+
+                    // find next buttons
+                    var $els = $('.page-link[data-page="next"]');
+
+                    // re-bind
                     if (typeof pictureFill == 'function') picturefill();
                     accordions();
-                    var nextButton = $('.page-link[data-page="next"]');
-                    nextButton.toggleClass('btn--disabled', nextButton.is(".disabled"))
-                        .trigger('noMorePages', [nextButton.is(".disabled")]);
+
+                    // update classes and emit events
+                    $els.each(function() {
+                        var $this = $(this);
+                        $this.toggleClass('btn--disabled', $this.is(".disabled"))
+                             .trigger('noMorePages', [$this.is(".disabled")]);
+                    });
+
+                    // update pagination stuff
                     $('.pagination-appended-total').html(pagr.appendedTotal());
                     $('.pagination-total').html(pagr.getTotal());
                 }
