@@ -85,9 +85,12 @@
                     if (e.state && typeof e.state.url !== 'undefined')
                         window.location.href = e.state.url;
 
-                    // make sure the page reloads
-                    if (typeof window.location.reload !== 'undefined' && $('body').attr('data-activeModal'))
-                        window.location.reload();
+                    // make sure the page reloads if a modal is open- this may need an additional check
+                    if (
+                        typeof window.location.reload !== 'undefined' &&
+                        $('body').attr('data-activeModal') &&
+                        $('#ajax-modal-modal').length
+                    ) window.location.reload();
                 };
             }
 
