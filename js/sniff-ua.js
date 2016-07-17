@@ -19,7 +19,7 @@
 		$(function() {
 
 			// vars
-			var is_android, is_chrome, res, ua, is_ios;
+			var is_android, is_chrome, res, ua, is_ios, detectIE;
 
 			// do the sniffing
 			ua = navigator.userAgent;
@@ -44,6 +44,38 @@
 					}
 				}
 			}
+
+            // Conditional HTML comments don't work for ie10+ so UA sniff it ...
+            detectIE = function() {
+                var ua = window.navigator.userAgent,
+                    msie = ua.indexOf('MSIE ');
+
+                if (msie > 0) {
+                    // IE 10 or older => return version number
+                    return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+                }
+
+                var trident = ua.indexOf('Trident/');
+                if (trident > 0) {
+                    // IE 11 => return version number
+                    var rv = ua.indexOf('rv:');
+                    return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+                }
+
+                var edge = ua.indexOf('Edge/');
+                if (edge > 0) {
+                    // Edge (IE 12+) => return version number
+                    return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+                }
+
+                // other browser
+                return false;
+            };
+
+            // let everyone know it's ie10 or greater
+            if (detectIE() >= 10) {
+                $('html').addClass('ie gt-ie9');
+            }
 		});
 	};
 }));
