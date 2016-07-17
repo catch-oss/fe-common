@@ -1,22 +1,36 @@
 ;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
-    if (typeof define === 'function' && define.amd) define(['jquery'], factory);
+    if (typeof define === 'function' && define.amd) define(['jquery', './popstate'], factory);
 
     // Node, CommonJS-like
-    else if (typeof exports === 'object') module.exports = factory(require('jquery'));
+    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./popstate'));
 
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.tabs = factory(root.jQuery);
+        root.catch.tabs = factory(root.jQuery, root.catch.popstate);
     }
 
-}(this, function ($, undefined) {
+}(this, function ($, popstate, undefined) {
 
-    return function() {
+    'use strict';
 
+    return function(conf) {
+
+        // set some defaults and resolve a config set
+        var opts = $.extend(
+            {},
+            {
+                useHistory: true
+            },
+            conf
+        );
+
+        // do stuff on dom ready
         $(function() {
+
+            if (opts.useHistory) popstate.bindPopState();
 
             // utility functions
             var pushHistory = function($el) {
@@ -24,8 +38,20 @@
                     var url = $el.attr('data-url') || null,
                         elId = uid($el)
 
-                    if (typeof window.history.pushState !== undefined && url)
-                        history.pushState({id: elId, url: url}, '', url);
+                    if (url)
+                        popstate.pushState(
+                            {
+                                id: elId,
+                                url: url,
+                                type: $el.is('#ajax-modal-modal *') ? 'ajax-modal-tab' : 'tab',
+                                doReload: false,
+                                callback: function() {
+                                    $el.trigger('click', false);
+                                }
+                            },
+                            '',
+                            url
+                        );
                 },
                 uid = function($elem, idBase) {
 
@@ -46,9 +72,10 @@
 
         	$("li[role='tab']")
                 .off('click.tabs')
-                .on('click.tabs', function() {
+                .on('click.tabs', function(e, pushState) {
 
                     var $this = $(this),
+                        pushState = pushState === undefined ? true : pushState,
                         $tabsParent = $this.closest('.tabs'),
                         tabpanid = $this.attr("aria-controls"),
                         $tabpan = $('[id=' + tabpanid + ']');
@@ -62,7 +89,7 @@
                     $tabpan.removeClass("hidden");
                     $tabpan.attr("aria-hidden", "false");
 
-                    pushHistory($this);
+                    if (opts.useHistory && pushState) pushHistory($this);
 
                     $(window).trigger('resize');
                 });
@@ -96,7 +123,7 @@
                             $tabpan.attr("aria-hidden", "false");
                             $tabpan.removeClass("hidden");
 
-                            pushHistory($("li[aria-selected='true']"));
+                            if (opts.useHistory) pushHistory($("li[aria-selected='true']"));
 
                         }
                     }

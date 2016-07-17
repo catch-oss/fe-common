@@ -1,18 +1,18 @@
 ;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
-    if (typeof define === 'function' && define.amd) define(['jquery', './modals'], factory);
+    if (typeof define === 'function' && define.amd) define(['jquery', './modals', './popstate'], factory);
 
     // Node, CommonJS-like
-    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./modals'));
+    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./modals'), require('./popstate'));
 
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.ajaxModals = factory(root.jQuery, root.catch.modals);
+        root.catch.ajaxModals = factory(root.jQuery, root.catch.modals, root.catch.popstate);
     }
 
-}(this, function ($, modals, undefined) {
+}(this, function ($, modals, popstate, undefined) {
 
     'use strict';
 
@@ -73,23 +73,7 @@
                 };
 
             // add a popstate handler if history is on
-            if (useHistory) {
-
-                // navigate to the right location
-                // what would be awesome is if we stashed all the info
-                // to fire another ajax modal request and display that
-                // instead we are just triggering a page reload
-                window.onpopstate = function(e) {
-
-                    // if this is a state we pushed then set the location
-                    if (e.state && typeof e.state.url !== 'undefined')
-                        window.location.href = e.state.url;
-
-                    // make sure the page reloads
-                    if (typeof window.location.reload !== 'undefined' && $('body').attr('data-activeModal'))
-                        window.location.reload();
-                };
-            }
+            if (useHistory) popstate.bindPopState();
 
             // handle each elem that matches the selector
             $(selector).each(function(idx) {
@@ -162,12 +146,12 @@
                             $('.modal-close, .body-overlay').on('tap click', function(e) {
 
                                 // push page into the history if history is on
-                                if (useHistory) {
-
-                                    // update history
-                                    if (typeof window.history.pushState !== undefined)
-                                        history.pushState({id: elId, url: originalURL, type: 'modal'}, '', originalURL);
-                                }
+                                if (useHistory)
+                                    popstate.pushState(
+                                        {id: elId, url: originalURL, type: 'page'},
+                                        '',
+                                        originalURL
+                                    );
 
                                 // remove modal
                                 $modal.remove();
@@ -179,16 +163,32 @@
                             if (typeof onAfterRequest == 'function') onAfterRequest($modal);
 
                             // push page into the history if history is on
-                            if (useHistory) {
-
-                                // update history
-                                if (typeof window.history.pushState !== undefined)
-                                    history.pushState({id: elId, url: url}, '', url);
-                            }
+                            if (useHistory)
+                                popstate.pushState(
+                                    {
+                                        id: elId,
+                                        url: url,
+                                        type: 'ajax-modal',
+                                        doReload: false,
+                                        callback: function() {
+                                            console.log('things');
+                                            var $a = $(
+                                                '<a href="' + url + '" ' +
+                                                   'class="ajax-modal" ' +
+                                                   'data-content-selector="' + contentSelector + '" />'
+                                            );
+                                            $('body').append($a);
+                                            ajaxModals(conf);
+                                            $a.trigger('click');
+                                            $a.remove();
+                                        }
+                                    },
+                                    '',
+                                    url
+                                );
 
                         }, 'html');
                     }
-
                 });
             })
         });
