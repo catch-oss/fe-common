@@ -61,8 +61,6 @@
                         // get the state
                         var state = moduleConfs[e.state.key] || null;
 
-                        console.log(state);
-
                         // did we find something?
                         if (state) {
 
