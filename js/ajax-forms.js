@@ -1,10 +1,12 @@
 ;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
-    if (typeof define === 'function' && define.amd) define(['jquery', './modals'], factory);
+    if (typeof define === 'function' && define.amd)
+        define(['jquery', './modals', './../../pagr/pagr'], factory);
 
     // Node, CommonJS-like
-    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./modals'));
+    else if (typeof exports === 'object')
+        module.exports = factory(require('jquery'), require('./modals'), require('./../../pagr/pagr'));
 
     // Browser globals (root is window)
     else {
@@ -12,7 +14,7 @@
         root.catch.ajaxForms = factory(root.jQuery, root.catch.modals);
     }
 
-}(this, function ($, modals, undefined) {
+}(this, function ($, modals, pagr, undefined) {
 
     'use strict';
 
@@ -79,8 +81,26 @@
                 },
                 ajaxProxy = function(action, $form, onAfterRequest) {
 
+                    // default
+                    action = action || window.location.href;
+
+                    // vars
                     var enctype = $form.attr('enctype') ? $form.attr('enctype') : 'application/x-www-form-urlencoded',
-                        method = $form.attr('method') ? $form.attr('method') : 'get';
+                        method = $form.attr('method') ? $form.attr('method') : 'get',
+                        data = $form.serialize();
+
+                    // if we are doing a get then jQuery is a bit of retard in terms of building the URL
+                    if (method == 'get' && action.split('?').length > 1) {
+
+                        // handle the params
+                        var curOpts = $.q2obj(action.split('?')[1]),
+                            newOpts = $.q2obj(data),
+                            allOpts = $.extend({}, curOpts, newOpts);
+
+                        // update the vars
+                        data = $.param(allOpts);
+                        action = action.split('?')[0];
+                    }
 
                     if (enctype == 'multipart/form-data') {
 
@@ -93,7 +113,7 @@
                         };
 
                     }
-                    else $[method](action, $form.serialize(), onAfterRequest);
+                    else $[method](action, data, onAfterRequest);
                 };
 
             $(selector).each(function(idx){
@@ -169,7 +189,7 @@
 
                                 if (typeof picturefill == 'function') picturefill();
 
-                                $this.attr('data-submission-count', submissionCount + 1);
+                                $this.attr('data-submission-count', parseInt(submissionCount || 0) + 1);
                                 if (maxSubmissions != undefined && submissionCount + 1 >= maxSubmissions) $this.addClass(disabledClass);
                                 $('html').removeClass('loading');
 
@@ -290,6 +310,7 @@
 
                                     if (typeof picturefill == 'function') picturefill();
 
+                                    $this.attr('data-submission-count', parseInt(submissionCount || 0) + 1);
                                     if (maxSubmissions != undefined && submissionCount + 1 >= maxSubmissions) $this.addClass(disabledClass);
                                     $('html').removeClass('loading');
 

@@ -1,18 +1,19 @@
 ;(function (root, factory) {
 
      // AMD. Register as an anonymous module depending on jQuery.
-     if (typeof define === 'function' && define.amd) define(['jquery', './../../pagr/pagr', './accordions'], factory);
+     if (typeof define === 'function' && define.amd)
+        define(['jquery', './accordions', './../../pagr/pagr'], factory);
 
      // Node, CommonJS-like
-     else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./../../pagr/pagr'), require('./accordions'));
+     else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./accordions'), require('./../../pagr/pagr'));
 
      // Browser globals (root is window)
      else {
          root.catch = (root.catch || {});
-         root.catch.pagination = factory(root.jQuery);
+         root.catch.pagination = factory(root.jQuery, root.catch.accordions);
      }
 
-}(this, function ($, pagr, accordions, undefined) {
+}(this, function ($, accordions, pagr, undefined) {
 
     'use strict';
 
