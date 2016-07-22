@@ -52,6 +52,8 @@
                 // instead we are just triggering a page reload
                 window.onpopstate = function(e) {
 
+                    console.log(e);
+
                     // default
                     var doReload = true;
 
@@ -70,6 +72,11 @@
                             // is there a callback
                             if (typeof state.callback == 'function') state.callback();
                         }
+                    }
+
+                    // attempt to bypass states pushed by backbone
+                    if (e.state !== undefined && e.state.key === undefined) {
+                        doReload = false;
                     }
 
                     // make sure the page reloads if we want it to and it hasn't already
