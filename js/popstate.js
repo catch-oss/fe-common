@@ -75,7 +75,7 @@
                     }
 
                     // attempt to bypass states pushed by backbone
-                    if (e.state !== undefined && e.state.key === undefined) {
+                    if (e.state !== undefined && e.state == null) {
                         doReload = false;
                     }
 
