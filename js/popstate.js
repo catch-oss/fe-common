@@ -52,8 +52,6 @@
                 // instead we are just triggering a page reload
                 window.onpopstate = function(e) {
 
-                    console.log(e);
-
                     // default
                     var doReload = true;
 
@@ -75,6 +73,7 @@
                     }
 
                     // attempt to bypass states pushed by backbone
+                    // this sucks a little bit becuase really we should do a reload when we can't find a state
                     if (e.state !== undefined && e.state == null) {
                         doReload = false;
                     }
