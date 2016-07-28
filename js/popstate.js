@@ -54,41 +54,39 @@
                     // a popstate on load
 
                     $(window)
-                    .off('popstate.fepopstate')
-                    .on('popstate.fepopstate', function(e) {
+                        .off('popstate.fepopstate')
+                        .on('popstate.fepopstate', function(e) {
 
-                      console.log(e);
+                            // default
+                            var doReload = true;
 
-                        // default
-                        var doReload = true;
+                            // if this is a state we pushed then do some stuff
+                            if (e.originalEvent.state && e.originalEvent.state.key !== undefined) {
 
-                        // if this is a state we pushed then do some stuff
-                        if (e.state && e.state.key !== undefined) {
+                                // get the state
+                                var state = moduleConfs[e.originalEvent.state.key] || null;
 
-                            // get the state
-                            var state = moduleConfs[e.state.key] || null;
+                                // did we find something?
+                                if (state) {
 
-                            // did we find something?
-                            if (state) {
+                                    // are we reloading
+                                    if (state.doReload !== undefined) doReload = state.doReload;
 
-                                // are we reloading
-                                if (state.doReload !== undefined) doReload = state.doReload;
-
-                                // is there a callback
-                                if (typeof state.callback == 'function') state.callback();
+                                    // is there a callback
+                                    if (typeof state.callback == 'function') state.callback();
+                                }
                             }
-                        }
 
-                        // attempt to bypass states pushed by backbone
-                        if (window.Backbone !== undefined && window.Backbone.history.handlers.length > 0) {
-                            doReload = false;
-                        }
+                            // attempt to bypass states pushed by backbone
+                            if (window.Backbone !== undefined && window.Backbone.history.handlers.length > 0) {
+                                doReload = false;
+                            }
 
-                        // make sure the page reloads if we want it to and it hasn't already
-                        if (window.location.reload !== undefined && doReload) {
-                            window.location.reload();
-                        }
-                    });
+                            // make sure the page reloads if we want it to and it hasn't already
+                            if (window.location.reload !== undefined && doReload) {
+                                window.location.reload();
+                            }
+                        });
                 }, 50);
             });
         }
