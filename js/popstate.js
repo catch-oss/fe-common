@@ -46,42 +46,50 @@
 
             $(function() {
 
-                // navigate to the right location
-                // what would be awesome is if we stashed all the info
-                // to fire another ajax modal request and display that
-                // instead we are just triggering a page reload
-                window.onpopstate = function(e) {
+                // hack to dodge popstate onload in older buggy history api implementations
+                setTimeout(function() {
 
-                    // default
-                    var doReload = true;
+                    // the page reload is a blunt instrument and needs to be reviewed
+                    // it's not properly handling hash changes and old popstate implemntations fire
+                    // a popstate on load
 
-                    // if this is a state we pushed then do some stuff
-                    if (e.state && e.state.key !== undefined) {
+                    $(window)
+                    .off('popstate.fepopstate')
+                    .on('popstate.fepopstate', function(e) {
 
-                        // get the state
-                        var state = moduleConfs[e.state.key] || null;
+                      console.log(e);
 
-                        // did we find something?
-                        if (state) {
+                        // default
+                        var doReload = true;
 
-                            // are we reloading
-                            if (state.doReload !== undefined) doReload = state.doReload;
+                        // if this is a state we pushed then do some stuff
+                        if (e.state && e.state.key !== undefined) {
 
-                            // is there a callback
-                            if (typeof state.callback == 'function') state.callback();
+                            // get the state
+                            var state = moduleConfs[e.state.key] || null;
+
+                            // did we find something?
+                            if (state) {
+
+                                // are we reloading
+                                if (state.doReload !== undefined) doReload = state.doReload;
+
+                                // is there a callback
+                                if (typeof state.callback == 'function') state.callback();
+                            }
                         }
-                    }
 
-                    // attempt to bypass states pushed by backbone
-                    if (window.Backbone !== undefined && window.Backbone.history.handlers.length > 0) {
-                        doReload = false;
-                    }
+                        // attempt to bypass states pushed by backbone
+                        if (window.Backbone !== undefined && window.Backbone.history.handlers.length > 0) {
+                            doReload = false;
+                        }
 
-                    // make sure the page reloads if we want it to and it hasn't already
-                    if (window.location.reload !== undefined && doReload) {
-                        window.location.reload();
-                    }
-                };
+                        // make sure the page reloads if we want it to and it hasn't already
+                        if (window.location.reload !== undefined && doReload) {
+                            window.location.reload();
+                        }
+                    });
+                }, 50);
             });
         }
     };
