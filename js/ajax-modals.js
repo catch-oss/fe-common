@@ -88,7 +88,8 @@
                     var $el = $(this),
                         elId = uid($el),
                         url = $el.attr('href'),
-                        contentSelector = $el.attr('data-content-selector') || defaultContentSelector;
+                        contentSelector = $el.attr('data-content-selector') || defaultContentSelector,
+                        elBypassPushState = $el.attr('data-no-pop-state') === undefined ? 0 : parseInt($el.attr('data-no-pop-state') || 0);
 
                     // don't go anywhere
                     e.preventDefault();
@@ -146,7 +147,7 @@
                             $('.modal-close, .body-overlay').on('tap click', function(e) {
 
                                 // push page into the history if history is on
-                                if (useHistory)
+                                if (useHistory && !elBypassPushState)
                                     popstate.pushState(
                                         {id: elId, url: originalURL, type: 'page'},
                                         '',
@@ -163,7 +164,7 @@
                             if (typeof onAfterRequest == 'function') onAfterRequest($modal);
 
                             // push page into the history if history is on
-                            if (useHistory)
+                            if (useHistory && !elBypassPushState)
                                 popstate.pushState(
                                     {
                                         id: elId,
@@ -171,10 +172,10 @@
                                         type: 'ajax-modal',
                                         doReload: false,
                                         callback: function() {
-                                            console.log('things');
                                             var $a = $(
                                                 '<a href="' + url + '" ' +
                                                    'class="ajax-modal" ' +
+                                                   'data-no-pop-state="1" ' +
                                                    'data-content-selector="' + contentSelector + '" />'
                                             );
                                             $('body').append($a);
