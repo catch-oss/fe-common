@@ -44,51 +44,53 @@
          */
         bindPopState: function() {
 
-            $(function() {
+            $(window)
+              .off('load.fepopstate')
+              .on('load.fepopstate', function() {
 
-                // hack to dodge popstate onload in older buggy history api implementations
-                setTimeout(function() {
+                  // hack to dodge popstate onload in older buggy history api implementations
+                  setTimeout(function() {
 
-                    // the page reload is a blunt instrument and needs to be reviewed
-                    // it's not properly handling hash changes and old popstate implemntations fire
-                    // a popstate on load
+                      // the page reload is a blunt instrument and needs to be reviewed
+                      // it's not properly handling hash changes and old popstate implemntations fire
+                      // a popstate on load
 
-                    $(window)
-                        .off('popstate.fepopstate')
-                        .on('popstate.fepopstate', function(e) {
+                      $(window)
+                          .off('popstate.fepopstate')
+                          .on('popstate.fepopstate', function(e) {
 
-                            // default
-                            var doReload = true;
+                              // default
+                              var doReload = true;
 
-                            // if this is a state we pushed then do some stuff
-                            if (e.originalEvent.state && e.originalEvent.state.key !== undefined) {
+                              // if this is a state we pushed then do some stuff
+                              if (e.originalEvent.state && e.originalEvent.state.key !== undefined) {
 
-                                // get the state
-                                var state = moduleConfs[e.originalEvent.state.key] || null;
+                                  // get the state
+                                  var state = moduleConfs[e.originalEvent.state.key] || null;
 
-                                // did we find something?
-                                if (state) {
+                                  // did we find something?
+                                  if (state) {
 
-                                    // are we reloading
-                                    if (state.doReload !== undefined) doReload = state.doReload;
+                                      // are we reloading
+                                      if (state.doReload !== undefined) doReload = state.doReload;
 
-                                    // is there a callback
-                                    if (typeof state.callback == 'function') state.callback();
-                                }
-                            }
+                                      // is there a callback
+                                      if (typeof state.callback == 'function') state.callback();
+                                  }
+                              }
 
-                            // attempt to bypass states pushed by backbone
-                            if (window.Backbone !== undefined && window.Backbone.history.handlers.length > 0) {
-                                doReload = false;
-                            }
+                              // attempt to bypass states pushed by backbone
+                              if (window.Backbone !== undefined && window.Backbone.history.handlers.length > 0) {
+                                  doReload = false;
+                              }
 
-                            // make sure the page reloads if we want it to and it hasn't already
-                            if (window.location.reload !== undefined && doReload) {
-                                window.location.reload();
-                            }
-                        });
-                }, 50);
-            });
+                              // make sure the page reloads if we want it to and it hasn't already
+                              if (window.location.reload !== undefined && doReload) {
+                                  window.location.reload();
+                              }
+                          });
+                  }, 50);
+              });
         }
     };
 }))
