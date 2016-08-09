@@ -48,7 +48,8 @@
                 onBeforeShow = conf.onBeforeShow || null,
                 onAfterRequest = conf.onAfterRequest || null,
                 useHistory = conf.useHistory === undefined ? true : conf.useHistory,
-                defaultContentSelector = conf.defaultContentSelector || 'body';
+                defaultContentSelector = conf.defaultContentSelector || 'body',
+                dataParser = conf.dataParser || function(data) { return data };
 
             // prep modal
             var trigger = '<a class="modal-trigger" id="ajax-modal-modal-trigger" data-modal="#ajax-modal-modal"></a>',
@@ -129,7 +130,7 @@
                                 pre = m ? m[1] : data;
 
                             // re assign cleaned html
-                            data = '<div>' + pre + '</div>';
+                            data = dataParser('<div>' + pre + '</div>');
 
                             // extract the content
                             var $content = $(data).find(contentSelector);
