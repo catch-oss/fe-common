@@ -50,8 +50,12 @@
 
             // create the validator plugin interface
             $.fn.validator = function(options, args) {
-                if (options == 'validate') return $(this).parsley().validate(args);
-                if (options == 'destroy') return $(this).parsley().destroy();
+                var $this = this.length === undefined ? $(this) : this;
+                if ($this.length) {
+                    if (options == 'validate') return $this.parsley().validate(args);
+                    if (options == 'destroy') return $this.parsley().destroy();
+                }
+                return $this.parsley();
             };
 
             var megaSelector,
