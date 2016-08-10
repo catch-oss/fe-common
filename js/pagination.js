@@ -109,7 +109,7 @@
                     var $els = $('.page-link[data-page="next"]');
 
                     // re-bind
-                    if (typeof pictureFill == 'function') picturefill();
+                    if (typeof picturefill == 'function') picturefill();
                     accordions();
 
                     // update classes and emit events
