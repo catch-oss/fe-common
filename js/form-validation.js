@@ -14,18 +14,33 @@
  ;(function (root, factory) {
 
      // AMD. Register as an anonymous module depending on jQuery.
-     if (typeof define === 'function' && define.amd) define(['jquery', './../../parsleyjs/dist/parsley', './../../body-toucher/body-toucher'], factory);
+     if (typeof define === 'function' && define.amd)
+        define(
+            [
+                'jquery',
+                'moment',
+                './../../parsleyjs/dist/parsley',
+                './../../body-toucher/body-toucher'
+            ],
+            factory
+        );
 
      // Node, CommonJS-like
-     else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./../../parsleyjs/dist/parsley'), require('./../../body-toucher/body-toucher'));
+     else if (typeof exports === 'object')
+        module.exports = factory(
+            require('jquery'),
+            require('./../../moment/moment'),
+            require('./../../parsleyjs/dist/parsley'),
+            require('./../../body-toucher/body-toucher')
+        );
 
      // Browser globals (root is window)
      else {
          root.catch = (root.catch || {});
-         root.catch.formValidation = factory(root.jQuery);
+         root.catch.formValidation = factory(root.jQuery, root.moment);
      }
 
-}(this, function ($, parsley, bodyToucher, undefined) {
+}(this, function ($, moment, parsley, bodyToucher, undefined) {
 
     return function(conf) {
 
@@ -147,7 +162,13 @@
                     // Validates that the value is identical to a supplied value (useful for validating acceptance).
                     'creditcard'            : {attrName: ns + '-creditcard',             attrVal: undefined,     extraAttrs: []},
 
-                    // Validates that the value is identical to a supplied value (useful for validating acceptance).
+                    // Validates that the value is a future date
+                    'futuredate'            : {attrName: ns + '-futuredate',             attrVal: undefined,     extraAttrs: []},
+
+                    // Validates that the value is a past date
+                    'pastdate'              : {attrName: ns + '-pastdate',               attrVal: undefined,     extraAttrs: []},
+
+                    // Validates that a multiple input date is in the future
                     'futuredatecomponent'   : {attrName: ns + '-futuredatecomponent',    attrVal: undefined,     extraAttrs: []},
 
                     // Validates that the value is identical to a supplied value (useful for validating acceptance).
@@ -430,6 +451,45 @@
 
                 }, 32)
                 .addMessage('en', 'futuredatecomponent', 'This date is in the past.');
+
+            // pastdate
+            // e.g.
+            // data-validate-pastdate="YYYY-MM-DD"
+            window.ParsleyValidator
+                .addValidator('pastdate', function (value, requirement) {
+
+                    // make date
+                    var date = moment(
+                        value,
+                        requirement || 'YYYY-MM-DD'
+                    );
+
+                    // compare to now
+                    return date.isBefore(moment());
+
+                }, 32)
+                .addMessage('en', 'pastdate', 'This date is in the future.');
+
+            // futuredate
+            // e.g.
+            // data-validate-futuredate="YYYY-MM-DD"
+            window.ParsleyValidator
+                .addValidator('futuredate', function (value, requirement) {
+
+                    console.log(arguments);
+                    console.log(moment);
+
+                    // make date
+                    var date = moment(
+                        value,
+                        requirement || 'YYYY-MM-DD'
+                    );
+
+                    // compare to now
+                    return date.isAfter(moment());
+
+                }, 32)
+                .addMessage('en', 'futuredate', 'This date is in the past.');
 
             // Required If
             // attr val should follow this syntax {selector},{comparison operator},{value to compare}
