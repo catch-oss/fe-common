@@ -91,7 +91,7 @@
 
                 },
                 onAfterPage: function(pagr, e) {
-                    if (typeof pictureFill == 'function') picturefill();
+                    if (typeof pictureFill == 'function') pictureFill();
                     accordions();
                     var nextButton = $('.page-link[data-page="next"]');
                     nextButton.toggleClass('btn--disabled', nextButton.is(".disabled"))
