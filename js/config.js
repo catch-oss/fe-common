@@ -32,8 +32,10 @@
             var nodes = key.split('.'),
                 cur = this.conf[this.env];
 
-            for (var i = 0; i < nodes.length; i++) {
-                cur = cur[nodes[i]];
+            if (typeof cur !== 'undefined') {
+                for (var i = 0; i < nodes.length; i++) {
+                    cur = cur[nodes[i]];
+                }
             }
 
             return cur;
