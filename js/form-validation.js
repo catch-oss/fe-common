@@ -162,6 +162,9 @@
                     // Validates that the value is identical to a supplied value (useful for validating acceptance).
                     'creditcard'            : {attrName: ns + '-creditcard',             attrVal: undefined,     extraAttrs: []},
 
+                    // Validates that the value is a date
+                    'validdate'             : {attrName: ns + '-validdate',              attrVal: undefined,     extraAttrs: []},
+
                     // Validates that the value is a future date
                     'futuredate'            : {attrName: ns + '-futuredate',             attrVal: undefined,     extraAttrs: []},
 
@@ -470,14 +473,30 @@
                 }, 32)
                 .addMessage('en', 'pastdate', 'This date is in the future.');
 
+            // pastdate
+            // e.g.
+            // data-validate-pastdate="YYYY-MM-DD"
+            window.ParsleyValidator
+                .addValidator('validdate', function (value, requirement) {
+
+                    // make date
+                    var date = moment(
+                        value,
+                        requirement || 'YYYY-MM-DD',
+                        true
+                    );
+
+                    // compare to now
+                    return date.isValid();
+
+                }, 32)
+                .addMessage('en', 'validdate', 'This is not a valid date.');
+
             // futuredate
             // e.g.
             // data-validate-futuredate="YYYY-MM-DD"
             window.ParsleyValidator
                 .addValidator('futuredate', function (value, requirement) {
-
-                    console.log(arguments);
-                    console.log(moment);
 
                     // make date
                     var date = moment(

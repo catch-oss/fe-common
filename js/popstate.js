@@ -12,7 +12,7 @@
         root.catch.popstate = factory(root.jQuery);
     }
 
-}(this, function ($, ajaxModals, undefined) {
+}(this, function ($, undefined) {
 
     'use strict';
 
