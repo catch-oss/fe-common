@@ -28,7 +28,7 @@
                                         '<div class="modal-dialog modal--compact">' +
                                             '<div class="modal-close-wrapper-mobile">' +
                                                 '<div class="modal-close-wrapper-mobile-inner">' +
-                                                    '<a href="" class="modal-close icon-close">Close</a>' +
+                                                    '<a href="" class="modal-close h-icon-close">Close</a>' +
                                                 '</div>' +
                                             '</div>' +
                                             '<div class="modal-body">' +
