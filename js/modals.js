@@ -18,11 +18,10 @@
 
         $(function() {
 
-
-            $('.modal-link, .modal-trigger')
-                .off('click.modal')
-                .off('tap.modal')
-                .on('click.modal tap.modal',function(e) {
+            $('.m-modal-link, .m-modal-trigger')
+                .off('click.m-modal')
+                .off('tap.m-modal')
+                .on('click.m-modal tap.m-modal',function(e) {
 
                     e.preventDefault();
 
@@ -31,8 +30,8 @@
                         $target = $(target);
 
                     // ensure there's a modal overlay
-                    if (!$('.modal-overlay').length && !$('.body-overlay').length)
-                        $('body').append('<div class="modal-overlay"></div>');
+                    if (!$('.m-modal-overlay').length && !$('.body-overlay').length)
+                        $('body').append('<div class="m-modal-overlay"></div>');
 
                     // does the modal exist
                     if ($target.length) {
@@ -62,15 +61,15 @@
                             $activeModal.addClass('hidden');
                         }
 
-                        $('body').addClass('modal-visible').attr('data-activeModal', target);
-                        $target.removeClass('hidden').css('max-height', '100%').trigger('modal:open');;
+                        $('body').addClass('m-modal-visible').attr('data-activeModal', target);
+                        $target.removeClass('hidden').css('max-height', '100%').trigger('m-modal:open');;
                     }
                 });
 
-            $('.modal-overlay, .body-overlay, .modal-close, .modal-close-one')
-                .off('click.modal')
-                .off('tap.modal')
-                .on('click.modal tap.modal', function(e){
+            $('.m-modal-overlay, .body-overlay, .m-modal-close, .m-modal-close-one')
+                .off('click.m-modal')
+                .off('tap.m-modal')
+                .on('click.m-modal tap.m-modal', function(e){
 
                     e.preventDefault();
 
@@ -81,7 +80,7 @@
                         modalHistory = rawModalHistory ? JSON.parse(rawModalHistory) : [];
 
                     // hide the modal and trigger the close event
-                    $target.addClass('hidden').trigger('modal:close');
+                    $target.addClass('hidden').trigger('m-modal:close');
 
                     // check the history to see if we need to restore a previous modal
                     if (modalHistory.length) {
@@ -94,13 +93,13 @@
                         $('body').attr('data-modalHistory', JSON.stringify(modalHistory));
 
                         // show the previous modal
-                        $('body').addClass('modal-visible').attr('data-activeModal', prevModal);
+                        $('body').addClass('m-modal-visible').attr('data-activeModal', prevModal);
                         $prevModal.removeClass('hidden').css('max-height', '100%').trigger('modal:open');
                     }
 
                     // nothing to restore close everything
                     else {
-                        $('body').removeClass('modal-visible').attr('data-activeModal', '');
+                        $('body').removeClass('m-modal-visible').attr('data-activeModal', '');
                     }
 
                 });

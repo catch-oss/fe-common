@@ -3,7 +3,7 @@ $white: #fff;
 $black: #000;
 $modal-grey: #e3e3e3;
 
-.modal {
+.m-modal {
 	z-index: 200;
 	bottom: 0;
 	margin: 0 auto;
@@ -16,7 +16,7 @@ $modal-grey: #e3e3e3;
 	overflow: auto;
 
 	// close button
-	.modal-close {
+	.m-modal-close {
 		position: relative;
 		text-align: center;
 		display: block;
@@ -31,19 +31,18 @@ $modal-grey: #e3e3e3;
 		}
 	}
 
-	.modal-body {
+	.m-modal-body {
 		padding: 20px 4%;
 	}
 
 	h2 {
-
 		.dashboard & {
 			margin: 0;
 		}
 	}
 }
 
-.modal-overlay,
+.m-modal-overlay,
 .body-overlay {
 	display: none;
 	height: 100%;
@@ -65,13 +64,13 @@ $modal-grey: #e3e3e3;
 // modal-visible
 // -------------
 
-.modal-visible .modal-overlay,
-.modal-visible .body-overlay {
+.m-modal-visible .m-modal-overlay,
+.m-modal-visible .body-overlay {
 	display: block;
 }
 
-body.modal-visible,
-body.modal-active {
+body.m-modal-visible,
+body.m-modal-active {
 	overflow: hidden;
 }
 
@@ -79,19 +78,19 @@ body.modal-active {
 // -------------
 
 @include media($medium) {
-	.modal {
+	.m-modal {
 		@include prefixed(transform, translateY(-50%));
 		background-color: transparent;
 		padding: 0;
 		bottom: auto;
 		top: 50%;
 
-		.modal-close-wrapper-mobile {
+		.m-modal-close-wrapper-mobile {
 			height: 36px;
 			margin-top: 50px;
 		}
 
-		.modal-close {
+		.m-modal-close {
 			color: $white;
 			position: absolute;
 			right: 0;
@@ -105,13 +104,13 @@ body.modal-active {
 			}
 		}
 
-		.modal-dialog {
+		.m-modal-dialog {
 			position: relative;
 			width: 600px;
 			margin: 0 auto;
 		}
 
-		.modal-body {
+		.m-modal-body {
 			@include prefixed(border-radius, 3px);
 			background-color: $white;
 		}

@@ -24,15 +24,15 @@
         $(function() {
 
             // classic + the strings together...
-            var defaultTemplate =   '<div class="modal hidden" id="video-modal">' +
-                                        '<div class="modal-dialog modal--compact">' +
-                                            '<div class="modal-close-wrapper-mobile">' +
-                                                '<div class="modal-close-wrapper-mobile-inner">' +
-                                                    '<a href="" class="modal-close h-icon-close">Close</a>' +
+            var defaultTemplate =   '<div class="m-modal hidden" id="video-modal">' +
+                                        '<div class="m-modal-dialog m-modal--compact">' +
+                                            '<div class="m-modal-close-wrapper-mobile">' +
+                                                '<div class="m-modal-close-wrapper-mobile-inner">' +
+                                                    '<a href="" class="m-modal-close h-icon-close">Close</a>' +
                                                 '</div>' +
                                             '</div>' +
-                                            '<div class="modal-body">' +
-                                                '<div class="modal-dialog-inner modal-dialog-inner-body">' +
+                                            '<div class="m-modal-body">' +
+                                                '<div class="m-modal-dialog-inner m-modal-dialog-inner-body">' +
                                                     '{{content}}' +
                                                 '</div>' +
                                             '</div>' +
@@ -47,7 +47,7 @@
                 onBeforeShow = conf.onBeforeShow || null;
 
             // prep modal
-            var trigger = '<a class="modal-trigger" id="video-modal-trigger" data-modal="#video-modal"></a>',
+            var trigger = '<a class="m-modal-trigger" id="video-modal-trigger" data-modal="#video-modal"></a>',
                 template =  $(modalTemplate).attr('id', 'video-modal')[0].outerHTML;
 
             // utility functions
@@ -182,7 +182,7 @@
                         $modal.find('#video-modal-iframe').attr('src', link);
 
                         // attach the close function
-                        $('.modal-close, .body-overlay').on('tap click', function(e) {
+                        $('.m-modal-close, .body-overlay').on('tap click', function(e) {
 
                             // remove modal
                             $modal.remove();
