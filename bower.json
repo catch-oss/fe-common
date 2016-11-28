@@ -24,7 +24,7 @@
 		"graphraptor": "git@gl.catch.co.nz:catch/graphraptor.git",
 		"confirmadon": "~0.1.0",
 		"slidatron": ">=0.5.3",
-		"jquery-mask-plugin": "https://raw.githubusercontent.com/igorescobar/jQuery-Mask-Plugin/master/dist/jquery.mask.js",
+		"jquery-mask-plugin": "~1.14.3",
 		"parsleyjs": "2.0.7",
 		"normalize-scss": "~3.0.2",
 		"requirejs": "~2.1.11",
