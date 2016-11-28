@@ -33,7 +33,7 @@
                                                 '</div>' +
                                             '</div>' +
                                             '<div class="m-modal__body">' +
-                                                '<div class="m-modal__dialog-inner m-modal__dialog-inner-body">' +
+                                                '<div class="m-modal__body__inner">' +
                                                     '{{content}}' +
                                                 '</div>' +
                                             '</div>' +

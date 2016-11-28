@@ -45,7 +45,7 @@
                 onAfterRequest = conf.onAfterRequest || null,
                 onAfterCloseResultModal = conf.onAfterCloseResultModal || null,
                 modalTemplate = conf.modalTemplate ||
-                    '<div class="m-modal is-hidden" id="ajax-form-modal">' +
+                    '<div class="m-modal m-modal--form is-hidden" id="ajax-form-modal">' +
                         '<div class="m-modal__dialog m-modal--compact">' +
                             '<div class="m-modal__close">' +
                                 '<div class="m-modal__close__inner">' +
@@ -53,7 +53,7 @@
                                 '</div>' +
                             '</div>' +
                             '<div class="m-modal__body">' +
-                                '<div class="m-modal__dialog-inner m-modal__dialog-inner-body">' +
+                                '<div class="m-modal__body__inner">' +
                                     '<h1>{{title}}</h1>' +
                                     '<div>{{content}}</div>' +
                                 '</div>' +

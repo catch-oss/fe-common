@@ -32,7 +32,7 @@
                                                 '</div>' +
                                             '</div>' +
                                             '<div class="m-modal__body">' +
-                                                '<div class="m-modal__dialog-inner m-modal__dialog-inner-body">' +
+                                                '<div class="m-modal__body__inner">' +
                                                     '{{content}}' +
                                                 '</div>' +
                                             '</div>' +
@@ -40,7 +40,7 @@
                                     '</div>';
 
             // conf defaults
-            var selector = conf.selector || '.video-modal',
+            var selector = conf.selector || '.js-video-modal',
                 namespace = conf.namespace || 'video-modal',
                 modalTemplate = conf.modalTemplate || defaultTemplate,
                 onAfterShow = conf.onAfterShow || null,
@@ -144,7 +144,7 @@
                     elId = uid($el);
 
                 // Video Modals
-                $el .off('click.videoModal')
+                $el.off('click.videoModal')
                     .on('click.videoModal', function(e) {
 
                         // don't go anywhere
