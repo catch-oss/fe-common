@@ -10,7 +10,7 @@
 		"html5-boilerplate": "~5.1.0",
 		"neat": "~1.7.2",
 		"bourbon": "~4.2.1",
-		"jquery": "~1.12.3",
+		"jquery": "~1.12.4",
 		"jquery-mobile": "~1.4.5",
 		"modernizr": "~3.3.1",
 		"respond": "~1.4.2",
