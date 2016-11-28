@@ -1,6 +1,6 @@
 {
 	"name": "catch-fe-common",
-	"version": "0.0.1",
+	"version": "1.0.1",
 	"authors": [
 		"Aaron Latham-Anderson <aaron@catch.co.nz>"
 	],
@@ -17,7 +17,7 @@
 		"selectivizr2": "~1.0.8",
 		"tablizr": "~0.3.0",
 		"pagr": ">=0.4.2",
-		"polyholder": "~1.0.1",
+		"polyholder": "~1.1.0",
 		"labelizr": "~0.2.0",
 		"picturefill": "~2.1.0",
 		"droposaurus": "git@gl.catch.co.nz:catch/droposaurus.git",
@@ -32,8 +32,5 @@
 		"jquery-tokenize": "https://github.com/azt3k/Tokenize.git#master",
 		"jsrsasign": "~6.0.1",
 		"jsencrypt": "~2.3.0"
-	},
-	"resolutions": {
-		"jquery": "~1.12.3"
 	}
 }
