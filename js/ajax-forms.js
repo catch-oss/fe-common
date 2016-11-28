@@ -54,8 +54,8 @@
                             '</div>' +
                             '<div class="m-modal__body">' +
                                 '<div class="m-modal__body__inner">' +
-                                    '<h1>{{title}}</h1>' +
-                                    '<div>{{content}}</div>' +
+                                    '<h1 class="m-modal__body__title">{{title}}</h1>' +
+                                    '<div class="m-modal__body__content"><p>{{content}}</p></div>' +
                                 '</div>' +
                             '</div>' +
                         '</div>' +
@@ -167,14 +167,14 @@
                             validateOnly = $this.attr('data-ajax-validate-only') || null;
 
                         if (
-                            !$('html').is('.loading') &&
+                            !$('html').is('.is-loading') &&
                             !disabled &&
                             (maxSubmissions == undefined || parseInt(submissionCount) < parseInt(maxSubmissions)) &&
                             (!validate || (validate && $this.validator('validate', validateOnly)))
                         ) {
 
                             // We are loading
-                            $('html').addClass('loading');
+                            $('html').addClass('is-loading');
 
                             // lifecycle call back
                             if (typeof onBeforeRequest == 'function') onBeforeRequest($this);
@@ -191,7 +191,7 @@
 
                                 $this.attr('data-submission-count', parseInt(submissionCount || 0) + 1);
                                 if (maxSubmissions != undefined && submissionCount + 1 >= maxSubmissions) $this.addClass(disabledClass);
-                                $('html').removeClass('loading');
+                                $('html').removeClass('is-loading');
 
                                 if (scrollTo != undefined)
                                     $('html, body, .body').animate({
@@ -288,14 +288,14 @@
                                 validateOnly = $this.attr('data-ajax-validate-only') || $form.attr('data-ajax-validate-only');
 
                             if (
-                                !$('html').is('.loading') &&
+                                !$('html').is('.is-loading') &&
                                 !disabled &&
                                 (maxSubmissions == undefined || parseInt(submissionCount) < parseInt(maxSubmissions)) &&
                                 (!validate || (validate && $this.closest('form').validator('validate', validateOnly)))
                             ) {
 
                                 // We are loading
-                                $('html').addClass('loading');
+                                $('html').addClass('is-loading');
 
                                 // lifecycle call back
                                 if (typeof onBeforeRequest == 'function') onBeforeRequest($this);
@@ -312,7 +312,7 @@
 
                                     $this.attr('data-submission-count', parseInt(submissionCount || 0) + 1);
                                     if (maxSubmissions != undefined && submissionCount + 1 >= maxSubmissions) $this.addClass(disabledClass);
-                                    $('html').removeClass('loading');
+                                    $('html').removeClass('is-loading');
 
                                     if (scrollTo != undefined)
                                         $('html, body. .body').animate({

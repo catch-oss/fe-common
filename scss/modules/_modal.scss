@@ -76,6 +76,18 @@ body.js-modal-active {
 	overflow: hidden;
 }
 
+html.loading {
+	.spinner {
+		visibility: visible;
+		opacity: 0.6;
+		z-index: 100;
+	}
+
+	.body-overlay {
+		display: block;
+	}
+}
+
 // ------------------
 // media
 // ------------------

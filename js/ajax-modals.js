@@ -96,10 +96,10 @@
                     e.preventDefault();
 
                     // do nothing if we are already loading
-                    if (!$('html').is('.loading')) {
+                    if (!$('html').is('.is-loading')) {
 
                         // indicate that we are loading
-                        $('html').addClass('loading');
+                        $('html').addClass('is-loading');
 
                         // look to see if there is already an active modal
                         var activeModal = $('body').attr('data-activeModal'),
@@ -122,7 +122,7 @@
                         $.get(url, null, function(data, textStatus, jqXHR) {
 
                             // stop the loading animation
-                            $('html').removeClass('loading');
+                            $('html').removeClass('is-loading');
 
                             // extract body
                             var re = /<body[^>]*>((.|[\n\r])*)<\/body>/im,
