@@ -58,15 +58,15 @@
                             }
 
                             // hide it
-                            $activeModal.addClass('hidden');
+                            $activeModal.addClass('is-hidden');
                         }
 
-                        $('body').addClass('m-modal-visible').attr('data-activeModal', target);
-                        $target.removeClass('hidden').css('max-height', '100%').trigger('m-modal:open');;
+                        $('body').addClass('js-modal-visible').attr('data-activeModal', target);
+                        $target.removeClass('is-hidden').css('max-height', '100%').trigger('m-modal:open');;
                     }
                 });
 
-            $('.m-modal-overlay, .body-overlay, .m-modal-close, .m-modal-close-one')
+            $('.m-modal-overlay, .body-overlay, .m-modal__close__trigger, .m-modal__close__trigger-one')
                 .off('click.m-modal')
                 .off('tap.m-modal')
                 .on('click.m-modal tap.m-modal', function(e){
@@ -80,7 +80,7 @@
                         modalHistory = rawModalHistory ? JSON.parse(rawModalHistory) : [];
 
                     // hide the modal and trigger the close event
-                    $target.addClass('hidden').trigger('m-modal:close');
+                    $target.addClass('is-hidden').trigger('m-modal:close');
 
                     // check the history to see if we need to restore a previous modal
                     if (modalHistory.length) {
@@ -93,13 +93,13 @@
                         $('body').attr('data-modalHistory', JSON.stringify(modalHistory));
 
                         // show the previous modal
-                        $('body').addClass('m-modal-visible').attr('data-activeModal', prevModal);
-                        $prevModal.removeClass('hidden').css('max-height', '100%').trigger('modal:open');
+                        $('body').addClass('js-modal-visible').attr('data-activeModal', prevModal);
+                        $prevModal.removeClass('is-hidden').css('max-height', '100%').trigger('modal:open');
                     }
 
                     // nothing to restore close everything
                     else {
-                        $('body').removeClass('m-modal-visible').attr('data-activeModal', '');
+                        $('body').removeClass('js-modal-visible').attr('data-activeModal', '');
                     }
 
                 });

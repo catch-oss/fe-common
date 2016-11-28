@@ -45,15 +45,15 @@
                 onAfterRequest = conf.onAfterRequest || null,
                 onAfterCloseResultModal = conf.onAfterCloseResultModal || null,
                 modalTemplate = conf.modalTemplate ||
-                    '<div class="modal hidden" id="ajax-form-modal">' +
-                        '<div class="modal-dialog modal--compact">' +
-                            '<div class="modal-close-wrapper-mobile">' +
-                                '<div class="modal-close-wrapper-mobile-inner">' +
-                                    '<a href="" class="modal-close icon-close">Close</a>' +
+                    '<div class="m-modal is-hidden" id="ajax-form-modal">' +
+                        '<div class="m-modal__dialog m-modal--compact">' +
+                            '<div class="m-modal__close">' +
+                                '<div class="m-modal__close__inner">' +
+                                    '<a href="" class="m-modal__close__trigger h-icon-close">Close</a>' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="modal-body">' +
-                                '<div class="modal-dialog-inner modal-dialog-inner-body">' +
+                            '<div class="m-modal__body">' +
+                                '<div class="m-modal__dialog-inner m-modal__dialog-inner-body">' +
                                     '<h1>{{title}}</h1>' +
                                     '<div>{{content}}</div>' +
                                 '</div>' +
@@ -61,7 +61,7 @@
                         '</div>' +
                     '</div>';
 
-            var trigger = '<a class="modal-trigger" id="ajax-form-modal-trigger" data-modal="#ajax-form-modal"></a>',
+            var trigger = '<a class="m-modal-trigger" id="ajax-form-modal-trigger" data-modal="#ajax-form-modal"></a>',
                 template =  $(modalTemplate).attr('id', 'ajax-form-modal')[0].outerHTML,
                 uid = function($elem, idBase) {
 
@@ -203,7 +203,7 @@
                                         $body.append($template);
                                         modals();
                                         $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
-                                        $('.modal-close, .body-overlay').on('tap click',function(e) {
+                                        $('.m-modal__close__trigger, .body-overlay').on('tap click',function(e) {
 
                                             // remove the modal
                                             $template.remove();
@@ -237,7 +237,7 @@
                                         $body.append($templateFail);
                                         modals();
                                         $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
-                                        $('.modal-close, .body-overlay').on('tap click',function(e) {
+                                        $('.m-modal__close__trigger, .body-overlay').on('tap click',function(e) {
 
                                             // remove the modal
                                             $templateFail.remove();
@@ -324,7 +324,7 @@
                                             $body.append($template);
                                             modals();
                                             $('#ajax-form-modal-trigger').trigger('tap');
-                                            $('.modal-close, .body-overlay').on('tap',function(e) {
+                                            $('.m-modal__close__trigger, .body-overlay').on('tap',function(e) {
 
                                                 // remove the modal
                                                 $template.remove();
@@ -355,7 +355,7 @@
                                             $body.append($templateFail);
                                             modals();
                                             $('#ajax-form-modal-trigger').trigger('tap');
-                                            $('.modal-close, .body-overlay').on('tap',function(e) {
+                                            $('.m-modal__close__trigger, .body-overlay').on('tap',function(e) {
 
                                                 // remove the modal
                                                 $templateFail.remove();

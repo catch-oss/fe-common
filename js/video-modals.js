@@ -24,15 +24,15 @@
         $(function() {
 
             // classic + the strings together...
-            var defaultTemplate =   '<div class="m-modal hidden" id="video-modal">' +
-                                        '<div class="m-modal-dialog m-modal--compact">' +
-                                            '<div class="m-modal-close-wrapper-mobile">' +
-                                                '<div class="m-modal-close-wrapper-mobile-inner">' +
-                                                    '<a href="" class="m-modal-close h-icon-close">Close</a>' +
+            var defaultTemplate =   '<div class="m-modal m-modal--video is-hidden" id="video-modal">' +
+                                        '<div class="m-modal__dialog m-modal--compact">' +
+                                            '<div class="m-modal__close">' +
+                                                '<div class="m-modal__close__inner">' +
+                                                    '<a href="" class="m-modal__close__trigger h-icon-close">Close</a>' +
                                                 '</div>' +
                                             '</div>' +
-                                            '<div class="m-modal-body">' +
-                                                '<div class="m-modal-dialog-inner m-modal-dialog-inner-body">' +
+                                            '<div class="m-modal__body">' +
+                                                '<div class="m-modal__dialog-inner m-modal__dialog-inner-body">' +
                                                     '{{content}}' +
                                                 '</div>' +
                                             '</div>' +
@@ -182,7 +182,7 @@
                         $modal.find('#video-modal-iframe').attr('src', link);
 
                         // attach the close function
-                        $('.m-modal-close, .body-overlay').on('tap click', function(e) {
+                        $('.m-modal__close__trigger, .body-overlay').on('tap click', function(e) {
 
                             // remove modal
                             $modal.remove();

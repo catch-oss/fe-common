@@ -25,15 +25,15 @@
         $(function() {
 
             // classic + the strings together...
-            var defaultTemplate =   '<div class="modal hidden" id="ajax-form-modal">' +
-                                        '<div class="modal-dialog modal--compact">' +
-                                            '<div class="modal-close-wrapper-mobile">' +
-                                                '<div class="modal-close-wrapper-mobile-inner">' +
-                                                    '<a href="" class="modal-close icon-close">Close</a>' +
+            var defaultTemplate =   '<div class="m-modal is-hidden" id="ajax-form-modal">' +
+                                        '<div class="m-modal__dialog m-modal--compact">' +
+                                            '<div class="m-modal__close">' +
+                                                '<div class="m-modal__close__inner">' +
+                                                    '<a href="" class="m-modal__close__trigger h-icon-close">Close</a>' +
                                                 '</div>' +
                                             '</div>' +
-                                            '<div class="modal-body">' +
-                                                '<div class="modal-dialog-inner modal-dialog-inner-body">' +
+                                            '<div class="m-modal__body">' +
+                                                '<div class="m-modal__dialog-inner m-modal__dialog-inner-body">' +
                                                     '{{content}}' +
                                                 '</div>' +
                                             '</div>' +
@@ -52,7 +52,7 @@
                 dataParser = conf.dataParser || function(data) { return data };
 
             // prep modal
-            var trigger = '<a class="modal-trigger" id="ajax-modal-modal-trigger" data-modal="#ajax-modal-modal"></a>',
+            var trigger = '<a class="m-modal-trigger" id="ajax-modal-modal-trigger" data-modal="#ajax-modal-modal"></a>',
                 template =  $(modalTemplate).attr('id', 'ajax-modal-modal')[0].outerHTML;
 
             // utility functions
@@ -109,7 +109,7 @@
                         if ($activeModal.length) {
 
                             // hide it
-                            $activeModal.addClass('hidden');
+                            $activeModal.addClass('is-hidden');
 
                             // remove any existing ajax modal stuff in the page
                             $('#ajax-modal-modal, #ajax-modal-modal-trigger').remove();
@@ -145,7 +145,7 @@
                             $('body').append($modal);
                             modals();
                             $('#ajax-modal-modal-trigger').trigger('tap');
-                            $('.modal-close, .body-overlay').on('tap click', function(e) {
+                            $('.m-modal__close__trigger, .body-overlay').on('tap click', function(e) {
 
                                 // push page into the history if history is on
                                 if (useHistory && !elBypassPushState)
