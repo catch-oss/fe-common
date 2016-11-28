@@ -1,7 +1,7 @@
 //colors
-$white: #fff;
-$black: #000;
-$modal-grey: #e3e3e3;
+// $white: #fff;
+// $black: #000;
+// $modal-grey: #e3e3e3;
 
 .m-modal {
 	z-index: 200;
@@ -11,7 +11,7 @@ $modal-grey: #e3e3e3;
 	left: 0;
 	top: 0;
 	padding: 0 0 20px;
-	background-color: $white;
+	background-color: colour("white");
 	position: fixed;
 	overflow: auto;
 
@@ -28,7 +28,7 @@ $modal-grey: #e3e3e3;
 			display: block;
 			margin-top: 20px;
 			padding-bottom: 20px;
-			border-bottom: 1px solid $modal-grey;
+			border-bottom: 1px solid colour("grey-tone1");
 
 			&::before {
 				position: absolute;
@@ -57,7 +57,7 @@ $modal-grey: #e3e3e3;
 	bottom: 0;
 	z-index: 100;
 	position: fixed;
-	background-color: $black;
+	background-color: colour("black");
 	opacity: 0.8;
 }
 
@@ -108,7 +108,7 @@ html.is-loading {
 
 		&__body {
 			@include prefixed(border-radius, 3px);
-			background-color: $white;
+			background-color: colour("white");
 		}
 
 		&__close {
@@ -116,7 +116,7 @@ html.is-loading {
 			margin-top: 50px;
 
 			&__trigger {
-				color: $white;
+				color: colour("white");
 				position: absolute;
 				right: 0;
 				text-decoration: none;
