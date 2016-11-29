@@ -27,7 +27,7 @@
 		"jquery-mask-plugin": "~1.14.3",
 		"parsleyjs": "2.0.7",
 		"normalize-scss": "~3.0.2",
-		"requirejs": "~2.1.11",
+		"requirejs": "~2.3.2",
 		"jquery": "~1.11.3",
 		"jquery-tokenize": "https://github.com/azt3k/Tokenize.git#master",
 		"jsrsasign": "~6.0.1",
