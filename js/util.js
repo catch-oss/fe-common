@@ -12,7 +12,7 @@
         root.catch.util = factory();
     }
 
-}(this, function ($, undefined) {
+}(this, function (undefined) {
 
     'use strict';
 
