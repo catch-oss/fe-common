@@ -9,7 +9,7 @@
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.dockNav = factory(root.jQuery);
+        root.catch.stickyNavColumn = factory(root.jQuery, root.bodyToucher, root.dimensionator, root.catch.dockNav);
     }
 
 }(this, function ($, bodyToucher, dimensionator, dockNav, undefined) {
