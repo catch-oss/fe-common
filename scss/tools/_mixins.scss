@@ -71,7 +71,7 @@
 
 // for use with icomoon
 @mixin icon($name, $after: false) {
-	@extend .icon-#{$name};
+	@extend .h-icon--#{$name};
 	@if ($after) {
 		&::after {
 			font-family: "icomoon";

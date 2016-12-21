@@ -1,5 +1,5 @@
-[class*="icon-"],
-.icon {
+[class*="h-icon-"],
+.h-icon {
 	&::before,
 	&::after {
 		font-family: "icomoon";
@@ -16,7 +16,8 @@
 	}
 }
 
-.icon {
+.h-icon {
+
 	&--90 {
 		&::before,
 		&::after {
@@ -40,46 +41,46 @@
 			display: inline-block;
 		}
 	}
-}
 
-@each $val in $icons {
-	$name: nth($val, 1);
-	$content: nth($val, 2);
-
-	.icon-#{$name} {
+	&--after {
 		&::before {
-			content: $content;
+			display: none;
 		}
+	}
 
-		&.icon-after {
-			&::after {
+	@each $val in $icons {
+		$name: nth($val, 1);
+		$content: nth($val, 2);
+
+		&--#{$name} {
+			&::before {
 				content: $content;
-				float: right;
+			}
+
+			&.h-icon--after {
+				&::after {
+					content: $content;
+					float: right;
+				}
 			}
 		}
 	}
-}
 
-.icon-after {
-	&::before {
-		display: none;
-	}
-}
-
-@each $col in $colours {
-	.#{nth($col, 1)}-disc {
-		&::before {
-			padding: 0.7rem;
-			background: nth($col, 2);
-			border-radius: 6rem;
+	@each $col in $colours {
+		&--#{nth($col, 1)}-disc {
+			&::before {
+				padding: 10%;
+				background: nth($col, 2);
+				border-radius: 50%;
+			}
 		}
-	}
 
-	.#{nth($col, 1)}-disc.icon-after {
-		&::after {
-			padding: 0.7rem;
-			background: nth($col, 2);
-			border-radius: 6rem;
+		&--#{nth($col, 1)}-disc.h-icon--after {
+			&::after {
+				padding: 10%;
+				background: nth($col, 2);
+				border-radius: 50%;
+			}
 		}
 	}
 }
