@@ -1,0 +1,24 @@
+// COLOURS
+//
+//
+// Example
+// -------
+// .col-secondary {
+//		color: colour("primary") !important;
+// }
+//
+// .bg-primary {
+//		color: colour("primary") !important;
+// }
+//
+//
+
+@each $col in $colours {
+	.h-col-#{nth($col, 1)} {
+		color: #{nth($col, 2)} !important;
+	}
+
+	.h-bg-#{nth($col, 1)} {
+		background-color: #{nth($col, 2)} !important;
+	}
+}
