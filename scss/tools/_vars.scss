@@ -10,4 +10,16 @@ $colours: (
     "white":     		   	#fff,
     "grey":     	   	  	#5c5c5c,
     "grey-tone1":           #e3e3e3
-);
+) !default;
+
+// icons
+$icons: (
+	// "tick": "\e900",
+	// "cross": "\e901",
+	// "logo": "\e902",
+	// "chevron": "\e903",
+	// "arrow": "\e904",
+	// "rocket": "\e905",
+	// "thirty-mins": "\e906",
+	// "twenty-four-hrs": "\e907"
+) !default;
