@@ -21,8 +21,8 @@
 }
 
 .accordion-body {
-	@include prefixed(transition, all 0.02s ease-in);
-	@include prefixed(transition, opacity 0.05s ease-in 0.02s);
+	@include prefixed(transition, all 0.2s ease-in-out);
+	overflow: hidden;
 	visibility: hidden;
 	height: 0;
 	opacity: 0;
@@ -45,6 +45,7 @@
 			opacity: 1;
 			height: auto;
 			border-top: 0;
+			overflow: auto;
 		}
 
 		&::after {

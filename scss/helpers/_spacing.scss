@@ -1,0 +1,45 @@
+@for $i from 0 through 10 {
+
+	// Horizontal spacing
+
+	.pad-h-base-#{$i}x {
+		padding-left: rem($i * $hbu);
+		padding-right: rem($i * $hbu);
+	}
+
+	.mar-h-base-#{$i}x {
+		margin-left: rem($i * $hbu);
+		margin-right: rem($i * $hbu);
+	}
+
+	// Vertical spacing
+
+	.pad-v-base-#{$i}x {
+		padding-top: rem($i * $vbu);
+		padding-bottom: rem($i * $vbu);
+	}
+
+	.mar-v-base-#{$i}x {
+		margin-top: rem($i * $vbu);
+		margin-bottom: rem($i * $vbu);
+	}
+
+	// Margin bottom
+
+	.mb-#{$i}x {
+		margin-bottom: rem($i * $vbu);
+
+		// Overwrite global margin bottom
+		// if the content inside the grid has a margin bottom
+		// and the container needs to has a specific margin bottom
+		// This class need to added before the global margin
+		&[class*="mar-v-base-"] {
+			margin-bottom: rem($i * $vbu);
+		}
+	}
+
+	// Padding bottom
+	.pb-#{$i}x {
+		padding-bottom: rem($i * $vbu);
+	}
+}
