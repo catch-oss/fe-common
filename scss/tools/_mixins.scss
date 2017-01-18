@@ -44,6 +44,40 @@
 	#{$prop-name}: $prop-val;
 }
 
+@mixin horizontally-centered {
+	display: block;
+	position: relative;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	transform: translateX(-50%);
+}
+
+@mixin vertically-centered {
+	display: block;
+	position: absolute;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+@mixin absolutely-centered {
+	display: block;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+@mixin greyscale {
+	-webkit-filter: grayscale(100%);
+	filter: gray;
+	filter: grayscale(100%);
+}
+
 @mixin omega-reset($nth: null, $cols: null) {
 	@if ($nth and $cols) {
 		&:nth-child(#{$nth}) {
