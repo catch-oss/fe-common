@@ -1,18 +1,18 @@
 ;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
-    if (typeof define === 'function' && define.amd) define(['jquery', './popstate'], factory);
+    if (typeof define === 'function' && define.amd) define(['jquery', './popstate', './util'], factory);
 
     // Node, CommonJS-like
-    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./popstate'));
+    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./popstate'), require('./util'));
 
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.tabs = factory(root.jQuery, root.catch.popstate);
+        root.catch.tabs = factory(root.jQuery, root.catch.popstate, root.catch.util);
     }
 
-}(this, function ($, popstate, undefined) {
+}(this, function ($, popstate, util, undefined) {
 
     'use strict';
 
@@ -53,41 +53,23 @@
                             url
                         );
                 },
-                uid = function($elem, idBase) {
+                uid = util.uuid;
 
-                    var elementID = $elem.attr('id'),
-                        idBase = idBase || $elem.text().replace(/[^A-Za-z0-9]+/g, '-').toLowerCase(),
-                        i = 2;
-
-                    if (!elementID) {
-                        elementID = idBase;
-                        while (!elementID || $('[id=' + elementID + ']').length) {
-                            elementID = idBase + '-' + i;
-                            i++;
-                        }
-                        $elem.attr('id', elementID);
-                    }
-                    return elementID;
-                };
-
-        	$("li[role='tab']")
+        	$('li[role="tab"]')
                 .off('click.tabs')
                 .on('click.tabs', function(e, pushState) {
 
                     var $this = $(this),
                         pushState = pushState === undefined ? true : pushState,
                         $tabsParent = $this.closest('.tabs'),
-                        tabpanid = $this.attr("aria-controls"),
-                        $tabpan = $('[id=' + tabpanid + ']');
+                        tabpanid = $this.attr('aria-controls'),
+                        $tabpan = $('#' + tabpanid);
 
-                    $tabsParent.find("li[role='tab']:not(this)").attr("aria-selected", "false");
-                    $this.attr("aria-selected", "true").trigger('change');
+                    $tabsParent.find('li[role="tab"]').not(this).attr('aria-selected', 'false');
+                    $this.attr('aria-selected', 'true').trigger('change');
 
-                    $tabpan.siblings("div[role='tabpanel']:not(tabpan)").attr("aria-hidden", "true");
-                    $tabpan.siblings("div[role='tabpanel']:not(tabpan)").addClass("hidden");
-
-                    $tabpan.removeClass("hidden");
-                    $tabpan.attr("aria-hidden", "false");
+                    $tabpan.siblings('div[role="tabpanel"]').not($tabpan[0]).attr('aria-hidden', 'true');
+                    $tabpan.attr('aria-hidden', 'false');
 
                     if (opts.useHistory && pushState) pushHistory($this);
 
@@ -95,12 +77,10 @@
                 });
 
             //This adds keyboard accessibility by adding the enter key to the basic click event.
-            $("li[role='tab']")
+            $('li[role="tab"]')
                 .off('keydown.tabs-enter')
                 .on('keydown.tabs-enter', function(ev) {
-                    if (ev.which == 13) {
-                        $(this).click();
-                    }
+                    if (ev.which == 13) $(this).trigger('click');
                 });
 
             // This adds keyboard function that pressing an arrow left or arrow right from the tabs toggle the tabs.
@@ -108,26 +88,28 @@
                 .off('keydown.tabs')
                 .on('keydown.tabs', function(ev) {
                     if ((ev.which == 39) || (ev.which == 37)) {
-                        var selected = $(this).attr("aria-selected");
-                        if (selected == "true") {
+						
+                        var selected = $(this).attr('aria-selected');
+						
+                        if (selected == 'true') {
 
-                            $("li[aria-selected='false']").attr("aria-selected", "true").focus().trigger('change');
-                            $(this).attr("aria-selected", "false");
+                            $('li[aria-selected="false"]').attr('aria-selected', 'true').focus().trigger('change');
+                            $(this).attr('aria-selected', 'false');
 
-                            var tabpanid = $("li[aria-selected='true']").attr("aria-controls"),
-                                $tabpan = $('[id=' + tabpanid + ']');
+                            var tabpanid = $('li[aria-selected="true"]').attr('aria-controls'),
+                                $tabpan = $('#' + tabpanid);
 
-                            $("div[role='tabpanel']:not(tabpan)").attr("aria-hidden", "true");
-                            $("div[role='tabpanel']:not(tabpan)").addClass("hidden");
+                            $('div[role="tabpanel"]').not($tabpan[0]).attr('aria-hidden', 'true');
+                            $tabpan.attr('aria-hidden', 'false');
 
-                            $tabpan.attr("aria-hidden", "false");
-                            $tabpan.removeClass("hidden");
-
-                            if (opts.useHistory) pushHistory($("li[aria-selected='true']"));
+                            if (opts.useHistory) pushHistory($('li[aria-selected="true"]'));
 
                         }
                     }
                 });
+			
+			// make sure everything is legit
+			$('[aria-selected="true"').trigger('click');
         });
     }
 
