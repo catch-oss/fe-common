@@ -45,8 +45,8 @@
                 onAfterRequest = conf.onAfterRequest || null,
                 onAfterCloseResultModal = conf.onAfterCloseResultModal || null,
                 modalTemplate = conf.modalTemplate ||
-                    '<div class="m-modal m-modal--form is-hidden" id="ajax-form-modal">' +
-                        '<div class="m-modal__dialog m-modal--compact">' +
+                    '<div class="m-modal m-modal--form s-hidden" id="ajax-form-modal">' +
+                        '<div class="m-modal__dialog m-modal__dialog--compact">' +
                             '<div class="m-modal__close">' +
                                 '<div class="m-modal__close__inner">' +
                                     '<a href="" class="m-modal__close__trigger h-icon-close">Close</a>' +
@@ -167,14 +167,14 @@
                             validateOnly = $this.attr('data-ajax-validate-only') || null;
 
                         if (
-                            !$('html').is('.is-loading') &&
+                            !$('html').is('.s-loading') &&
                             !disabled &&
                             (maxSubmissions == undefined || parseInt(submissionCount) < parseInt(maxSubmissions)) &&
                             (!validate || (validate && $this.validator('validate', validateOnly)))
                         ) {
 
                             // We are loading
-                            $('html').addClass('is-loading');
+                            $('html').addClass('s-loading');
 
                             // lifecycle call back
                             if (typeof onBeforeRequest == 'function') onBeforeRequest($this);
@@ -191,7 +191,7 @@
 
                                 $this.attr('data-submission-count', parseInt(submissionCount || 0) + 1);
                                 if (maxSubmissions != undefined && submissionCount + 1 >= maxSubmissions) $this.addClass(disabledClass);
-                                $('html').removeClass('is-loading');
+                                $('html').removeClass('s-loading');
 
                                 if (scrollTo != undefined)
                                     $('html, body, .body').animate({
@@ -288,14 +288,14 @@
                                 validateOnly = $this.attr('data-ajax-validate-only') || $form.attr('data-ajax-validate-only');
 
                             if (
-                                !$('html').is('.is-loading') &&
+                                !$('html').is('.s-loading') &&
                                 !disabled &&
                                 (maxSubmissions == undefined || parseInt(submissionCount) < parseInt(maxSubmissions)) &&
                                 (!validate || (validate && $this.closest('form').validator('validate', validateOnly)))
                             ) {
 
                                 // We are loading
-                                $('html').addClass('is-loading');
+                                $('html').addClass('s-loading');
 
                                 // lifecycle call back
                                 if (typeof onBeforeRequest == 'function') onBeforeRequest($this);
@@ -312,7 +312,7 @@
 
                                     $this.attr('data-submission-count', parseInt(submissionCount || 0) + 1);
                                     if (maxSubmissions != undefined && submissionCount + 1 >= maxSubmissions) $this.addClass(disabledClass);
-                                    $('html').removeClass('is-loading');
+                                    $('html').removeClass('s-loading');
 
                                     if (scrollTo != undefined)
                                         $('html, body. .body').animate({

@@ -18,11 +18,15 @@
 
         $(function() {
 
-            $('.accordion-header')
+            // .accordion-header is deprecated
+            $('.m-accordion-header, .accordion-header')
                 .off('click.accordion')
-                .on('click.accordion',function(e){
+                .on('click.accordion', function(e) {
+
                     e.preventDefault();
-                    $(this).toggleClass("active");
+
+                    // .active is deprecated
+                    $(this).toggleClass('active s-active');
                 });
         });
     }

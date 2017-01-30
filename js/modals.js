@@ -59,11 +59,11 @@
                             }
 
                             // hide it
-                            $activeModal.addClass('is-hidden');
+                            $activeModal.addClass('s-hidden');
                         }
 
-                        $('body').addClass('js-modal-visible').attr('data-activeModal', target);
-                        $target.removeClass('is-hidden').css('max-height', '100%').trigger('m-modal:open');;
+                        $('body').addClass('s-modal-visible').attr('data-activeModal', target);
+                        $target.removeClass('s-hidden').css('max-height', '100%').trigger('m-modal:open');;
                     }
                 });
 
@@ -81,7 +81,7 @@
                         modalHistory = rawModalHistory ? JSON.parse(rawModalHistory) : [];
 
                     // hide the modal and trigger the close event
-                    $target.addClass('is-hidden').trigger('m-modal:close');
+                    $target.addClass('s-hidden').trigger('m-modal:close');
 
                     // check the history to see if we need to restore a previous modal
                     if (modalHistory.length) {
@@ -94,13 +94,13 @@
                         $('body').attr('data-modalHistory', JSON.stringify(modalHistory));
 
                         // show the previous modal
-                        $('body').addClass('js-modal-visible').attr('data-activeModal', prevModal);
-                        $prevModal.removeClass('is-hidden').css('max-height', '100%').trigger('modal:open');
+                        $('body').addClass('s-modal-visible').attr('data-activeModal', prevModal);
+                        $prevModal.removeClass('s-hidden').css('max-height', '100%').trigger('modal:open');
                     }
 
                     // nothing to restore close everything
                     else {
-                        $('body').removeClass('js-modal-visible').attr('data-activeModal', '');
+                        $('body').removeClass('s-modal-visible').attr('data-activeModal', '');
                     }
 
                 });

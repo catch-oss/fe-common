@@ -25,8 +25,8 @@
         $(function() {
 
             // classic + the strings together...
-            var defaultTemplate =   '<div class="m-modal is-hidden" id="ajax-form-modal">' +
-                                        '<div class="m-modal__dialog m-modal--compact">' +
+            var defaultTemplate =   '<div class="m-modal s-hidden" id="ajax-form-modal">' +
+                                        '<div class="m-modal__dialog m-modal__dialog--compact">' +
                                             '<div class="m-modal__close">' +
                                                 '<div class="m-modal__close__inner">' +
                                                     '<a href="" class="m-modal__close__trigger h-icon-close">Close</a>' +
@@ -41,7 +41,7 @@
                                     '</div>';
 
             // conf defaults
-            var selector = conf.selector || '.ajax-modal',
+            var selector = conf.selector || '.m-modal-link--ajax',
                 namespace = conf.namespace || 'ajax-modal',
                 modalTemplate = conf.modalTemplate || defaultTemplate,
                 onBeforeRequest = conf.onBeforeRequest || null,
@@ -96,10 +96,10 @@
                     e.preventDefault();
 
                     // do nothing if we are already loading
-                    if (!$('html').is('.is-loading')) {
+                    if (!$('html').is('.s-loading')) {
 
                         // indicate that we are loading
-                        $('html').addClass('is-loading');
+                        $('html').addClass('s-loading');
 
                         // look to see if there is already an active modal
                         var activeModal = $('body').attr('data-activeModal'),
@@ -109,7 +109,7 @@
                         if ($activeModal.length) {
 
                             // hide it
-                            $activeModal.addClass('is-hidden');
+                            $activeModal.addClass('s-hidden');
 
                             // remove any existing ajax modal stuff in the page
                             $('#ajax-modal-modal, #ajax-modal-modal-trigger').remove();
@@ -122,7 +122,7 @@
                         $.get(url, null, function(data, textStatus, jqXHR) {
 
                             // stop the loading animation
-                            $('html').removeClass('is-loading');
+                            $('html').removeClass('s-loading');
 
                             // extract body
                             var re = /<body[^>]*>((.|[\n\r])*)<\/body>/im,
@@ -173,9 +173,11 @@
                                         type: 'ajax-modal',
                                         doReload: false,
                                         callback: function() {
+
+                                            // some work needs to be done to translate selector into attrs / classes etc
                                             var $a = $(
                                                 '<a href="' + url + '" ' +
-                                                   'class="ajax-modal" ' +
+                                                   'class="' + selector.replace('.', '') + '" ' +
                                                    'data-no-pop-state="1" ' +
                                                    'data-content-selector="' + contentSelector + '" />'
                                             );

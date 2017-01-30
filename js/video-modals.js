@@ -24,8 +24,8 @@
         $(function() {
 
             // classic + the strings together...
-            var defaultTemplate =   '<div class="m-modal m-modal--video is-hidden" id="video-modal">' +
-                                        '<div class="m-modal__dialog m-modal--compact">' +
+            var defaultTemplate =   '<div class="m-modal m-modal--video s-hidden" id="video-modal">' +
+                                        '<div class="m-modal__dialog m-modal__dialog--compact">' +
                                             '<div class="m-modal__close">' +
                                                 '<div class="m-modal__close__inner">' +
                                                     '<a href="" class="m-modal__close__trigger h-icon-close">Close</a>' +
@@ -40,7 +40,7 @@
                                     '</div>';
 
             // conf defaults
-            var selector = conf.selector || '.js-video-modal',
+            var selector = conf.selector || '.m-modal-link--video',
                 namespace = conf.namespace || 'video-modal',
                 modalTemplate = conf.modalTemplate || defaultTemplate,
                 onAfterShow = conf.onAfterShow || null,
@@ -196,7 +196,7 @@
                         if (typeof onAfterShow == 'function') onAfterShow.call(this);
 
                     })
-                    .addClass('video-modalised');
+                    .addClass('s-video-modalised');
 
             })
         });

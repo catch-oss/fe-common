@@ -10,6 +10,10 @@
 	position: fixed;
 	overflow: auto;
 
+	&.s-hidden {
+		display: none;
+	}
+
 	// modal body
 	&__body {
 		padding: 20px 4%;
@@ -17,6 +21,7 @@
 
 	// close button
 	&__close {
+
 		&__trigger {
 			position: relative;
 			text-align: center;
@@ -60,17 +65,19 @@
 // ------------------
 
 // modal visible-active
-.js-modal-visible .m-modal-overlay,
-.js-modal-visible .body-overlay {
+// NB the js prefix isn't so great
+.s-modal-visible .m-modal-overlay,
+.s-modal-visible .body-overlay {
 	display: block;
 }
 
-body.js-modal-visible,
-body.js-modal-active {
+body.s-modal-visible,
+body.s-modal-active {
 	overflow: hidden;
 }
 
-html.is-loading {
+html.s-loading {
+
 	.m-loader {
 		visibility: visible;
 		opacity: 0.6;
@@ -87,6 +94,7 @@ html.is-loading {
 // ------------------
 
 @include media($medium) {
+
 	.m-modal {
 		@include prefixed(transform, translateY(-50%));
 		background-color: transparent;
