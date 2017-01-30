@@ -29,7 +29,7 @@
                                         '<div class="m-modal__dialog m-modal__dialog--compact">' +
                                             '<div class="m-modal__close">' +
                                                 '<div class="m-modal__close__inner">' +
-                                                    '<a href="" class="m-modal__close__trigger h-icon-close">Close</a>' +
+                                                    '<a href="" class="m-modal__close__trigger h-icon--close">Close</a>' +
                                                 '</div>' +
                                             '</div>' +
                                             '<div class="m-modal__body">' +
