@@ -1,7 +1,7 @@
 // Change the grid settings
 $gutter: em(24) !default; // Gutter between each two columns
-$grid-columns: 12;
-$max-width: 1200px;
+$grid-columns: 12 !default;
+$max-width: 1200px !default;
 
 $width-vsm: 320px !default;
 $width-sm: 480px !default;
@@ -11,13 +11,13 @@ $width-lg: 1024px !default;
 $width-vlg: 1200px !default;
 
 // Define your breakpoints
-$extra-small: new-breakpoint(min-width $width-vsm);
-$small: new-breakpoint(min-width $width-sm);
-$mobile-only: new-breakpoint(max-width $width-md);
-$medium: new-breakpoint(min-width $width-md);
-$medium-large: new-breakpoint(min-width $width-md-lg);
-$large: new-breakpoint(min-width $width-lg);
-$extra-large: new-breakpoint(min-width $width-vlg);
+$extra-small: new-breakpoint(min-width em($width-vsm));
+$small: new-breakpoint(min-width em($width-sm));
+$mobile-only: new-breakpoint(max-width em($width-md));
+$medium: new-breakpoint(min-width em($width-md));
+$medium-large: new-breakpoint(min-width em($width-md-lg));
+$large: new-breakpoint(min-width em($width-lg));
+$extra-large: new-breakpoint(min-width em($width-vlg));
 
 $visual-grid-color: red;
 $visual-grid-index: front;
