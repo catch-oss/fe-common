@@ -61,7 +61,7 @@
 
                     var $this = $(this),
                         pushState = pushState === undefined ? true : pushState,
-                        $tabsParent = $this.closest('.tabs'),
+                        $tabsParent = $this.closest('[role="tablist"]'),
                         tabpanid = $this.attr('aria-controls'),
                         $tabpan = $('#' + tabpanid);
 
