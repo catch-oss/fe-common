@@ -29,7 +29,7 @@
             isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
             // let everyone know it's safari
-            if (isIos) $('html').addClass('safari');
+            if (isSafari) $('html').addClass('safari');
 
             // let everyone know it's ios
             if (isIos) $('html').addClass('ios');
