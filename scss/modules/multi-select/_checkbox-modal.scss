@@ -1,0 +1,10 @@
+.m-mutli-select {
+
+	&#{$bem-m-str}modal {
+		// something specific to this use case
+	}
+
+	&__select {
+		display: none;
+	}
+}
