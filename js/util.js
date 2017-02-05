@@ -1,18 +1,18 @@
 ;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
-    if (typeof define === 'function' && define.amd) define([], factory);
+    if (typeof define === 'function' && define.amd) define(['jquery'], factory);
 
     // Node, CommonJS-like
-    else if (typeof exports === 'object') module.exports = factory();
+    else if (typeof exports === 'object') module.exports = factory(require('jquery'));
 
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.util = factory();
+        root.catch.util = factory(root.jQuery);
     }
 
-}(this, function (undefined) {
+}(this, function ($, undefined) {
 
     'use strict';
 
@@ -29,7 +29,7 @@
         elemId: function($elem, idBase) {
 
             var elementID = $elem.attr('id'),
-                idBase = idBase || $elem.text().replace(/[^A-Za-z0-9]+/g, '-').toLowerCase(),
+                idBase = idBase || $elem.text().replace(/[^A-Za-z0-9]+/g, '-').replace('--', '-').replace(/(^-|-$)/, '').toLowerCase(),
                 i = 2;
 
             if (!elementID) {

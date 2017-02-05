@@ -99,6 +99,7 @@
                 // get the parent
                 var $el = $(this),
                     $select = $el.find('select'),
+                    conf = JSON.parse(JSON.stringify(opts)),
                     triggerClasses = $select.attr('data-trigger-classes') || 'm-btn',
                     triggerCopy = $select.attr('data-trigger-copy') || 'Add',
                     tplVars = JSON.parse($select.attr('data-tpl-vars') || '{}'),
@@ -106,11 +107,11 @@
                     modalId = selectId + '-modal',
                     $trigger = $(
                         '<a data-modal="#' + modalId + '" ' +
-                           'class="m-modal-link ' + triggerClasses + '">' +
+                           'class="m-modal-link m-multi-select__add ' + triggerClasses + '">' +
                             triggerCopy +
                         '</a>'
                     ),
-                    $selection = $('<div class="m-multi-select__selection" />'),
+                    $selection = $('<ul class="m-multi-select__selection" />'),
                     $content = $('<div />'),
                     $modal,
                     i;
@@ -121,11 +122,11 @@
 
                 // parse all the tpl vars
                 for (i in tplVars) {
-                    opts.tpl = opts.tpl.replace('{{' + i + '}}', tplVars[i]);
+                    conf.tpl = conf.tpl.replace('{{' + i + '}}', tplVars[i]);
                 }
 
                 // generate the modal
-                $modal = $(opts.tpl);
+                $modal = $(conf.tpl);
 
                 // inject other elements
                 $select

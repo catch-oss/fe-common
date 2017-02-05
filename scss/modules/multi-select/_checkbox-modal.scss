@@ -1,6 +1,7 @@
-.m-mutli-select {
+.m-multi-select {
 
-	&#{$bem-m-str}modal {
-		// something specific to this use case
+	&__selection {
+		list-style: none;
+		padding: 0;
 	}
 }
