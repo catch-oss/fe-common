@@ -48,6 +48,7 @@
             // event handler
             $remove.on('click', function() {
                 $opt.prop('selected', false);
+                $opt.closest('select').trigger('change');
                 $row.remove();
             });
 
@@ -132,7 +133,8 @@
                 $select
                     .hide()
                     .off('change.multselectmodal')
-                    .on('change.multselectmodal', function() {
+                    .off('nochange.multselectmodal')
+                    .on('change.multselectmodal nochange.multselectmodal', function() {
                         $select.find('option').each(function() {
 
                             // get the option
