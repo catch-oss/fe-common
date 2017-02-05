@@ -101,12 +101,9 @@
                     $select = $el.find('select'),
                     triggerClasses = $select.attr('data-trigger-classes') || 'm-btn',
                     triggerCopy = $select.attr('data-trigger-copy') || 'Add',
+                    tplVars = JSON.parse($select.attr('data-tpl-vars') || '{}'),
                     selectId = util.elemId($select),
                     modalId = selectId + '-modal',
-                    $modal = $(
-                        opts.tpl.replace('{{id}}', modalId)
-                                .replace('{{content}}', '<div class="m-multi-select__modal__content" />')
-                    ),
                     $trigger = $(
                         '<a data-modal="#' + modalId + '" ' +
                            'class="m-modal-link ' + triggerClasses + '">' +
@@ -114,10 +111,25 @@
                         '</a>'
                     ),
                     $selection = $('<div class="m-multi-select__selection" />'),
-                    $content = $('<div />');
+                    $content = $('<div />'),
+                    $modal,
+                    i;
+
+                // update the tpl vars
+                tplVars.id = modalId;
+                tplVars.content = '<div class="m-multi-select__modal__content" />';
+
+                // parse all the tpl vars
+                for (i in tplVars) {
+                    opts.tpl = opts.tpl.replace('{{' + i + '}}', tplVars[i]);
+                }
+
+                // generate the modal
+                $modal = $(opts.tpl);
 
                 // inject other elements
                 $select
+                    .hide()
                     .off('change.multselectmodal')
                     .on('change.multselectmodal', function() {
                         $select.find('option').each(function() {
