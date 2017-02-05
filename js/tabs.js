@@ -53,7 +53,7 @@
                             url
                         );
                 },
-                uid = util.uuid;
+                uid = util.elemId;
 
         	$('li[role="tab"]')
                 .off('click.tabs')
@@ -88,9 +88,9 @@
                 .off('keydown.tabs')
                 .on('keydown.tabs', function(ev) {
                     if ((ev.which == 39) || (ev.which == 37)) {
-						
+
                         var selected = $(this).attr('aria-selected');
-						
+
                         if (selected == 'true') {
 
                             $('li[aria-selected="false"]').attr('aria-selected', 'true').focus().trigger('change');
@@ -107,7 +107,7 @@
                         }
                     }
                 });
-			
+
 			// make sure everything is legit
 			$('[aria-selected="true"').trigger('click');
         });

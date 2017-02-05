@@ -17,11 +17,55 @@
         root.catch = (root.catch || {});
         root.catch.multiSelectModal = factory(
             root.jQuery,
-            root.catch.modals
+            root.catch.modals,
+            root.catch.util
         );
     }
 
 }(this, function ($, modals, util, undefined) {
+
+    var makeSelectedRow = function($opt, $selection) {
+
+            // extract IDs
+            var optId = util.elemId($opt),
+                rowId = optId + '-selection-item';
+
+            // don't double add
+            if ($selection.find('#' + rowId).length) return;
+
+            // make elems
+            var $remove = $('<a class="m-multi-select__remove">Remove</a>'),
+                $row = $(
+                    '<li id="' + rowId + '" class="m-multi-select__selection__item">' +
+                        '<span class="m-multi-select__selection__item__title">' +
+                            $opt.text() +
+                        '</span>' +
+                        '<span class="m-multi-select__selection__item__actions">' +
+                        '</span>' +
+                    '</li>'
+                );
+
+            // event handler
+            $remove.on('click', function() {
+                $opt.prop('selected', false);
+                $row.remove();
+            });
+
+            // compile the row
+            $row.find('.m-multi-select__selection__item__actions').append($remove);
+
+            // add the elements constructed elems
+            $selection.append($row);
+        },
+        removeSelectedRow = function($opt, $selection) {
+
+            // ids
+            var optId = util.elemId($opt),
+                rowId = optId + '-selection-item';
+
+            // remeove the item
+            $selection.find('#' + rowId).remove();
+        };
 
     return function(options) {
 
@@ -54,20 +98,93 @@
 
                 // get the parent
                 var $el = $(this),
-                    $select = $this.find('select'),
+                    $select = $el.find('select'),
+                    triggerClasses = $select.attr('data-trigger-classes') || 'm-btn',
+                    triggerCopy = $select.attr('data-trigger-copy') || 'Add',
+                    selectId = util.elemId($select),
+                    modalId = selectId + '-modal',
+                    $modal = $(
+                        opts.tpl.replace('{{id}}', modalId)
+                                .replace('{{content}}', '<div class="m-multi-select__modal__content" />')
+                    ),
+                    $trigger = $(
+                        '<a data-modal="#' + modalId + '" ' +
+                           'class="m-modal-link ' + triggerClasses + '">' +
+                            triggerCopy +
+                        '</a>'
+                    ),
+                    $selection = $('<div class="m-multi-select__selection" />'),
                     $content = $('<div />');
 
                 // inject other elements
-                $select.find('option').each(function() {
+                $select
+                    .off('change.multselectmodal')
+                    .on('change.multselectmodal', function() {
+                        $select.find('option').each(function() {
 
-                    var $opt = $(this),
-                        id =
-                        $check = $('<input type="checkbox" id="' +  + '"')
+                            // get the option
+                            var $opt = $(this),
+                                optId = util.elemId($opt),
+                                checkId = optId + '-check',
+                                selected = $opt.is(':selected');
 
+                            // update checkbox
+                            $('#' + checkId).prop('checked', selected);
 
-                });
+                            // create/remove elem
+                            selected
+                                ? makeSelectedRow($opt, $selection)
+                                : removeSelectedRow($opt, $selection);
+                        });
+                    })
+                    .find('option')
+                        .each(function() {
+
+                            // extract data and create elems
+                            var $opt = $(this),
+                                text = $opt.text(),
+                                optId = util.elemId($opt),
+                                id = optId + '-check',
+                                isSelected = $opt.is(':selected'),
+                                $check = $('<input type="checkbox" id="' + id + '">').prop('checked', isSelected),
+                                $label = $('<label for="' + id + '" class="m-checkbox">' + text + '</label>'),
+                                $row = $('<div class="m-multi-select__modal__content__row"/>').append($check).append($label);
+
+                            // create/remove elem
+                            isSelected
+                                ? makeSelectedRow($opt, $selection)
+                                : removeSelectedRow($opt, $selection);
+
+                            // add the row
+                            $content.append($row);
+
+                            // add handlers
+                            $check.on('click change', function() {
+
+                                // is it checked?
+                                var checked = $check.is(':checked');
+
+                                // set the select val
+                                $opt.prop('selected', checked);
+
+                                // create/remove elem
+                                checked
+                                    ? makeSelectedRow($opt, $selection)
+                                    : removeSelectedRow($opt, $selection);
+                            });
+                        });
+
+                // compile the modal
+                $modal.find('.m-multi-select__modal__content').append($content);
+
+                // inject the content
+                $select.before($selection).after($trigger);
+                $('body').append($modal);
+
+                // activate the modal
+                modals();
             })
         });
     }
 
-}))
+}));

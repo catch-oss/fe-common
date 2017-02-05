@@ -25,6 +25,22 @@
                     return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
                 });
             return uuid;
-        }
+        },
+        elemId: function($elem, idBase) {
+
+            var elementID = $elem.attr('id'),
+                idBase = idBase || $elem.text().replace(/[^A-Za-z0-9]+/g, '-').toLowerCase(),
+                i = 2;
+
+            if (!elementID) {
+                elementID = idBase;
+                while (!elementID || $('#' + elementID).length) {
+                    elementID = idBase + '-' + i;
+                    i++;
+                }
+                $elem.attr('id', elementID);
+            }
+            return elementID;
+        },
     }
 }))
