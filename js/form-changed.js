@@ -40,10 +40,16 @@
                         .off('keyup.condForm')
                         .off('nochange.condForm')
                         .on('click.condForm, change.condForm, keyup.condForm, nochange.condForm', function() {
-                            var changed = $form.data('initState') != $form.serialize();
-                            $form.toggleClass('s-changed', changed);
+                            $form.toggleClass('s-changed', $form.data('initState') != $form.serialize());
                         });
                 });
+
+                $form.find('.m-form__undo-changes')
+                    .off('click.undo')
+                    .on('click.undo', function() {
+                        $form[0].reset();
+                        $form.toggleClass('s-changed', $form.data('initState') != $form.serialize());
+                    });
             });
         });
     }

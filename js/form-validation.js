@@ -802,6 +802,37 @@
 
                         $form.parsley({namespace: ns + '-'});
 
+                        // bind field error listeners
+                        $form.find('input, textarea, select').each(function() {
+
+                            var $elem = $(this);
+
+                            // lets check to see we are getting the object we expect
+                            var $parsley = $elem.parsley();
+                            if ($parsley.unsubscribe !== undefined)
+                                $parsley
+                                    .unsubscribe('parsley:field:error')
+                                    .subscribe('parsley:field:error', function() {
+
+                                        // add classes the wrapper
+                                        $elem
+                                            .closest('.floatlabel-wrapper')
+                                            .addClass('error')
+                                                .find('.label-floatlabel')
+                                                .addClass('error');
+                                    })
+                                    .unsubscribe('parsley:field:success')
+                                    .subscribe('parsley:field:success', function(){
+
+                                        // add classes to the wrapper
+                                        $elem
+                                            .closest('.floatlabel-wrapper')
+                                            .removeClass('error')
+                                                .find('.label-floatlabel')
+                                                .removeClass('error');
+                                    });
+                        });
+
                         // we need to re map some stuff so as to allow for server errors to be passed through synchronously
                         // this should really be replaced with remote validators
                         $form.find('[data-validate-errors-container]').each(function(){
@@ -824,13 +855,13 @@
                             if ($parsley.unsubscribe !== undefined)
                                 $parsley
                                     .unsubscribe('parsley:field:error')
-                                    .subscribe('parsley:field:error', function(){
+                                    .subscribe('parsley:field:error', function() {
 
+                                        // handle error container
                                         setTimeout(function(){
                                             $correctContainer.find('li').each(function(idx){
 
                                                 // keep the first one and remove the rest
-
                                                 var cls = $(this).attr('class'),
                                                     $all = $correctContainer.find('[class="' + cls + '"]'),
                                                     keep = $all.length ? $all[0].outerHTML : '';
@@ -845,6 +876,8 @@
                                     })
                                     .unsubscribe('parsley:field:success')
                                     .subscribe('parsley:field:success', function(){
+
+                                        // handle error container
                                         $correctContainer.removeClass('filled').find('li').remove();
                                     });
                         });
