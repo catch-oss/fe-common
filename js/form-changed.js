@@ -49,6 +49,7 @@
                     .on('click.undo', function() {
                         $form[0].reset();
                         $form.find('select.droposaurusised').catchDropdown('update');
+                        $form.find('select').trigger('change');
                         $form.toggleClass('s-changed', $form.data('initState') != $form.serialize());
                     });
             });

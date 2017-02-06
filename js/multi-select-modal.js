@@ -24,7 +24,8 @@
 
 }(this, function ($, modals, util, undefined) {
 
-    var makeSelectedRow = function($opt, $selection) {
+    var selector = '.m-multi-select_modal, .m-multi-select--modal',
+        makeSelectedRow = function($opt, $selection) {
 
             // extract IDs
             var optId = util.elemId($opt),
@@ -47,8 +48,13 @@
 
             // event handler
             $remove.on('click', function() {
-                $opt.prop('selected', false);
-                $opt.closest('select').trigger('change');
+
+                // propagate change event
+                $opt.prop('selected', false)
+                    .closest(selector)
+                        .find('select')
+                            .trigger('change');
+
                 $row.remove();
             });
 
@@ -95,12 +101,12 @@
         $(function() {
 
             // .accordion-header is deprecated
-            $('.m-multi-select_modal, .m-multi-select--modal').each(function() {
+            $(selector).each(function() {
 
                 // get the parent
                 var $el = $(this),
                     $select = $el.find('select'),
-                    conf = JSON.parse(JSON.stringify(opts)),
+                    conf = JSON.parse(JSON.stringify(opts)), // hacky clone
                     triggerClasses = $select.attr('data-trigger-classes') || 'm-btn',
                     triggerCopy = $select.attr('data-trigger-copy') || 'Add',
                     tplVars = JSON.parse($select.attr('data-tpl-vars') || '{}'),
@@ -129,7 +135,7 @@
                 // generate the modal
                 $modal = $(conf.tpl);
 
-                // inject other elements
+                // add handlers and inject other elements
                 $select
                     .hide()
                     .off('change.multselectmodal')
@@ -181,6 +187,11 @@
 
                                 // set the select val
                                 $opt.prop('selected', checked);
+
+                                // propagate change event
+                                $opt.closest(selector)
+                                        .find('select')
+                                            .trigger('change');
 
                                 // create/remove elem
                                 checked
