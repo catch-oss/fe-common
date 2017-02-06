@@ -55,7 +55,6 @@
                 $(bindSelector)
                     .off(bindEvent + '.condclass')
                     .on(bindEvent + '.condclass', function() {
-                        console.log($el, condition, classes)
                         handle($el, condition, classes);
                     });
             });
