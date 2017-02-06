@@ -141,7 +141,6 @@
                     .off('change.multselectmodal')
                     .off('nochange.multselectmodal')
                     .on('change.multselectmodal nochange.multselectmodal', function() {
-                        console.log('veep');
                         $select.find('option').each(function() {
 
                             // get the option
