@@ -31,26 +31,44 @@
                     $form.data('initState', initState);
                 }
 
+                // bind handlers to all the elems
                 $form.find('input, textarea, select').each(function() {
 
+                    // get the current elem
                     var $el = $(this);
 
+                    // bind handlers
                     $el .off('click.condForm')
                         .off('change.condForm')
                         .off('keyup.condForm')
                         .off('nochange.condForm')
                         .on('click.condForm, change.condForm, keyup.condForm, nochange.condForm', function() {
-                            $form.toggleClass('s-changed', $form.data('initState') != $form.serialize());
+
+                            var changed = $form.data('initState') != $form.serialize();
+                            $form.toggleClass('s-changed', changed);
+
+                            var otherFormsChanged = $('form.s-changed').length > 0;
+                            $('html').toggleClass('s-form-changed', changed || otherFormsChanged);
                         });
                 });
 
+                // bind undo handler
                 $form.find('.m-form__undo-changes')
                     .off('click.undo')
                     .on('click.undo', function() {
+
+                        // reset stuff
                         $form[0].reset();
                         $form.find('select.droposaurusised').catchDropdown('update');
                         $form.find('select').trigger('change');
-                        $form.toggleClass('s-changed', $form.data('initState') != $form.serialize());
+
+                        // changed
+                        var changed = $form.data('initState') != $form.serialize();
+                        $form.toggleClass('s-changed', changed);
+
+                        // changed states
+                        var otherFormsChanged = $('form.s-changed').length > 0;
+                        $('html').toggleClass('s-form-changed',  changed || otherFormsChanged);
                     });
             });
         });
