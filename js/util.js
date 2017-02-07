@@ -44,6 +44,7 @@
         },
         testCondition: function(requirement) {
             var a = typeof requirement == 'string' ? this.parseCSV(requirement) : requirement,
+                opPattern = /[\-\+=\*\/%<>&\|\^]/,
                 required = '',
                 join,
                 compareTo,
@@ -52,7 +53,8 @@
                 iSelector,
                 iComparison,
                 iValue,
-                iConditionJoin;
+                iConditionJoin,
+                operator;
 
             for (i=0; i < Math.ceil(a.length / 4); i++) {
                 iBase = (i * 4);
@@ -61,16 +63,25 @@
                 iComparison = iBase + 1;
                 iValue = iBase + 2;
                 join = typeof a[iConditionJoin] == 'undefined' ? '' :  a[iConditionJoin];
-                compareTo = a[iValue].trim();
+                compareTo = a[iValue].trim(),
+                operator = a[iComparison].trim();
 
                 // check the value to see if it's a special case otherwise wrap it in quotes so it gets treated as a string
                 // this is a little bit of a hack because we are using this csv parser which strips the quotes
                 if (compareTo != 'false' && compareTo != 'true' && compareTo != 'null' && !/^[0-9]+$/.test(compareTo))
                     compareTo = "'" + compareTo + "'";
 
-                // append to the conditional string
-                required += join + " $('" + a[iSelector].trim() + "').val() " + a[iComparison].trim() + " " + compareTo;
+                // if it's not a standard boolean operator then assume its a function call
+                if (opPattern.test(operator)) {
 
+                    // append to the conditional string
+                    required += join + " $('" + a[iSelector].trim() + "').val() " + operator + " " + compareTo;
+                }
+                else {
+
+                    // append to the conditional string
+                    required += join + " $('" + a[iSelector].trim() + "')." + operator + "(" + compareTo + ") ";
+                }
             }
 
             // evaluate the conditional
