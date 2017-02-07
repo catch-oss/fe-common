@@ -109,7 +109,7 @@
                 });
 
 			// make sure everything is legit
-			$('[aria-selected="true"').trigger('click');
+			$('[aria-selected="true"]').trigger('click');
         });
     }
 
