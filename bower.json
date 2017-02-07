@@ -1,9 +1,9 @@
 {
 	"name": "catch-fe-common",
 <<<<<<< HEAD
-	"version": "1.9.4",
+	"version": "1.9.5",
 =======
-	"version": "1.9.4",
+	"version": "1.9.5",
 >>>>>>> 4d552399ecc8109cdafa23e738f75b1c7679ed9f
 	"authors": [
 		"Aaron Latham-Anderson <aaron@catch.co.nz>"
