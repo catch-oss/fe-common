@@ -1,38 +1,83 @@
-@mixin define-font($font-name, $font, $weight: normal, $style: normal) {
-	@font-face {
-		font-family: $font-name;
-		font-weight: $weight;
-		font-style: $style;
-		src: url(font-path("#{$font}.eot"));
-		src: url(font-path("#{$font}.eot")) format("embedded-opentype"),
-			 url(font-path("#{$font}.woff")) format("woff"),
-			 url(font-path("#{$font}.ttf")) format("truetype"),
-			 url(font-path("#{$font}.svg")) format("svg");
+@mixin define-font($font-name, $font, $weight: normal, $style: normal, $woff2: false) {
+	@if ($woff2) {
+		@font-face {
+			font-family: $font-name;
+			font-weight: $weight;
+			font-style: $style;
+			src: url(font-path("#{$font}.eot")); // IE9 Compat Modes
+			src: url(font-path("#{$font}.eot?#iefix")) format("embedded-opentype"), // IE6-IE8
+				 url(font-path("#{$font}.svg#{$font}")) format("svg"), // Legacy iOS
+				 url(font-path("#{$font}.woff2")) format("woff2"), // Super Modern Browsers
+				 url(font-path("#{$font}.woff")) format("woff"), // Pretty Modern Browsers
+				 url(font-path("#{$font}.ttf")) format("truetype"); // Safari, Android, iOS
+		}
+	}
+	@else {
+		@font-face {
+			font-family: $font-name;
+			font-weight: $weight;
+			font-style: $style;
+			src: url(font-path("#{$font}.eot")); // IE9 Compat Modes
+			src: url(font-path("#{$font}.eot?#iefix")) format("embedded-opentype"), // IE6-IE8
+				 url(font-path("#{$font}.svg#{$font}")) format("svg"), // Legacy iOS
+				 url(font-path("#{$font}.woff")) format("woff"), // Pretty Modern Browsers
+				 url(font-path("#{$font}.ttf")) format("truetype"); // Safari, Android, iOS
+		}
 	}
 }
 
-@mixin define-lib-font($font-name, $font, $weight: normal, $style: normal) {
-	@font-face {
-		font-family: $font-name;
-		font-weight: $weight;
-		font-style: $style;
-		src: url(lib-font-path("#{$font}.eot"));
-		src: url(lib-font-path("#{$font}.eot")) format("embedded-opentype"),
-			 url(lib-font-path("#{$font}.woff")) format("woff"),
-			 url(lib-font-path("#{$font}.ttf")) format("truetype"),
-			 url(lib-font-path("#{$font}.svg")) format("svg");
+@mixin define-lib-font($font-name, $font, $weight: normal, $style: normal, $woff2: false) {
+	@if ($woff2) {
+		@font-face {
+			font-family: $font-name;
+			font-weight: $weight;
+			font-style: $style;
+			src: url(lib-font-path("#{$font}.eot")); // IE9 Compat Modes
+			src: url(lib-font-path("#{$font}.eot?#iefix")) format("embedded-opentype"), // IE6-IE8
+				 url(lib-font-path("#{$font}.svg#{$font}")) format("svg"), // Legacy iOS
+				 url(lib-font-path("#{$font}.woff2")) format("woff2"), // Super Modern Browsers
+				 url(lib-font-path("#{$font}.woff")) format("woff"), // Pretty Modern Browsers
+				 url(lib-font-path("#{$font}.ttf")) format("truetype"); // Safari, Android, iOS
+		}
+	}
+	@else {
+		@font-face {
+			font-family: $font-name;
+			font-weight: $weight;
+			font-style: $style;
+			src: url(lib-font-path("#{$font}.eot")); // IE9 Compat Modes
+			src: url(lib-font-path("#{$font}.eot?#iefix")) format("embedded-opentype"), // IE6-IE8
+				 url(lib-font-path("#{$font}.svg#{$font}")) format("svg"), // Legacy iOS
+				 url(lib-font-path("#{$font}.woff")) format("woff"), // Pretty Modern Browsers
+				 url(lib-font-path("#{$font}.ttf")) format("truetype"); // Safari, Android, iOS
+		}
 	}
 }
 
 // this should prob accept a list of types
-@mixin define-crippled-lib-font($font-name, $font, $weight: normal, $style: normal) {
-	@font-face {
-		font-family: $font-name;
-		font-weight: $weight;
-		font-style: $style;
-		src: url(lib-font-path("#{$font}.eot"));
-		src: url(lib-font-path("#{$font}.eot")) format("embedded-opentype"),
-			 url(lib-font-path("#{$font}.woff")) format("woff");
+@mixin define-crippled-lib-font($font-name, $font, $weight: normal, $style: normal, $woff2: false) {
+	@if ($woff2) {
+		@font-face {
+			font-family: $font-name;
+			font-weight: $weight;
+			font-style: $style;
+			src: url(lib-font-path("#{$font}.eot")); // IE9 Compat Modes
+			src: url(lib-font-path("#{$font}.eot?#iefix")) format("embedded-opentype"), // IE6-IE8
+				 url(lib-font-path("#{$font}.svg#{$font}")) format("svg"), // Legacy iOS
+				 url(lib-font-path("#{$font}.woff2")) format("woff2"), // Super Modern Browsers
+				 url(lib-font-path("#{$font}.woff")) format("woff"); // Pretty Modern Browsers
+		}
+	}
+	@else {
+		@font-face {
+			font-family: $font-name;
+			font-weight: $weight;
+			font-style: $style;
+			src: url(lib-font-path("#{$font}.eot")); // IE9 Compat Modes
+			src: url(lib-font-path("#{$font}.eot?#iefix")) format("embedded-opentype"), // IE6-IE8
+				 url(lib-font-path("#{$font}.svg#{$font}")) format("svg"), // Legacy iOS
+				 url(lib-font-path("#{$font}.woff")) format("woff"); // Pretty Modern Browsers
+		}
 	}
 }
 
