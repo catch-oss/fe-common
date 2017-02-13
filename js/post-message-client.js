@@ -26,7 +26,7 @@
                 });
         };
 
-    return function($el, query, cb) {
+    return function($el, query, cb, origin) {
 
         $(function() {
 
@@ -57,7 +57,8 @@
             cbRegister[req.id] = cb;
 
             // fire the message
-            $el[0].postMessage(JSON.stringify(req));
+            var win = $el.length ? $el[0] : $el;
+            win.postMessage(JSON.stringify(req), (origin || '*'));
         });
     };
 }));
