@@ -17,6 +17,7 @@
     'use strict';
 
     return {
+
         uuid: function() {
             var d = new Date().getTime(),
                 uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -26,6 +27,7 @@
                 });
             return uuid;
         },
+
         elemId: function($elem, idBase) {
 
             var elementID = $elem.attr('id'),
@@ -42,6 +44,7 @@
             }
             return elementID;
         },
+
         testCondition: function(requirement) {
             var a = typeof requirement == 'string' ? this.parseCSV(requirement) : requirement,
                 opPattern = /[\-\+=\*\/%<>&\|\^]/,
@@ -87,6 +90,7 @@
             // evaluate the conditional
             return eval(required);
         },
+
         parseCSV: function(text) {
             var re_valid = /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
             var re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
@@ -105,6 +109,55 @@
             // Handle special case of empty last value.
             if (/,\s*$/.test(text)) a.push('');
             return a;
+        },
+
+        ev: {
+
+            bind:function(el, ev, fn){
+                if (window.addEventListener) { // modern browsers including IE9+
+                    el.addEventListener(ev, fn, false);
+                } else if(window.attachEvent) { // IE8 and below
+                    el.attachEvent('on' + ev, fn);
+                } else {
+                    el['on' + ev] = fn;
+                }
+                return this;
+            },
+
+            unbind:function(el, ev, fn){
+                if (window.removeEventListener) {
+                    el.removeEventListener(ev, fn, false);
+                } else if(window.detachEvent) {
+                    el.detachEvent('on' + ev, fn);
+                } else {
+                    elem['on' + ev] = null;
+                }
+                return this;
+            },
+
+            stop:function(ev) {
+                var e = ev || window.event;
+                e.cancelBubble = true;
+                if (e.stopPropagation) e.stopPropagation();
+                return this;
+            },
+
+            fire: function(element, name) {
+
+                var e = null;
+
+                if (document.createEventObject) {
+                    e = document.createEventObject();
+                    element.fireEvent('on' + name, e);
+                }
+                else {
+                    e = document.createEvent('HTMLEvents');
+                    e.initEvent(name, true, true);
+                    element.dispatchEvent(e);
+                }
+
+                return this;
+            }
         }
     }
 }))
