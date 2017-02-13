@@ -56,6 +56,8 @@
             // register the callback
             cbRegister[req.id] = cb;
 
+            console.log(req);
+
             // fire the message
             var win = $el.length ? $el[0] : $el;
             win.postMessage(JSON.stringify(req), (origin || '*'));

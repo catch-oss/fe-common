@@ -29,6 +29,8 @@
                     var req = JSON.parse(e.data),
                         res = {req: req, res: {}};
 
+                    console.log(req);
+
                     // parent window queries
                     // -> we have something to post back to here
                     // -----------------------------------------
