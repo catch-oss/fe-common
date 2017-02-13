@@ -18,8 +18,16 @@
 
     return function(opts) {
 
-        var postBackWin = opts.el[0] || window.parent;
+        // default to an empty obj
+        opts = opts || {};
 
+        // default the elem to an array (ala jQuery)
+        opts.postBackWin = opts.postBackWin || [];
+
+        // window reference
+        var postBackWin = opts.postBackWin[0] || window.parent;
+
+        // run after dom ready
         $(function() {
 
             $(window)
