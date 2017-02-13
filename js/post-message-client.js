@@ -61,7 +61,7 @@
 
             // bind event handlers
             util.ev
-                .unbind(window, 'message', handler);
+                .unbind(window, 'message', handler)
                 .bind(window, 'message', handler);
 
             // make the request
