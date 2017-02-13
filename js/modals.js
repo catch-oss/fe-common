@@ -67,7 +67,7 @@
                     }
                 });
 
-            $('.m-modal-overlay, .body-overlay, .m-modal__close__trigger, .m-modal__close__trigger-one')
+            $('.m-modal-overlay, .body-overlay, .m-modal__close-trigger, .m-modal__close__trigger, .m-modal__close__trigger-one')
                 .off('click.m-modal')
                 .off('tap.m-modal')
                 .on('click.m-modal tap.m-modal', function(e) {

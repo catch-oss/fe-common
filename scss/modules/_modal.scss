@@ -57,7 +57,7 @@
 	bottom: 0;
 	z-index: 100;
 	position: fixed;
-	background-color: colour("black");
+	background-color: rgba(colour("black"), 0.75);
 }
 
 // ------------------
