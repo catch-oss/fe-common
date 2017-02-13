@@ -23,19 +23,12 @@
         );
     }
 
-}(this, function ($, undefined) {
+}(this, function ($, util, undefined) {
 
     'use strict';
 
     var cbRegister = {},
-        guid = function() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-                .replace(/[xy]/g, function(c) {
-                    var r = Math.floor(Math.random() * 16),
-                        v = c === 'x' ? r : (r % 4 + 4);
-                    return v.toString(16);
-                });
-        };
+        guid = util.uuid;
 
     return function($el, query, cb, origin) {
 
@@ -64,15 +57,17 @@
                 .unbind(window, 'message', handler)
                 .bind(window, 'message', handler);
 
-            // make the request
-            var req = {query: query, id: guid()};
+            // make the request object
+            var req = typeof query == 'object' ? query : {query: query};
+
+            // add the request id
+            req.id = guid();
 
             // register the callback
             cbRegister[req.id] = cb;
 
             // fire the message
-            var win = $el.length ? $el[0] : $el;
-            console.log(win, req);
+            var win = $el.postMessage === undefined ? $el[0] : $el; // hacky check to see if its a jq elem
             win.postMessage(JSON.stringify(req), (origin || '*'));
         });
     };
