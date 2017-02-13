@@ -23,7 +23,7 @@
         );
     }
 
-}(this, function ($, undefined) {
+}(this, function ($, util, undefined) {
 
     'use strict';
 

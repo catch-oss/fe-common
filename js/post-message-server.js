@@ -32,70 +32,69 @@
         // default to an empty obj
         opts = opts || {};
 
-        // default the elem to an array (ala jQuery)
-        opts.postBackWin = opts.postBackWin || [];
-
-        // window reference
-        var postBackWin = opts.postBackWin[0] || window.parent;
-
         // run after dom ready
         $(function() {
 
-            console.log('server runing', opts);
-
             var handler = function(e) {
-                var req = JSON.parse(e.data),
-                    res = {req: req, res: {}};
 
-                console.log(req);
+                try {
 
-                // parent window queries
-                // -> we have something to post back to here
-                // -----------------------------------------
+                    var req = JSON.parse(e.data),
+                        res = {req: req, res: {}};
 
-                if (req.query == 'document.height') {
-                    res.res.height = $(document).height();
-                    postBackWin.postMessage(JSON.stringify(res));
-                }
+                    // parent window queries
+                    // -> we have something to post back to here
+                    // -----------------------------------------
 
-                if (req.query == 'window.location') {
-                    res.res.location = window.location;
-                    postBackWin.postMessage(JSON.stringify(res));
-                }
-
-                // child window queries
-                // ----------------------------------
-
-                if (req.query == 'link.click') {
-
-                    // does the link contain a #
-                    var hasHash = req.link.indexOf('#') >= 0,
-                        hasHistory = history.replaceState !== undefined;
-
-                    // do the postback before attempting the other things
-                    // as it can create a reload
-                    if (postBackWin !== undefined) {
-                        res.res.hasHash = hasHash;
-                        res.res.hasHistory = hasHistory;
-                        postBackWin.postMessage(JSON.stringify(res));
+                    if (req.query == 'document.height') {
+                        res.res.height = $(document).height();
+                        e.source.postMessage(JSON.stringify(res));
                     }
 
-                    // if it's just a link then follow it
-                    if (!hasHash)
-                        window.location = req.link;
-
-                    // if it has a hash but we don't have history
-                    // atm this is basically a dupe of !hasHash, but we'll
-                    // leave it seperate for the time being
-                    // in case we figure out a work around
-                    else if (hasHash && !hasHistory)
-                        window.location = req.link;
-
-                    // the ideal scenario
-                    else if (hasHash && hasHistory) {
-                        history.replaceState({}, document.title, req.link);
-                        $(window).trigger('hashchange');
+                    if (req.query == 'window.location') {
+                        res.res.location = window.location;
+                        e.source.postMessage(JSON.stringify(res));
                     }
+
+                    // child window queries
+                    // ----------------------------------
+
+                    if (req.query == 'link.click') {
+
+                        // does the link contain a #
+                        var hasHash = req.link.indexOf('#') >= 0,
+                            hasHistory = history.replaceState !== undefined;
+
+                        // do the postback before attempting the other things
+                        // as it can create a reload
+                        if (e.source !== undefined) {
+                            res.res.hasHash = hasHash;
+                            res.res.hasHistory = hasHistory;
+                            e.source.postMessage(JSON.stringify(res), e.origin);
+                        }
+
+                        // if it's just a link then follow it
+                        if (!hasHash)
+                            window.location = req.link;
+
+                        // if it has a hash but we don't have history
+                        // atm this is basically a dupe of !hasHash, but we'll
+                        // leave it seperate for the time being
+                        // in case we figure out a work around
+                        else if (hasHash && !hasHistory)
+                            window.location = req.link;
+
+                        // the ideal scenario
+                        else if (hasHash && hasHistory) {
+                            history.replaceState({}, document.title, req.link);
+                            $(window).trigger('hashchange');
+                        }
+                    }
+                }
+
+                catch (e) {
+                    // silently fail - most likely this message was not for us
+                    // console.error(e);
                 }
             };
 
