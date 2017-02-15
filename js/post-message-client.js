@@ -1,63 +1,74 @@
 ;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
-    if (typeof define === 'function' && define.amd) define(['jquery'], factory);
+    if (typeof define === 'function' && define.amd)
+        define([
+            'jquery',
+            './util'
+        ], factory);
 
     // Node, CommonJS-like
-    else if (typeof exports === 'object') module.exports = factory(require('jquery'));
+    else if (typeof exports === 'object')
+        module.exports = factory(
+            require('jquery'),
+            require('./util')
+        );
 
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.postMessageClient = factory(root.jQuery);
+        root.catch.postMessageClient = factory(
+            root.jQuery,
+            root.catch.util
+        );
     }
 
-}(this, function ($, undefined) {
+}(this, function ($, util, undefined) {
 
     'use strict';
 
     var cbRegister = {},
-        guid = function() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-                .replace(/[xy]/g, function(c) {
-                    var r = Math.floor(Math.random() * 16),
-                        v = c === 'x' ? r : (r % 4 + 4);
-                    return v.toString(16);
-                });
-        };
+        guid = util.uuid;
 
-    return function($el, query, cb) {
+    return function($el, query, cb, origin) {
 
         $(function() {
 
             // set up the listener
-            $(window)
-                .off('message:pms')
-                .on('message:pms', function(e) {
+            var handler = function(e) {
 
-                    // parse the response
-                    var data = JSON.parse(e.data);
+                // parse the response
+                var data = JSON.parse(e.data);
 
-                    // did we send this message?
-                    if (typeof data.req == 'undefined') return;
+                // did we send this message?
+                if (typeof data.req == 'undefined') return;
 
-                    // find the callback
-                    if (typeof cbRegister[data.req.id] == 'function') {
+                // find the callback
+                if (typeof cbRegister[data.req.id] == 'function') {
 
-                        // fire the callback
-                        cbRegister[data.id](data);
-                        delete(cbRegister[data.id]);
-                    }
-                });
+                    // fire the callback
+                    cbRegister[data.id](data);
+                    delete(cbRegister[data.id]);
+                }
+            };
 
-            // make the request
-            var req = {query: query, id: guid()};
+            // bind event handlers
+            util.ev
+                .unbind(window, 'message', handler)
+                .bind(window, 'message', handler);
+
+            // make the request object
+            var req = typeof query == 'object' ? query : {query: query};
+
+            // add the request id
+            req.id = guid();
 
             // register the callback
             cbRegister[req.id] = cb;
 
             // fire the message
-            $el[0].postMessage(JSON.stringify(req));
+            var win = $el.postMessage === undefined ? $el[0] : $el; // hacky check to see if its a jq elem
+            win.postMessage(JSON.stringify(req), (origin || '*'));
         });
     };
 }));

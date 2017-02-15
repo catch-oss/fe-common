@@ -15,8 +15,8 @@
             //                     '<div class="modal-body">' +
             //                         '<p>{{message}}</p>' +
             //                         '<div class="actions">' +
-            //                             '<a href="" class="btn btn--danger btn--small confirmadon-yes" title="">{{yes}}</a>' +
-            //                             '<a href="" class="btn btn--tertiary btn--small confirmadon-no" title="">{{no}}</a>' +
+            //                             '<a class="btn btn--danger btn--small confirmadon-yes" title="">{{yes}}</a>' +
+            //                             '<a class="btn btn--tertiary btn--small confirmadon-no" title="">{{no}}</a>' +
             //                         '</div>' +
             //                     '</div>' +
             //                 '</div>' +
@@ -37,8 +37,8 @@
                                 '</div>' +
                                 '<div class="modal-footer">' +
                                     '<div class="modal-dialog-inner">' +
-                                        '<a href="" class="btn btn--' + (danger ? 'danger' : 'success') + ' btn--small confirmadon-yes" title="">{{yes}}</a> ' +
-                                        '<a href="" class="btn btn--tertiary btn--small confirmadon-no" title="">{{no}}</a>' +
+                                        '<a class="btn btn--' + (danger ? 'danger' : 'success') + ' btn--small confirmadon-yes" title="">{{yes}}</a> ' +
+                                        '<a class="btn btn--tertiary btn--small confirmadon-no" title="">{{no}}</a>' +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +

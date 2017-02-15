@@ -18,7 +18,7 @@
 
 .h-icon {
 
-	&--90 {
+	&#{$bem-m-str}90 {
 		&::before,
 		&::after {
 			@include prefixed(transform, rotate(90deg));
@@ -26,7 +26,7 @@
 		}
 	}
 
-	&--180 {
+	&#{$bem-m-str}180 {
 		&::before,
 		&::after {
 			@include prefixed(transform, rotate(180deg));
@@ -34,7 +34,7 @@
 		}
 	}
 
-	&--270 {
+	&#{$bem-m-str}270 {
 		&::before,
 		&::after {
 			@include prefixed(transform, rotate(270deg));
@@ -42,7 +42,7 @@
 		}
 	}
 
-	&--after {
+	&#{$bem-m-str}after {
 		&::before {
 			display: none;
 		}
@@ -52,12 +52,12 @@
 		$name: nth($val, 1);
 		$content: nth($val, 2);
 
-		&--#{$name} {
+		&#{$bem-m-str}#{$name} {
 			&::before {
 				content: $content;
 			}
 
-			&.h-icon--after {
+			&.h-icon#{$bem-m-str}after {
 				&::after {
 					content: $content;
 					float: right;
@@ -67,7 +67,7 @@
 	}
 
 	@each $col in $colours {
-		&--#{nth($col, 1)}-disc {
+		&#{$bem-m-str}#{nth($col, 1)}-disc {
 			&::before {
 				padding: 10%;
 				background: nth($col, 2);
@@ -75,7 +75,7 @@
 			}
 		}
 
-		&--#{nth($col, 1)}-disc.h-icon--after {
+		&#{$bem-m-str}#{nth($col, 1)}-disc.h-icon#{$bem-m-str}after {
 			&::after {
 				padding: 10%;
 				background: nth($col, 2);

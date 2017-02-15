@@ -1,49 +1,53 @@
 ;(function (root, factory) {
 
-     // AMD. Register as an anonymous module depending on jQuery.
-     if (typeof define === 'function' && define.amd) define(['jquery'], factory);
+    // AMD. Register as an anonymous module depending on jQuery.
+    if (typeof define === 'function' && define.amd) define(['jquery'], factory);
 
-     // Node, CommonJS-like
-     else if (typeof exports === 'object') module.exports = factory(require('jquery'));
+    // Node, CommonJS-like
+    else if (typeof exports === 'object') module.exports = factory(require('jquery'));
 
-     // Browser globals (root is window)
-     else {
-         root.catch = (root.catch || {});
-         root.catch.sniffUA = factory(root.jQuery);
-     }
+    // Browser globals (root is window)
+    else {
+        root.catch = (root.catch || {});
+        root.catch.sniffUA = factory(root.jQuery);
+    }
 
-}(this, function ($, undefined) {
+} (this, function ($, undefined) {
 
-	return function() {
+    return function() {
 
-		$(function() {
+        $(function() {
 
-			// vars
-			var is_android, is_chrome, res, ua, is_ios, detectIE;
+            // vars
+            var isAndroid, isChrome, res, ua, isIos, detectIE;
 
-			// do the sniffing
-			ua = navigator.userAgent;
-			is_android = /Android/.test(ua);
-			is_chrome = /Chrome/.test(ua);
-			is_ios = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            // do the sniffing
+            ua = navigator.userAgent;
+            isAndroid = /Android/.test(ua);
+            isChrome = /Chrome/.test(ua);
+            isSafari = /Version\/[\d\.]+.*Safari/.test(ua);
+            isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-			// let everyone know it's ios
-			if (is_ios) $('html').addClass('ios');
+            // let everyone know it's safari
+            if (isSafari) $('html').addClass('safari');
 
-			// android stuff
-			if (is_android) {
+            // let everyone know it's ios
+            if (isIos) $('html').addClass('ios');
 
-				// let everyone know it's an android
-				$('html').addClass('android');
+            // android stuff
+            if (isAndroid) {
 
-				// indetify if it's the "native" browser
-				if (!is_chrome) {
-					res = ua.match(/Android [^;]+/);
-					if (res != null && res.length) {
-						$('html').addClass('android--stock android--stock--' + res[0].split(' ').join('-'));
-					}
-				}
-			}
+                // let everyone know it's an android
+                $('html').addClass('android');
+
+                // indetify if it's the "native" browser
+                if (!isChrome) {
+                    res = ua.match(/Android [^;]+/);
+                    if (res != null && res.length) {
+                        $('html').addClass('android--stock android--stock--' + res[0].split(' ').join('-'));
+                    }
+                }
+            }
 
             // Conditional HTML comments don't work for ie10+ so UA sniff it ...
             detectIE = function() {
@@ -76,6 +80,6 @@
             if (detectIE() >= 10) {
                 $('html').addClass('ie gt-ie9');
             }
-		});
-	};
+        });
+    };
 }));

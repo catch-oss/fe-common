@@ -14,11 +14,43 @@
 
 }(this, function ($, droposaurus, simpleDD, undefined) {
 
+    // cached has touch lookup
+    var hasTouchCache = null,
+        hasTouch = function() {
+
+            // return the cached lookup
+            if (hasTouchCache === null) {
+
+                // do the lookup
+                try {
+                    document.createEvent("TouchEvent");
+                    hasTouchCache = true;
+                } catch (e) {
+                    hasTouchCache = false;
+                }
+            }
+
+            return hasTouchCache;
+        };
+
     return {
         formSelect: function(selector, options, params) {
             $(function(){
-                if (typeof selector == 'undefined') selector = 'select.catch-dropdown';
-                $(selector).catchDropdown(options, params);
+
+                // default selectors
+                if (typeof selector == 'undefined')
+                    selector = 'select.catch-dropdown, .m-dropdown__select';
+
+                // are we going to use droposarus on mobile?
+                if (options !== undefined && options.useBrowserSelectOnTouch && hasTouch()) {
+                    $(selector)
+                        .addClass('s-has-touch')
+                        .wrap('<span class="s-has-touch m-dropdown__inner" />')
+                        .closest('.m-dropdown')
+                            .addClass('s-has-touch');
+                }
+
+                else $(selector).catchDropdown(options, params);
             });
         },
         simpleDropdown: function(selector, options, params) {

@@ -19,6 +19,7 @@
             [
                 'jquery',
                 'moment',
+                './util',
                 './../../parsleyjs/dist/parsley',
                 './../../body-toucher/body-toucher'
             ],
@@ -30,6 +31,7 @@
         module.exports = factory(
             require('jquery'),
             require('./../../moment/moment'),
+            require('./util'),
             require('./../../parsleyjs/dist/parsley'),
             require('./../../body-toucher/body-toucher')
         );
@@ -37,10 +39,14 @@
      // Browser globals (root is window)
      else {
          root.catch = (root.catch || {});
-         root.catch.formValidation = factory(root.jQuery, root.moment);
+         root.catch.formValidation = factory(
+             root.jQuery,
+             root.moment,
+             root.catch.util
+         );
      }
 
-}(this, function ($, moment, parsley, bodyToucher, undefined) {
+}(this, function ($, moment, util, parsley, bodyToucher, undefined) {
 
     return function(conf) {
 
@@ -230,60 +236,8 @@
             // Validation Helpers
             // ------------------
 
-            var testCondition = function(requirement) {
-                var a = typeof requirement == 'string' ? parseCSV(requirement) : requirement,
-                    required = '',
-                    join,
-                    compareTo,
-                    i,
-                    iBase,
-                    iSelector,
-                    iComparison,
-                    iValue,
-                    iConditionJoin;
-
-                for (i=0; i < Math.ceil(a.length / 4); i++) {
-                    iBase = (i * 4);
-                    iConditionJoin = iBase - 1;
-                    iSelector = iBase;
-                    iComparison = iBase + 1;
-                    iValue = iBase + 2;
-                    join = typeof a[iConditionJoin] == 'undefined' ? '' :  a[iConditionJoin];
-                    compareTo = a[iValue].trim();
-
-                    // check the value to see if it's a special case otherwise wrap it in quotes so it gets treated as a string
-                    // this is a little bit of a hack because we are using this csv parser which strips the quotes
-                    if (compareTo != 'false' && compareTo != 'true' && compareTo != 'null' && !/^[0-9]+$/.test(compareTo))
-                        compareTo = "'" + compareTo + "'";
-
-                    // append to the conditional string
-                    required += join + " $('" + a[iSelector].trim() + "').val() " + a[iComparison].trim() + " " + compareTo;
-
-                }
-
-                // evaluate the conditional
-                return eval(required);
-            }
-
-            var parseCSV = function(text) {
-                var re_valid = /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
-                var re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
-                // Return NULL if input string is not well formed CSV string.
-                if (!re_valid.test(text)) return null;
-                var a = [];                     // Initialize array to receive values.
-                text.replace(re_value, // "Walk" the string using replace with callback.
-                    function(m0, m1, m2, m3) {
-                        // Remove backslash from \' in single quoted values.
-                        if      (m1 !== undefined) a.push(m1.replace(/\\'/g, "'"));
-                        // Remove backslash from \" in double quoted values.
-                        else if (m2 !== undefined) a.push(m2.replace(/\\"/g, '"'));
-                        else if (m3 !== undefined) a.push(m3);
-                        return ''; // Return empty string.
-                    });
-                // Handle special case of empty last value.
-                if (/,\s*$/.test(text)) a.push('');
-                return a;
-            };
+            var testCondition = util.testCondition,
+                parseCSV = util.parseCSV;
 
             // alt validateCC
             // var validateCC = (function (arr) {
@@ -802,6 +756,37 @@
 
                         $form.parsley({namespace: ns + '-'});
 
+                        // bind field error listeners
+                        $form.find('input, textarea, select').each(function() {
+
+                            var $elem = $(this);
+
+                            // lets check to see we are getting the object we expect
+                            var $parsley = $elem.parsley();
+                            if ($parsley.unsubscribe !== undefined)
+                                $parsley
+                                    .unsubscribe('parsley:field:error')
+                                    .subscribe('parsley:field:error', function() {
+
+                                        // add classes the wrapper
+                                        $elem
+                                            .closest('.floatlabel-wrapper')
+                                            .addClass('error')
+                                                .find('.label-floatlabel')
+                                                .addClass('error');
+                                    })
+                                    .unsubscribe('parsley:field:success')
+                                    .subscribe('parsley:field:success', function(){
+
+                                        // add classes to the wrapper
+                                        $elem
+                                            .closest('.floatlabel-wrapper')
+                                            .removeClass('error')
+                                                .find('.label-floatlabel')
+                                                .removeClass('error');
+                                    });
+                        });
+
                         // we need to re map some stuff so as to allow for server errors to be passed through synchronously
                         // this should really be replaced with remote validators
                         $form.find('[data-validate-errors-container]').each(function(){
@@ -824,13 +809,13 @@
                             if ($parsley.unsubscribe !== undefined)
                                 $parsley
                                     .unsubscribe('parsley:field:error')
-                                    .subscribe('parsley:field:error', function(){
+                                    .subscribe('parsley:field:error', function() {
 
+                                        // handle error container
                                         setTimeout(function(){
                                             $correctContainer.find('li').each(function(idx){
 
                                                 // keep the first one and remove the rest
-
                                                 var cls = $(this).attr('class'),
                                                     $all = $correctContainer.find('[class="' + cls + '"]'),
                                                     keep = $all.length ? $all[0].outerHTML : '';
@@ -845,6 +830,8 @@
                                     })
                                     .unsubscribe('parsley:field:success')
                                     .subscribe('parsley:field:success', function(){
+
+                                        // handle error container
                                         $correctContainer.removeClass('filled').find('li').remove();
                                     });
                         });
