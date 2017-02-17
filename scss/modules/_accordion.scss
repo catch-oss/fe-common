@@ -2,14 +2,15 @@
 	clear: both;
 
 	// Remove all height from body when not active - This is because Firefox generates space in some circumstances
-	&:not(.active) {
+	&:not(.active),
+	&:not(.s-active) {
 
-		// + .m-accordion-body
-		+ * {
-			* {
-				height: 0;
-				// margin: 0;
-			}
+		+ .m-accordion-body {
+			height: 0;
+			// * {
+			// 	height: 0;
+			// 	// margin: 0;
+			// }
 		}
 	}
 
@@ -21,8 +22,7 @@
 		margin-top: 3px;
 	}
 
-	// + .m-accordion-body
-	+ * {
+	+ .m-accordion-body {
 		@include prefixed(transition, all 0.2s ease-in-out);
 		overflow: hidden;
 		visibility: hidden;
@@ -30,8 +30,6 @@
 		opacity: 0;
 	}
 }
-
-
 
 // ---------------------------
 // state
@@ -41,12 +39,10 @@
 // ------
 
 .s-active {
-
 	&.m-accordion-header {
 		border-bottom: 0;
 
-		// + .m-accordion-body
-		+ * {
+		+ .m-accordion-body {
 			visibility: visible;
 			opacity: 1;
 			height: auto;
@@ -67,8 +63,7 @@
 
 	.m-accordion-header.s-active {
 
-		// + .m-accordion-body
-		+ * {
+		+ .m-accordion-body {
 			visibility: visible;
 			opacity: 1;
 			height: auto !important;
@@ -78,7 +73,7 @@
 			// * {
 			// 	height: auto;
 			// }
-			// this is getting in my way... why is it necessary?
+			// this is getting in my way...
 		}
 	}
 }
