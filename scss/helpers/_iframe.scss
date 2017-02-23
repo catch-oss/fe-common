@@ -1,9 +1,18 @@
-.video-container {
+.video-container, // legacy
+.h-responsive-iframe {
 	position: relative;
 	padding-bottom: 56.25%;
 	padding-top: 35px;
 	height: 0;
 	overflow: hidden;
+
+	&--16x9 {
+		padding-bottom: 56.25%;
+	}
+
+	&--4x3 {
+		padding-bottom: 75%;
+	}
 
 	iframe {
 		position: absolute;
