@@ -46,8 +46,6 @@
                     cName = cookieName + '-' + elid;
                     cookie = util.getCookie(cName);
 
-                console.log(cName, cookie);
-
                 if (!cookie) {
                     $notice.addClass(activeClass);
                     $('html').addClass(htmlActiveClass);
