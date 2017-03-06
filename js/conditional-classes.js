@@ -43,6 +43,7 @@
 
                 // extract the config
                 var $el = $(this),
+                    elID = util.elemId($el),
                     condition = $el.attr('data-condition'),
                     classes = $el.attr('data-class'),
                     bindSelector = $el.attr('data-bind-selector'),
@@ -53,8 +54,8 @@
 
                 // bind event handlers
                 $(bindSelector)
-                    .off(bindEvent + '.condclass')
-                    .on(bindEvent + '.condclass', function() {
+                    .off(bindEvent + '.condclass' + elID)
+                    .on(bindEvent + '.condclass' + elID, function() {
                         handle($el, condition, classes);
                     });
             });
