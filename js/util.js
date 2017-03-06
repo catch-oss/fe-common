@@ -18,6 +18,25 @@
 
     return {
 
+        getCookie: function(cname) {
+            var name = cname + '=',
+                ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) === 0) {
+                    return c.substring(name.length,c.length);
+                }
+            }
+            return '';
+        },
+
+        setCookie: function(cname, cvalue) {
+            document.cookie = cname + '=' + cvalue;
+        },
+
         uuid: function() {
             var d = new Date().getTime(),
                 uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

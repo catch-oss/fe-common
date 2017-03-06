@@ -26,9 +26,10 @@
                     e.preventDefault();
 
                     // .active is deprecated
-                    $(this).toggleClass('active s-active');
+                    $(this).toggleClass('s-active');
                 });
         });
     }
 
 }))
+

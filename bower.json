@@ -1,6 +1,6 @@
 {
 	"name": "catch-fe-common",
-	"version": "1.11.6",
+	"version": "1.13.1",
 	"authors": [
 		"Aaron Latham-Anderson <aaron@catch.co.nz>"
 	],
@@ -11,7 +11,7 @@
 		"backbone.localStorage": "~1.1.16",
 		"bourbon": "~4.2.1",
 		"confirmadon": "~0.1.0",
-		"droposaurus": "git@gl.catch.co.nz:catch/droposaurus.git",
+		"droposaurus": "git@gl.catch.co.nz:catch/droposaurus.git#>=0.5.0",
 		"graphraptor": "git@gl.catch.co.nz:catch/graphraptor.git",
 		"html5-boilerplate": "~5.1.0",
 		"jquery": "~1.12.4",
