@@ -20,6 +20,7 @@
                 'jquery',
                 'moment',
                 './util',
+                './validators',
                 './../../parsleyjs/dist/parsley',
                 './../../body-toucher/body-toucher'
             ],
@@ -32,6 +33,7 @@
             require('jquery'),
             require('./../../moment/moment'),
             require('./util'),
+            require('./validators'),
             require('./../../parsleyjs/dist/parsley'),
             require('./../../body-toucher/body-toucher')
         );
@@ -42,11 +44,12 @@
          root.catch.formValidation = factory(
              root.jQuery,
              root.moment,
-             root.catch.util
+             root.catch.util,
+             root.catch.validators
          );
      }
 
-}(this, function ($, moment, util, parsley, bodyToucher, undefined) {
+}(this, function ($, moment, util, validators, parsley, bodyToucher, undefined) {
 
     return function(conf) {
 
@@ -159,6 +162,9 @@
                     // Validates that a given number is greater than some minimum number.
                     'minif'                 : {attrName: ns + '-minif',                  attrVal: undefined,     extraAttrs: []},
 
+                    // Validates that a given number is smaller than some maximum number.
+                    'maxif'                 : {attrName: ns + '-maxif',                  attrVal: undefined,     extraAttrs: []},
+
                     // Validates that the value is identical to a supplied value (useful for validating acceptance).
                     'patternif'             : {attrName: ns + '-patternif',              attrVal: undefined,     extraAttrs: []},
 
@@ -232,659 +238,119 @@
                     '*-message'             : {attrName: ns + '-*-message',              attrVal: undefined}
                 };
 
-
-            // Validation Helpers
-            // ------------------
-
-            var testCondition = util.testCondition,
-                parseCSV = util.parseCSV;
-
-            // alt validateCC
-            // var validateCC = (function (arr) {
-            //     return function (ccNum) {
-            //         var len = ccNum.length,
-            //             bit = 1,
-            //             sum = 0,
-            //             val;
-            //
-            //         while (len) {
-            //             val = parseInt(ccNum.charAt(--len), 10);
-            //             sum += (bit ^= 1) ? arr[val] : val;
-            //         }
-            //
-            //         return sum && sum % 10 === 0;
-            //     };
-            // }([0, 2, 4, 6, 8, 1, 3, 5, 7, 9]));
-
-            // // test numbers
-            // var testNums =[
-            //     // VISA
-            //     '4556989767797289',
-            //     '4716286343187425',
-            //     '4716134755663295',
-            //     // MasterCard
-            //     '5594758336220631',
-            //     '5390499921566486',
-            //     '5108625906075282',
-            //     // American Express (AMEX)
-            //     '347626171431350',
-            //     '372108327916855',
-            //     '342869405374682',
-            //     // Discover
-            //     '6011269463068671',
-            //     '6011675829701773',
-            //     '6011224226154839',
-            //     // JCB
-            //     '3112815901743302',
-            //     '3088332500627548',
-            //     '3088959273802666',
-            //     // Diners Club - North America
-            //     '5401737668539886',
-            //     '5495588809349181',
-            //     '5413845858032541',
-            //     // Diners Club - Carte Blanche
-            //     '30559662066702',
-            //     '30117783673466',
-            //     '30055647722675',
-            //     // Diners Club - International
-            //     '36664841825202',
-            //     '36835616453269',
-            //     '36189377506000',
-            //     // Maestro
-            //     '5018720630326868',
-            //     '5018349026270207',
-            //     '5020458407283667',
-            //     // LASER
-            //     '6304593419770189',
-            //     '6709985310482115',
-            //     '6771875407804953',
-            //     // Visa Electron
-            //     '4175000800486194',
-            //     '4508805392562758',
-            //     '4917443126057195',
-            //     // InstaPayment
-            //     '6388236882589111',
-            //     '6384157170813043',
-            //     '6399596923972791',
-            // ];
-
-            var validateCC = function(value) {
-
-                var first       = String(value.charAt(0)),
-                    firstTwo    = first + String(value.charAt(1)),
-                    firstThree  = firstTwo + String(value.charAt(2)),
-                    firstFour   = firstThree + String(value.charAt(3)),
-                    isMC        = ['51','52','53','54','55'].indexOf(firstTwo) > -1,
-                    isVisa      = ['4'].indexOf(first) > -1,
-                    isDinersCB  = ['300','301','302','303','304','305'].indexOf(firstThree) > -1,
-                    isDinersInt = ['36'].indexOf(firstTwo) > -1,
-                    isAE        = ['34','37'].indexOf(firstTwo) > -1,
-                    isLaser     = ['6304','6706','6771','6709'].indexOf(firstFour) > -1,
-                    isMaestro   = ['5018','5020','5038','5893','6304','6759','6761','6762','6763'].indexOf(firstFour) > -1,
-                    sum         = 0,
-                    numdigits   = value.length,
-                    parity      = numdigits % 2,
-                    digit, i;
-
-                // black list some card providers at request of 2dbb
-                if (isDinersCB || isDinersInt || isLaser || isMaestro) return false;
-
-                // validate length
-                if (isVisa && (numdigits < 13 || numdigits > 16)) return false;
-                else if ((isMC || isLaser || isMaestro) && (numdigits < 16 || numdigits > 19)) return false;
-                else if ((isDinersCB || isDinersInt) && numdigits != 14) return false;
-                else if (isAE && numdigits != 15) return false;
-                else if ((!isMC && !isVisa && !isDinersCB && !isDinersInt && !isAE && !isLaser && !isMaestro) && numdigits != 16) return false;
-
-                // luhns
-                for (i=0; i < numdigits; i++) {
-                    digit = parseInt(value.charAt(i))
-                    if (i % 2 == parity) digit *= 2;
-                    if(digit > 9) digit -= 9;
-                    sum += digit;
-                }
-                return (sum % 10) == 0;
-            };
-
-            var validateCVC = function(value, ccNum) {
-
-                var firstTwo    = first + String(ccNum.charAt(0) + ccNum.charAt(1)),
-                    isAE        = ['34','37'].indexOf(firstTwo) > -1;
-
-                // validate length
-                return isAE ? /^\d{4}$/.test(value) : /^\d{3}$/.test(value);
-            };
-
             // Custom validators
             // -----------------
-
-            // What would be really awesome is if instead of creating all these supplimentary conditional validators that we
-            // created something like ns-validate-if-empty called ns-validate-if and then used the all the built in validators
-
-            // date validator
-            // window.ParsleyValidator
-            //     .addValidator('future-date', function (value, requirement) {
-            //
-            //         var a = parseCSV(requirement),
-            //             cmp = a.shift();
-            //
-            //     }, 32)
-            //     .addMessage('en', 'login', 'Please enter a valid email or mobile number.');
 
             // date component validator
             // e.g.
             // data-validate-futuredatecomponent="#year,YY,#month,MM,#day,DD"
             window.ParsleyValidator
-                .addValidator('futuredatecomponent', function (value, requirement) {
-
-                    var a = parseCSV(requirement),
-                        yearSelector = a.shift(),
-                        year = yearSelector === undefined ? null : String($(yearSelector).val()),
-                        yearFormat = a.shift() || 'YYYY',
-                        monthSelector = a.shift(),
-                        month = monthSelector === undefined ? '01' : String($(monthSelector).val()),
-                        monthFormat = a.shift() || 'MM',
-                        daySelector = a.shift(),
-                        day = daySelector === undefined ? '01' : String($(daySelector).val()),
-                        dayFormat = a.shift() || 'DD';
-
-                    // we at least need a year
-                    if (yearSelector === undefined) return false;
-
-                    // we can't use weird dates
-                    if (parseInt(month) > 12) return false;
-
-                    // weird days - need to lookup against month
-                    if (parseInt(day) > 31) return false;
-
-                    // make date
-                    var date = moment(
-                        year + month + day,
-                        yearFormat + monthFormat + dayFormat
-                    );
-
-                    // compare to now
-                    return date.isAfter(moment());
-
-                }, 32)
+                .addValidator('futuredatecomponent', validators.futuredatecomponent, 32)
                 .addMessage('en', 'futuredatecomponent', 'This date is in the past.');
 
             // pastdate
             // e.g.
             // data-validate-pastdate="YYYY-MM-DD"
             window.ParsleyValidator
-                .addValidator('pastdate', function (value, requirement) {
-
-                    // make date
-                    var date = moment(
-                        value,
-                        requirement || 'YYYY-MM-DD'
-                    );
-
-                    // compare to now
-                    return date.isBefore(moment());
-
-                }, 32)
+                .addValidator('pastdate', validators.pastdate, 32)
                 .addMessage('en', 'pastdate', 'This date is in the future.');
 
             // pastdate
             // e.g.
             // data-validate-pastdate="YYYY-MM-DD"
             window.ParsleyValidator
-                .addValidator('validdate', function (value, requirement) {
-
-                    // make date
-                    var date = moment(
-                        value,
-                        requirement || 'YYYY-MM-DD',
-                        true
-                    );
-
-                    // compare to now
-                    return date.isValid();
-
-                }, 32)
+                .addValidator('validdate', validators.validdate, 32)
                 .addMessage('en', 'validdate', 'This is not a valid date.');
 
             // futuredate
             // e.g.
             // data-validate-futuredate="YYYY-MM-DD"
             window.ParsleyValidator
-                .addValidator('futuredate', function (value, requirement) {
-
-                    // make date
-                    var date = moment(
-                        value,
-                        requirement || 'YYYY-MM-DD'
-                    );
-
-                    // compare to now
-                    return date.isAfter(moment());
-
-                }, 32)
+                .addValidator('futuredate', validators.futuredate, 32)
                 .addMessage('en', 'futuredate', 'This date is in the past.');
 
             // Required If
             // attr val should follow this syntax {selector},{comparison operator},{value to compare}
             window.ParsleyValidator
-                .addValidator('requiredif', function (value, requirement) {
-
-                    if (!testCondition(requirement)) return true;
-                    if (typeof value == 'array' || typeof value == 'object') return value.length > 0;
-                    return value ? true : false;
-
-                }, 512)
+                .addValidator('requiredif', validators.requiredif, 512)
                 .addMessage('en', 'requiredif', 'This value is required.');
-
-            // login validator
-            window.ParsleyValidator
-                .addValidator('login', function (value, requirement) {
-
-                    var matchesMsisdn = /^[0-9\+ ]+$/.test(value),
-                        lenMinMsisdn = value.length >= 9,
-                        lenMaxMsisdn = value.length <= 18,
-                        matchesEmail = /^((?!(\.{2}|^\.|\.$|^ | $))[A-Za-z0-9\._-]){1,64}@((?!(\.{2}|^\.|\.$|^ | $))[A-Za-z0-9\._-]){1,250}\.((?!( $))[A-Za-z0-9\_-]){1,250}$/.test(value),
-                        lengthEmail = value.length <= 254;
-
-                    if (matchesMsisdn && lenMinMsisdn && lenMaxMsisdn) return true;
-                    if (matchesEmail && lengthEmail) return true;
-                    return false;
-
-                }, 32)
-                .addMessage('en', 'login', 'Please enter a valid email or mobile number.');
 
             // min if
             window.ParsleyValidator
-                .addValidator('minif', function (value, requirement) {
-
-                    var a = parseCSV(requirement),
-                        cmp = a.shift();
-
-                    if (!testCondition(a)) return true;
-                    return cmp <= value;
-
-                }, 32)
+                .addValidator('minif', validators.minif, 32)
                 .addMessage('en', 'minif', 'This value is too small.');
+
+            // max if
+            window.ParsleyValidator
+                .addValidator('maxif', validators.maxif, 32)
+                .addMessage('en', 'maxif', 'This value is too large.');
 
             // bank account
             window.ParsleyValidator
-                .addValidator('bankaccount', function (value, requirement) {
-
-                    // this validator assumes (incorrectly) that you have:
-                    // - 2 digit bank code
-                    // - 4 digit branch code
-                    // - 7 digit account code (should be 8)
-                    // - 4 digit suffix
-
-                    var v = (value.replace(/[\s-]/g,'') + "000000000000000000").substring(0,17).split(''),
-                        // bank = v[0] + v[1],
-                        // branch = v[2] + v[3] + v[4] + v[5],
-                        // account = v[6] + v[7] + v[8] + v[9] + v[10] + v[11] + v[12],
-                        // suffix = v[13] + v[14] + v[15] + v[16],
-                        sum = 0,
-                        i = 0,
-                        mod,
-                        products = [
-                            (v[2] * 6),
-                            (v[3] * 3),
-                            (v[4] * 7),
-                            (v[5] * 9),
-                            (v[7] * 10),
-                            (v[8] * 5),
-                            (v[9] * 8),
-                            (v[10] * 4),
-                            (v[11] * 2),
-                            (v[12] * 1)
-                        ];
-
-                    for (i=0; i<products.length; i++) {
-                        sum += products[i];
-                    }
-
-                    mod = sum % 11;
-
-                    return mod === 0;
-
-                }, 32)
+                .addValidator('bankaccount', validators.bankaccount, 32)
                 .addMessage('en', 'bankaccount', 'Please provide a valid bank account number');
 
             // cc
             window.ParsleyValidator
-                .addValidator('creditcard', function (value, requirement) {
-                    return validateCC(value);
-                }, 32)
+                .addValidator('creditcard', validators.creditcard, 32)
                 .addMessage('en', 'creditcard', 'Please provide a valid credit card number');
 
             // cc if
             window.ParsleyValidator
-                .addValidator('creditcardif', function (value, requirement) {
-
-                    var a = parseCSV(requirement);
-
-                    if (!testCondition(a)) return true;
-                    return validateCC(value);
-
-                }, 32)
+                .addValidator('creditcardif', validators.creditcardif, 32)
                 .addMessage('en', 'creditcardif', 'Please provide a valid credit card number');
 
             // cvc
             // e.g.
             // data-validate-cvc="#ccInputSelector"
             window.ParsleyValidator
-                .addValidator('cvc', function (value, requirement) {
-
-                    var a = parseCSV(requirement),
-                        ccSelector = a.shift(),
-                        $ccInput = $(ccSelector);
-
-                    // cc input?
-                    if (!$ccInput.length) return false;
-
-                    // cc val
-                    if (!$ccInput.val()) return false
-
-                    // compare to now
-                    return validateCVC(value, $ccInput.val());
-
-                }, 32)
+                .addValidator('cvc', validators.cvc, 32)
                 .addMessage('en', 'cvc', 'This CVC is invalid for the provided credit card');
 
             // cvc
             // e.g.
             // data-validate-cvc="#ccInputSelector,input:radio[name=paymentMethod]:checked,==,'cc'"
             window.ParsleyValidator
-                .addValidator('cvcif', function (value, requirement) {
-
-                    var a = parseCSV(requirement),
-                        ccSelector = a.shift(),
-                        $ccInput = $(ccSelector);
-
-                    if (!testCondition(a)) return true;
-
-                    // cc input?
-                    if (!$ccInput.length) return false;
-
-                    // cc val
-                    if (!$ccInput.val()) return false
-
-                    // validate CVC
-                    return validateCVC(value, $ccInput.val());
-
-                }, 32)
+                .addValidator('cvcif', validators.cvcif, 32)
                 .addMessage('en', 'cvcif', 'This CVC is invalid for the provided credit card');
 
             // min if
             window.ParsleyValidator
-                .addValidator('patternif', function (value, requirement) {
-
-                    var a = parseCSV(requirement),
-                        cmp = new RegExp(a.shift());
-
-                    if (!testCondition(a)) return true;
-                    return cmp.test(value);
-
-                }, 32)
+                .addValidator('patternif', validators.patternif, 32)
                 .addMessage('en', 'patternif', 'Please provide a valid value.');
 
             // Equals
             window.ParsleyValidator
-                .addValidator('equals', function (value, requirement) {
-                    return value == requirement;
-                }, 32)
+                .addValidator('equals', validators.equals, 32)
                 .addMessage('en', 'equals', 'This value is invalid.');
 
             // validates that another field equals something
             window.ParsleyValidator
-                .addValidator('otherfieldequals', function (value, requirement) {
-
-                    var a = parseCSV(requirement),
-                        selector = a.shift(),
-                        cmp = a.shift();
-
-                    return $(selector).val() == cmp;
-
-                }, 32)
+                .addValidator('otherfieldequals', validators.otherfieldequals, 32)
                 .addMessage('en', 'otherfieldequals', 'This value is invalid.');
+
+            // NotEquals
+            window.ParsleyValidator
+                .addValidator('notequalsfield', validators.otherfieldnotequals, 32)
+                .addMessage('en', 'notequalsfield', 'This value is invalid.');
 
             // validates that another field equals something conditionally
             window.ParsleyValidator
-                .addValidator('otherfieldequalsif', function (value, requirement) {
-
-                    var a = parseCSV(requirement),
-                        selector = a.shift(),
-                        cmp = a.shift();
-
-                    if (!testCondition(a)) return true;
-                    return $(selector).val() == cmp;
-
-                }, 32)
+                .addValidator('otherfieldequalsif', validators.otherfieldequalsif, 32)
                 .addMessage('en', 'otherfieldequalsif', 'This value is invalid.');
-
 
             // Equals If
             // conditional version of equals
             // attr val should follow this syntax {value},{selector},{comparison operator},{value to compare}
             window.ParsleyValidator
-                .addValidator('equalsif', function (value, requirement) {
-
-                    var a = parseCSV(requirement),
-                        cmp = a.shift();
-
-                    if (!testCondition(a)) return true;
-                    return cmp == value;
-
-                }, 32)
+                .addValidator('equalsif', validators.equalsif, 32)
                 .addMessage('en', 'equalsif', 'This value is invalid');
-
 
             // Password strength
             window.ParsleyValidator
-                .addValidator('passwordstrength', function (value) {
-                    return value.length >= 6 && /[0-9]+/.test(value) && /[a-zA-Z]+/.test(value);
-                }, 32)
+                .addValidator('passwordstrength', validators.passwordstrength, 32)
                 .addMessage('en', 'passwordstrength', 'Password must contain numbers and letters and be longer than 5 characters.');
 
-
-            // Apply to the forms
-            // ------------------
-
-            // compile the selector
-            for (i in validators) {
-                if (megaSelector) megaSelector += ',';
-                megaSelector += '[data-validate-' + i + ']';
-            }
-
-            $('form').each(function(idx) {
-
-                var $form = $(this);
-
-                // if we want to validate this form then....
-                if ($form.is('form[data-validate]')) {
-
-                    // find all the elements and fuck with them
-                    $form.find(megaSelector).each(function(eIdx) {
-
-                        var $elem = $(this),
-                            validator,
-                            modifier,
-                            attrVal,
-                            im,
-                            ia,
-                            i;
-
-                        for (i in validators) {
-
-                            // apply validator
-                            validator = validators[i];
-                            if ($elem.is('[data-validate-' + i + ']')) {
-
-                                // handle base attr
-                                attrVal = validator.attrVal;
-                                if (validator.attrVal == undefined) attrVal = $elem.attr('data-validate-' + i);
-                                $elem.attr(validator.attrName, attrVal);
-
-                                // apply extra attrs
-                                for (ia=0; ia < validator.extraAttrs.length; ia++) {
-                                    $elem.attr(validator.extraAttrs[ia][0], validator.extraAttrs[ia][1]);
-                                }
-                            }
-
-                            // expand modifiers
-                            for (im in modifiers) {
-                                if (im.indexOf('*') != -1) {
-                                    modifier = modifiers[im];
-                                    modifiers[im.replace(/\*/, i)] = {attrName: modifier.attrName.replace(/\*/, i), attrVal: modifier.attrVal}
-                                }
-                            }
-                        }
-
-                        // apply modifiers
-                        for (i in modifiers) {
-                            modifier = modifiers[i];
-                            if (i.indexOf('*') == -1) {
-                                if ($elem.is('[data-validate-' + i + ']')) {
-                                    attrVal = modifier.attrVal;
-                                    if (modifier.attrVal == undefined) attrVal = $elem.attr('data-validate-' + i);
-                                    $elem.attr(modifier.attrName, attrVal);
-                                }
-                            }
-                        }
-                    });
-
-                    // init
-                    if ($form.parsley != undefined) {
-
-                        $form.parsley({namespace: ns + '-'});
-
-                        // bind field error listeners
-                        $form.find('input, textarea, select').each(function() {
-
-                            var $elem = $(this);
-
-                            // lets check to see we are getting the object we expect
-                            var $parsley = $elem.parsley();
-                            if ($parsley.unsubscribe !== undefined)
-                                $parsley
-                                    .unsubscribe('parsley:field:error')
-                                    .subscribe('parsley:field:error', function() {
-
-                                        // add classes the wrapper
-                                        $elem
-                                            .closest('.floatlabel-wrapper')
-                                            .addClass('error')
-                                                .find('.label-floatlabel')
-                                                .addClass('error');
-                                    })
-                                    .unsubscribe('parsley:field:success')
-                                    .subscribe('parsley:field:success', function(){
-
-                                        // add classes to the wrapper
-                                        $elem
-                                            .closest('.floatlabel-wrapper')
-                                            .removeClass('error')
-                                                .find('.label-floatlabel')
-                                                .removeClass('error');
-                                    });
-                        });
-
-                        // we need to re map some stuff so as to allow for server errors to be passed through synchronously
-                        // this should really be replaced with remote validators
-                        $form.find('[data-validate-errors-container]').each(function(){
-
-                            var $elem = $(this),
-                                $container = $($elem.attr('data-validate-errors-container')),
-                                $correctContainer = $('#parsley-id-' + $elem.attr(ns + '-id')),
-                                $children = $container.find('.error-list').children();
-
-                            $correctContainer.append($children.detach());
-                            if ($children.length) {
-                                $correctContainer.addClass('filled');
-                                $container.find('.error-list').each(function(){
-                                    if (!$(this).is($correctContainer)) $(this).remove();
-                                });
-                            }
-
-                            // lets check to see we are getting the object we expect
-                            var $parsley = $elem.parsley();
-                            if ($parsley.unsubscribe !== undefined)
-                                $parsley
-                                    .unsubscribe('parsley:field:error')
-                                    .subscribe('parsley:field:error', function() {
-
-                                        // handle error container
-                                        setTimeout(function(){
-                                            $correctContainer.find('li').each(function(idx){
-
-                                                // keep the first one and remove the rest
-                                                var cls = $(this).attr('class'),
-                                                    $all = $correctContainer.find('[class="' + cls + '"]'),
-                                                    keep = $all.length ? $all[0].outerHTML : '';
-
-                                                if ($all.length > 1) {
-                                                    $all.remove();
-                                                    $correctContainer.append(keep);
-                                                }
-
-                                            });
-                                        },0);
-                                    })
-                                    .unsubscribe('parsley:field:success')
-                                    .subscribe('parsley:field:success', function(){
-
-                                        // handle error container
-                                        $correctContainer.removeClass('filled').find('li').remove();
-                                    });
-                        });
-
-                        // add classes to form once it's validated
-                        $form.parsley()
-                            .unsubscribe('parsley:form:validated')
-                            .subscribe('parsley:form:validated', function(){
-                                $form.addClass('validator-validated');
-                            });
-
-                        // handle conflict with sticky nav
-                        $form.parsley()
-                            .unsubscribe('parsley:form:error')
-                            .subscribe('parsley:form:error', function(){
-
-                                var $el = $('input.error, select.error, textarea.error').first(),
-                                    $scrollElem = $.scrollElem(true),
-                                    clearHeight = typeof opts.docNavHeight == 'function' ? opts.docNavHeight() : opts.docNavHeight;
-
-                                if ($el.length && !$scrollElem.is(':animated')) {
-
-                                    // scroll to the el
-                                    opts.animateScroll
-                                        ? $scrollElem.animate({ scrollTop: $el.offsetTop() - clearHeight }, 400)
-                                        : $scrollElem.scrollTop($el.offsetTop() - clearHeight);
-
-                                    // focus
-                                    $el.focus();
-
-                                    // trigger the docknav resize
-                                    $(window).trigger('resize.dockNav');
-
-                                }
-
-                            });
-
-                        // There is a known issue with parsley remote and submit buttons
-                        // The submit button value should be submitted alone with the form params if the button has a name attr
-                        // https://github.com/guillaumepotier/Parsley.js/issues/826
-                        // this is a hack that should act as a work around until a patch is released
-                        $form.on('submit', function(e) {
-                            if (!$form.validator('validate')) {
-                                e.preventDefault();
-                            }
-                            $form.find('[type="submit"]').each(function(idx){
-                                var $submit = $(this);
-                                $submit.after('<input type="hidden" name="' + $submit.attr('name') + '" value="' + $submit.attr('value') + '">');
-                            });
-                        });
-                    }
-                };
-            });
         });
     };
 }));
