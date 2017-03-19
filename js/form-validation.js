@@ -195,9 +195,6 @@
                     // Validates that the value is identical to a supplied value (useful for validating acceptance).
                     'cvcif'                 : {attrName: ns + '-cvcif',                  attrVal: undefined,     extraAttrs: []},
 
-                    // Validates that the value is identical to a supplied value (useful for validating acceptance).
-                    'login'                 : {attrName: ns + '-login',                  attrVal: undefined,     extraAttrs: []},
-
                     // Validates that a remote url returns a 2XX response code
                     'remote'                : {attrName: ns + '-remote',                 attrVal: undefined,     extraAttrs: []},
 

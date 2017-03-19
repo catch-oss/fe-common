@@ -190,7 +190,7 @@
                 // validate length
                 return isAE ? /^\d{4}$/.test(value) : /^\d{3}$/.test(value);
             }
-        }
+        },
 
         // date component validator
         // e.g.
@@ -274,8 +274,6 @@
 
             // compare to now
             return date.isAfter(moment());
-
-            };
         },
 
         // Required If
@@ -352,7 +350,7 @@
         // cc
         creditcard: function (value, requirement) {
             return this.helpers.validateCC(value);
-        }
+        },
 
         // cc if
         creditcardif: function(value, requirement) {
@@ -380,7 +378,6 @@
 
             // compare to now
             return this.helpers.validateCVC(value, $ccInput.val());
-
         },
 
         // cvc
@@ -401,12 +398,7 @@
             if (!$ccInput.val()) return false
 
             // validate CVC
-            return this.helpers.validateCVC(value, $ccInput.val());    var a = parseCSV(requirement),
-                cmp = new RegExp(a.shift());
-
-            if (!testCondition(a)) return true;
-            return cmp.test(value);
-
+            return this.helpers.validateCVC(value, $ccInput.val());
         },
 
         // pattern regex
