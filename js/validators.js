@@ -182,6 +182,7 @@
                 return (sum % 10) == 0;
             },
 
+            // valid CVC code
             validateCVC: function(value, ccNum) {
 
                 var firstTwo    = first + String(ccNum.charAt(0) + ccNum.charAt(1)),
@@ -190,6 +191,11 @@
                 // validate length
                 return isAE ? /^\d{4}$/.test(value) : /^\d{3}$/.test(value);
             }
+        },
+
+        // required
+        required: function(value) {
+            return !!value;
         },
 
         // date component validator
