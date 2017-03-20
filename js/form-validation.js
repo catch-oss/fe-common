@@ -49,7 +49,7 @@
          );
      }
 
-}(this, function ($, moment, util, validators, parsley, bodyToucher, undefined) {
+}(this, function ($, moment, util, vLib, parsley, bodyToucher, undefined) {
 
     return function(conf) {
 
@@ -242,110 +242,110 @@
             // e.g.
             // data-validate-futuredatecomponent="#year,YY,#month,MM,#day,DD"
             window.ParsleyValidator
-                .addValidator('futuredatecomponent', validators.futuredatecomponent, 32)
+                .addValidator('futuredatecomponent', vLib.futuredatecomponent, 32)
                 .addMessage('en', 'futuredatecomponent', 'This date is in the past.');
 
             // pastdate
             // e.g.
             // data-validate-pastdate="YYYY-MM-DD"
             window.ParsleyValidator
-                .addValidator('pastdate', validators.pastdate, 32)
+                .addValidator('pastdate', vLib.pastdate, 32)
                 .addMessage('en', 'pastdate', 'This date is in the future.');
 
             // pastdate
             // e.g.
             // data-validate-pastdate="YYYY-MM-DD"
             window.ParsleyValidator
-                .addValidator('validdate', validators.validdate, 32)
+                .addValidator('validdate', vLib.validdate, 32)
                 .addMessage('en', 'validdate', 'This is not a valid date.');
 
             // futuredate
             // e.g.
             // data-validate-futuredate="YYYY-MM-DD"
             window.ParsleyValidator
-                .addValidator('futuredate', validators.futuredate, 32)
+                .addValidator('futuredate', vLib.futuredate, 32)
                 .addMessage('en', 'futuredate', 'This date is in the past.');
 
             // Required If
             // attr val should follow this syntax {selector},{comparison operator},{value to compare}
             window.ParsleyValidator
-                .addValidator('requiredif', validators.requiredif, 512)
+                .addValidator('requiredif', vLib.requiredif, 512)
                 .addMessage('en', 'requiredif', 'This value is required.');
 
             // min if
             window.ParsleyValidator
-                .addValidator('minif', validators.minif, 32)
+                .addValidator('minif', vLib.minif, 32)
                 .addMessage('en', 'minif', 'This value is too small.');
 
             // max if
             window.ParsleyValidator
-                .addValidator('maxif', validators.maxif, 32)
+                .addValidator('maxif', vLib.maxif, 32)
                 .addMessage('en', 'maxif', 'This value is too large.');
 
             // bank account
             window.ParsleyValidator
-                .addValidator('bankaccount', validators.bankaccount, 32)
+                .addValidator('bankaccount', vLib.bankaccount, 32)
                 .addMessage('en', 'bankaccount', 'Please provide a valid bank account number');
 
             // cc
             window.ParsleyValidator
-                .addValidator('creditcard', validators.creditcard, 32)
+                .addValidator('creditcard', vLib.creditcard, 32)
                 .addMessage('en', 'creditcard', 'Please provide a valid credit card number');
 
             // cc if
             window.ParsleyValidator
-                .addValidator('creditcardif', validators.creditcardif, 32)
+                .addValidator('creditcardif', vLib.creditcardif, 32)
                 .addMessage('en', 'creditcardif', 'Please provide a valid credit card number');
 
             // cvc
             // e.g.
             // data-validate-cvc="#ccInputSelector"
             window.ParsleyValidator
-                .addValidator('cvc', validators.cvc, 32)
+                .addValidator('cvc', vLib.cvc, 32)
                 .addMessage('en', 'cvc', 'This CVC is invalid for the provided credit card');
 
             // cvc
             // e.g.
             // data-validate-cvc="#ccInputSelector,input:radio[name=paymentMethod]:checked,==,'cc'"
             window.ParsleyValidator
-                .addValidator('cvcif', validators.cvcif, 32)
+                .addValidator('cvcif', vLib.cvcif, 32)
                 .addMessage('en', 'cvcif', 'This CVC is invalid for the provided credit card');
 
             // min if
             window.ParsleyValidator
-                .addValidator('patternif', validators.patternif, 32)
+                .addValidator('patternif', vLib.patternif, 32)
                 .addMessage('en', 'patternif', 'Please provide a valid value.');
 
             // Equals
             window.ParsleyValidator
-                .addValidator('equals', validators.equals, 32)
+                .addValidator('equals', vLib.equals, 32)
                 .addMessage('en', 'equals', 'This value is invalid.');
 
             // validates that another field equals something
             window.ParsleyValidator
-                .addValidator('otherfieldequals', validators.otherfieldequals, 32)
+                .addValidator('otherfieldequals', vLib.otherfieldequals, 32)
                 .addMessage('en', 'otherfieldequals', 'This value is invalid.');
 
             // NotEquals
             window.ParsleyValidator
-                .addValidator('notequalsfield', validators.otherfieldnotequals, 32)
+                .addValidator('notequalsfield', vLib.otherfieldnotequals, 32)
                 .addMessage('en', 'notequalsfield', 'This value is invalid.');
 
             // validates that another field equals something conditionally
             window.ParsleyValidator
-                .addValidator('otherfieldequalsif', validators.otherfieldequalsif, 32)
+                .addValidator('otherfieldequalsif', vLib.otherfieldequalsif, 32)
                 .addMessage('en', 'otherfieldequalsif', 'This value is invalid.');
 
             // Equals If
             // conditional version of equals
             // attr val should follow this syntax {value},{selector},{comparison operator},{value to compare}
             window.ParsleyValidator
-                .addValidator('equalsif', validators.equalsif, 32)
+                .addValidator('equalsif', vLib.equalsif, 32)
                 .addMessage('en', 'equalsif', 'This value is invalid');
 
             // Password strength
             window.ParsleyValidator
-                .addValidator('passwordstrength', validators.passwordstrength, 32)
+                .addValidator('passwordstrength', vLib.passwordstrength, 32)
                 .addMessage('en', 'passwordstrength', 'Password must contain numbers and letters and be longer than 5 characters.');
 
         });
