@@ -145,7 +145,7 @@
                     'equalto'               : {attrName: ns + '-equalto',                attrVal: undefined,     extraAttrs: []},
 
                     // Validates that the value is identical to another field value (useful for password confirmation check).
-                    'requiredif'            : {attrName: ns + '-requiredif',             attrVal: undefined,     extraAttrs: [[ns + '-validate-if-empty',true]]},
+                    'requiredif'            : {attrName: ns + '-requiredif',             attrVal: undefined,     extraAttrs: [[ns + '-validate-if-empty', true]]},
 
                     // Validates that the value is identical to a supplied value (useful for validating acceptance).
                     'equals'                : {attrName: ns + '-equals',                 attrVal: undefined,     extraAttrs: []},

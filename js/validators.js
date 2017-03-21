@@ -108,6 +108,16 @@
 
     return {
 
+        // some meta data on the validators
+        meta: {
+            required: {
+                validateIfEmpty: true
+            },
+            requiredif: {
+                validateIfEmpty: true
+            }
+        },
+
         // helpers we want to be accessible in the returned module
         helpers: {
             validateCC: function(value, blacklist, whitelist) {
