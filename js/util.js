@@ -16,7 +16,7 @@
 
     'use strict';
 
-    return {
+    var utilObj = {
 
         getCookie: function(cname) {
             var name = cname + '=',
@@ -65,7 +65,7 @@
         },
 
         testCondition: function(requirement) {
-            var a = typeof requirement == 'string' ? this.parseCSV(requirement) : requirement,
+            var a = typeof requirement == 'string' ? utilObj.parseCSV(requirement) : requirement,
                 opPattern = /[\-\+=\*\/%<>&\|\^]/,
                 required = '',
                 join,
@@ -178,5 +178,7 @@
                 return this;
             }
         }
-    }
+    };
+
+    return utilObj;
 }))
