@@ -419,7 +419,7 @@
 
         // pattern regex
         pattern: function(value, requirement) {
-            var cmp = new RegExp(a.shift());
+            var cmp = new RegExp(requirement);
             return cmp.test(value);
         },
 
