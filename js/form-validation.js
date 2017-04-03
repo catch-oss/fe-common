@@ -19,7 +19,6 @@
             [
                 'jquery',
                 'moment',
-                './util',
                 './validators',
                 './../../parsleyjs/dist/parsley',
                 './../../body-toucher/body-toucher'
@@ -32,7 +31,6 @@
         module.exports = factory(
             require('jquery'),
             require('./../../moment/moment'),
-            require('./util'),
             require('./validators'),
             require('./../../parsleyjs/dist/parsley'),
             require('./../../body-toucher/body-toucher')
@@ -44,7 +42,6 @@
          root.catch.formValidation = factory(
              root.jQuery,
              root.moment,
-             root.catch.util,
              root.catch.validators
          );
      }
