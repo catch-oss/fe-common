@@ -46,7 +46,7 @@
          );
      }
 
-}(this, function ($, moment, util, vLib, parsley, bodyToucher, undefined) {
+}(this, function ($, moment, vLib, parsley, bodyToucher, undefined) {
 
     return function(conf) {
 
