@@ -20,6 +20,7 @@
                 'jquery',
                 'moment',
                 './validators',
+                './dock-nav',
                 './../../parsleyjs/dist/parsley',
                 './../../body-toucher/body-toucher'
             ],
@@ -32,21 +33,23 @@
             require('jquery'),
             require('./../../moment/moment'),
             require('./validators'),
+            require('./dock-nav'),
             require('./../../parsleyjs/dist/parsley'),
             require('./../../body-toucher/body-toucher')
         );
 
      // Browser globals (root is window)
      else {
-         root.catch = (root.catch || {});
-         root.catch.formValidation = factory(
-             root.jQuery,
-             root.moment,
-             root.catch.validators
-         );
+        root.catch = (root.catch || {});
+        root.catch.formValidation = factory(
+            root.jQuery,
+            root.moment,
+            root.catch.validators,
+            root.catch.dockNav
+        );
      }
 
-}(this, function ($, moment, vLib, parsley, bodyToucher, undefined) {
+}(this, function ($, moment, vLib, dockNav, parsley, bodyToucher, undefined) {
 
     return function(conf) {
 
@@ -344,6 +347,169 @@
             window.ParsleyValidator
                 .addValidator('passwordstrength', vLib.passwordstrength, 32)
                 .addMessage('en', 'passwordstrength', 'Password must contain numbers and letters and be longer than 5 characters.');
+
+            // Apply to the forms
+            // ------------------
+
+            // compile the selector
+            for (i in validators) {
+                if (megaSelector) megaSelector += ',';
+                megaSelector += '[data-validate-' + i + ']';
+            }
+
+            $('form').each(function(idx) {
+
+                var $form = $(this);
+
+                // if we want to validate this form then....
+                if ($form.is('form[data-validate]')) {
+
+                    // find all the elements and fuck with them
+                    $form.find(megaSelector).each(function(eIdx) {
+
+                        var $elem = $(this),
+                            validator,
+                            modifier,
+                            attrVal,
+                            im,
+                            ia,
+                            i;
+
+                        for (i in validators) {
+
+                            // apply validator
+                            validator = validators[i];
+                            if ($elem.is('[data-validate-' + i + ']')) {
+
+                                // handle base attr
+                                attrVal = validator.attrVal;
+                                if (validator.attrVal == undefined) attrVal = $elem.attr('data-validate-' + i);
+                                $elem.attr(validator.attrName, attrVal);
+
+                                // apply extra attrs
+                                for (ia=0; ia < validator.extraAttrs.length; ia++) {
+                                    $elem.attr(validator.extraAttrs[ia][0], validator.extraAttrs[ia][1]);
+                                }
+                            }
+
+                            // expand modifiers
+                            for (im in modifiers) {
+                                if (im.indexOf('*') != -1) {
+                                    modifier = modifiers[im];
+                                    modifiers[im.replace(/\*/, i)] = {attrName: modifier.attrName.replace(/\*/, i), attrVal: modifier.attrVal}
+                                }
+                            }
+                        }
+
+                        // apply modifiers
+                        for (i in modifiers) {
+                            modifier = modifiers[i];
+                            if (i.indexOf('*') == -1) {
+                                if ($elem.is('[data-validate-' + i + ']')) {
+                                    attrVal = modifier.attrVal;
+                                    if (modifier.attrVal == undefined) attrVal = $elem.attr('data-validate-' + i);
+                                    $elem.attr(modifier.attrName, attrVal);
+                                }
+                            }
+                        }
+                    });
+
+                    // init
+                    if ($form.parsley != undefined) {
+
+                        $form.parsley({namespace: ns + '-'});
+
+                        // we need to re map some stuff so as to allow for server errors to be passed through synchronously
+                        // this should really be replaced with remote validators
+                        $form.find('[data-validate-errors-container]').each(function(){
+
+                            var $elem = $(this),
+                                $container = $($elem.attr('data-validate-errors-container')),
+                                $correctContainer = $('#parsley-id-' + $elem.attr(ns + '-id')),
+                                $children = $container.find('.error-list').children();
+
+                            $correctContainer.append($children.detach());
+                            if ($children.length) {
+                                $correctContainer.addClass('filled');
+                                $container.find('.error-list').each(function(){
+                                    if (!$(this).is($correctContainer)) $(this).remove();
+                                });
+                            }
+
+                            var $parsley = $elem.parsley();
+                            if ($parsley.unsubscribe !== undefined)
+                                $parsley
+                                    .unsubscribe('parsley:field:error')
+                                    .subscribe('parsley:field:error', function(el){
+
+                                        // ensure the elem has an error
+                                        el.$element.addClass('error');
+
+                                        setTimeout(function(){
+                                            $correctContainer.find('li').each(function(idx){
+
+                                                // pre vars
+                                                var cls = $(this).attr('class'),
+                                                    $all = $correctContainer.find('[class="' + cls + '"]'),
+                                                    keep = $all.length ? $all[0].outerHTML : '';
+
+                                                // keep the first one and remove the rest
+                                                if ($all.length > 1) {
+                                                    $all.remove();
+                                                    $correctContainer.append(keep);
+                                                }
+
+                                            });
+                                        },0);
+                                    })
+                                    .unsubscribe('parsley:field:success')
+                                    .subscribe('parsley:field:success', function(el) {
+                                        el.$element.removeClass('error');
+                                        $correctContainer.removeClass('filled').find('li').remove();
+                                    });
+                        });
+
+                        // add classes to form once it's validated
+                        $form.parsley()
+                            .unsubscribe('parsley:form:validated')
+                            .subscribe('parsley:form:validated', function(){
+                                $form.addClass('validator-validated');
+                            });
+
+                        // handle conflict with sticky nav
+                        $form.parsley()
+                            .unsubscribe('parsley:form:error')
+                            .subscribe('parsley:form:error', function(){
+
+                                var $el = $('input.error, select:not(.catch-dropdown).error, select.catch-dropdown.error + label, textarea.error').first(),
+                                    $scrollElem = $.scrollElem(true),
+                                    clearHeight = dockNav('height');
+
+                                // console.log($el.offsetTop() - clearHeight);
+                                // console.log($scrollElem);
+
+                                setTimeout(function() {
+                                    if ($el.length) {
+                                        $scrollElem.animate({ scrollTop: $el.offsetTop() - clearHeight }, 400);
+                                        $el.focus();
+                                    }
+                                });
+                            });
+
+                        // There is a known issue with parsley remote and submit buttons
+                        // The submit button value should be submitted alone with the form params if the button has a name attr
+                        // https://github.com/guillaumepotier/Parsley.js/issues/826
+                        // this is a hack that should act as a work around until a patch is released
+                        $form.on('submit', function() {
+                            $form.find('[type="submit"]').each(function(idx){
+                                var $submit = $(this);
+                                $submit.after('<input type="hidden" name="' + $submit.attr('name') + '" value="' + $submit.attr('value') + '">');
+                            });
+                        });
+                    }
+
+                }
+            });
 
         });
     };
