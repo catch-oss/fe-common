@@ -421,6 +421,66 @@
 
                         // we need to re map some stuff so as to allow for server errors to be passed through synchronously
                         // this should really be replaced with remote validators
+                        $($form[0].elements).each(function() {
+
+                            var $elem = $(this),
+                                $parsley = $elem.parsley();
+
+                            if ($parsley.unsubscribe !== undefined)
+                                $parsley
+                                    .unsubscribe('parsley:field:error')
+                                    .subscribe('parsley:field:error', function(el) {
+
+                                        // ensure the elem has an error
+                                        el.$element
+                                            .addClass('error')
+                                            .closest('.floatlabel-wrapper')
+                                                .addClass('error')
+                                                .end()
+                                                .closest('.m-form-field')
+                                                    .addClass('error');
+
+                                        // handle server supplied errors
+                                        if ($elem.is('[data-validate-errors-container]'))
+                                            setTimeout(function() {
+                                                $correctContainer.find('li').each(function(idx) {
+
+                                                    // pre vars
+                                                    var cls = $(this).attr('class'),
+                                                        $all = $correctContainer.find('[class="' + cls + '"]'),
+                                                        keep = $all.length ? $all[0].outerHTML : '';
+
+                                                    // keep the first one and remove the rest
+                                                    if ($all.length > 1) {
+                                                        $all.remove();
+                                                        $correctContainer.append(keep);
+                                                    }
+
+                                                });
+                                            });
+
+                                    })
+                                    .unsubscribe('parsley:field:success')
+                                    .subscribe('parsley:field:success', function(el) {
+
+                                        // remove error classes
+                                        el.$element
+                                            .removeClass('error')
+                                            .closest('.floatlabel-wrapper')
+                                                .removeClass('error')
+                                                .end()
+                                                .closest('.m-form-field')
+                                                    .removeClass('error');
+
+                                        // handle server supplied errors
+                                        if ($elem.is('[data-validate-errors-container]'))
+                                            $correctContainer.removeClass('filled').find('li').remove();
+
+                                    });
+                        });
+
+                        // we need to re map some stuff so as to allow for server errors to be passed through synchronously
+                        // this should really be replaced with remote validators
                         $form.find('[data-validate-errors-container]').each(function(){
 
                             var $elem = $(this),
@@ -435,38 +495,6 @@
                                     if (!$(this).is($correctContainer)) $(this).remove();
                                 });
                             }
-
-                            var $parsley = $elem.parsley();
-                            if ($parsley.unsubscribe !== undefined)
-                                $parsley
-                                    .unsubscribe('parsley:field:error')
-                                    .subscribe('parsley:field:error', function(el){
-
-                                        // ensure the elem has an error
-                                        el.$element.addClass('error');
-
-                                        setTimeout(function(){
-                                            $correctContainer.find('li').each(function(idx){
-
-                                                // pre vars
-                                                var cls = $(this).attr('class'),
-                                                    $all = $correctContainer.find('[class="' + cls + '"]'),
-                                                    keep = $all.length ? $all[0].outerHTML : '';
-
-                                                // keep the first one and remove the rest
-                                                if ($all.length > 1) {
-                                                    $all.remove();
-                                                    $correctContainer.append(keep);
-                                                }
-
-                                            });
-                                        },0);
-                                    })
-                                    .unsubscribe('parsley:field:success')
-                                    .subscribe('parsley:field:success', function(el) {
-                                        el.$element.removeClass('error');
-                                        $correctContainer.removeClass('filled').find('li').remove();
-                                    });
                         });
 
                         // add classes to form once it's validated
@@ -511,10 +539,8 @@
                             });
                         });
                     }
-
                 }
             });
-
         });
     };
 }));
