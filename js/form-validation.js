@@ -481,19 +481,23 @@
                             .unsubscribe('parsley:form:error')
                             .subscribe('parsley:form:error', function(){
 
-                                var $el = $('input.error, select:not(.catch-dropdown).error, select.catch-dropdown.error + label, textarea.error').first(),
-                                    $scrollElem = $.scrollElem(true),
-                                    clearHeight = dockNav('height');
+                                // don't scroll on error
+                                if (!$form.is('.m-form--no-scroll-on-error, .m-form_no-scroll-on-error, .js-no-scroll-on-error')) {
 
-                                // console.log($el.offsetTop() - clearHeight);
-                                // console.log($scrollElem);
+                                    var $el = $('input.error, select:not(.catch-dropdown).error, select.catch-dropdown.error + label, textarea.error').first(),
+                                        $scrollElem = $.scrollElem(true),
+                                        clearHeight = dockNav('height');
 
-                                setTimeout(function() {
-                                    if ($el.length) {
-                                        $scrollElem.animate({ scrollTop: $el.offsetTop() - clearHeight }, 400);
-                                        $el.focus();
-                                    }
-                                });
+                                    // console.log($el.offsetTop() - clearHeight);
+                                    // console.log($scrollElem);
+
+                                    setTimeout(function() {
+                                        if ($el.length) {
+                                            $scrollElem.animate({ scrollTop: $el.offsetTop() - clearHeight }, 400);
+                                            $el.focus();
+                                        }
+                                    });
+                                }
                             });
 
                         // There is a known issue with parsley remote and submit buttons
