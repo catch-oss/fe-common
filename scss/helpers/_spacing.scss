@@ -28,6 +28,22 @@
 		margin-bottom: rem($i * $vbu);
 	}
 
+	// Margin top
+
+	.mt-#{$i}x,
+	.h-mt-#{$i}x {
+		margin-top: rem($i * $vbu);
+
+		// Overwrite global margin top
+		// if the content inside the grid has a margin top
+		// and the container needs to has a specific margin top
+		// This class need to added before the global margin
+		&[class*="mar-v-base-"],
+		&[class*="h-mar-v-base-"] {
+			margin-top: rem($i * $vbu);
+		}
+	}
+
 	// Margin bottom
 
 	.mb-#{$i}x,
