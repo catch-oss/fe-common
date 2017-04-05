@@ -66,3 +66,75 @@
 		padding-bottom: rem($i * $vbu);
 	}
 }
+
+@include media($mobile-only) {
+
+	@for $i from 0 through 15 {
+
+		// Horizontal spacing
+
+		.pad-h-base-#{$i}x#{$bem-m-str}mobile,
+		.h-pad-h-base-#{$i}x#{$bem-m-str}mobile {
+			padding-left: rem($i * $hbu);
+			padding-right: rem($i * $hbu);
+		}
+
+		.mar-h-base-#{$i}x#{$bem-m-str}mobile,
+		.h-mar-h-base-#{$i}x#{$bem-m-str}mobile {
+			margin-left: rem($i * $hbu);
+			margin-right: rem($i * $hbu);
+		}
+
+		// Vertical spacing
+
+		.pad-v-base-#{$i}x#{$bem-m-str}mobile,
+		.h-pad-v-base-#{$i}x#{$bem-m-str}mobile {
+			padding-top: rem($i * $vbu);
+			padding-bottom: rem($i * $vbu);
+		}
+
+		.mar-v-base-#{$i}x#{$bem-m-str}mobile,
+		.h-mar-v-base-#{$i}x#{$bem-m-str}mobile {
+			margin-top: rem($i * $vbu);
+			margin-bottom: rem($i * $vbu);
+		}
+
+		// Margin top
+
+		.mt-#{$i}x#{$bem-m-str}mobile,
+		.h-mt-#{$i}x#{$bem-m-str}mobile {
+			margin-top: rem($i * $vbu);
+
+			// Overwrite global margin top
+			// if the content inside the grid has a margin top
+			// and the container needs to has a specific margin top
+			// This class need to added before the global margin
+			&[class*="mar-v-base-"],
+			&[class*="h-mar-v-base-"] {
+				margin-top: rem($i * $vbu);
+			}
+		}
+
+		// Margin bottom
+
+		.mb-#{$i}x#{$bem-m-str}mobile,
+		.h-mb-#{$i}x#{$bem-m-str}mobile {
+			margin-bottom: rem($i * $vbu);
+
+			// Overwrite global margin bottom
+			// if the content inside the grid has a margin bottom
+			// and the container needs to has a specific margin bottom
+			// This class need to added before the global margin
+			&[class*="mar-v-base-"],
+			&[class*="h-mar-v-base-"] {
+				margin-bottom: rem($i * $vbu);
+			}
+		}
+
+		// Padding bottom
+		.pb-#{$i}x#{$bem-m-str}mobile,
+		.h-pb-#{$i}x#{$bem-m-str}mobile {
+			padding-bottom: rem($i * $vbu);
+		}
+	}
+}
