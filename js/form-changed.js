@@ -59,8 +59,20 @@
 
                         // reset stuff
                         $form[0].reset();
+
+                        // update the selects
                         $form.find('select.droposaurusised').catchDropdown('update');
+
+                        // trigger a change event to make e handlers fire
                         $form.find('select').trigger('change');
+
+                        // trigger a dummy event on all the form elements
+                        // this is mainly for conditional class handlers
+                        $($form[0].elements).trigger('dummy');
+
+                        // trigger a key on the non checkbox inputs
+                        // mainly for labelizr
+                        $form.find('input:not([type="radio"]):not([type="checkbox"])').trigger('keyup');
 
                         // changed
                         var changed = $form.data('initState') != $form.serialize();

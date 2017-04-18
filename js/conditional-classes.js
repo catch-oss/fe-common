@@ -47,15 +47,18 @@
                     condition = $el.attr('data-condition'),
                     classes = $el.attr('data-class'),
                     bindSelector = $el.attr('data-bind-selector'),
-                    bindEvent = $el.attr('data-bind-event');
+                    bindEvent = $el.attr('data-bind-event'),
+                    eName = bindEvent + '.condclass' + elID,
+                    eNameDummy = 'dummy' + '.condclass' + elID;
 
                 // do the comparison
                 handle($el, condition, classes);
 
                 // bind event handlers
                 $(bindSelector)
-                    .off(bindEvent + '.condclass' + elID)
-                    .on(bindEvent + '.condclass' + elID, function() {
+                    .off(eName)
+                    .off(eNameDummy)
+                    .on(eName + ' ' + eNameDummy, function() {
                         handle($el, condition, classes);
                     });
             });
