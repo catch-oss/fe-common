@@ -57,22 +57,37 @@
                     .off('click.undo')
                     .on('click.undo', function() {
 
-                        // reset stuff
+                        // reset non-hidden fields
                         $form[0].reset();
+
+                        // split up the serialized form into variable pairs
+                        var formFields = decodeURIComponent($form.data('initState')).split('&');
+
+                        // put it into an associative array
+                        var splitFields = new Array();
+                        for (var i in formFields){
+                            vals = formFields[i].split('=');
+                            splitFields[vals[0]] = vals[1];
+                        }
+
+                        // update the hidden fields
+                        $form.find('input[type=hidden]').each(function() {
+                            this.value = splitFields[this.name];
+                        });
 
                         // update the selects
                         $form.find('select.droposaurusised').catchDropdown('update');
 
                         // trigger a change event to make e handlers fire
-                        $form.find('select').trigger('change');
+                        $form.find('select').trigger('change', {reset: true});
 
                         // trigger a dummy event on all the form elements
                         // this is mainly for conditional class handlers
-                        $($form[0].elements).trigger('dummy');
+                        $($form[0].elements).trigger('dummy', {reset: true});
 
                         // trigger a key on the non checkbox inputs
                         // mainly for labelizr
-                        $form.find('input:not([type="radio"]):not([type="checkbox"])').trigger('keyup');
+                        $form.find('input:not([type="radio"]):not([type="checkbox"])').trigger('keyup', {reset: true});
 
                         // changed
                         var changed = $form.data('initState') != $form.serialize();
