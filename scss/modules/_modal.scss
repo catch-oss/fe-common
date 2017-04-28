@@ -47,7 +47,8 @@
 
 // modal overlay
 .m-modal-overlay,
-.body-overlay {
+.body-overlay,
+.m-body-overlay {
 	display: none;
 	height: 100%;
 	width: 100%;
@@ -67,7 +68,8 @@
 // modal visible-active
 // NB the js prefix isn't so great
 .s-modal-visible .m-modal-overlay,
-.s-modal-visible .body-overlay {
+.s-modal-visible .body-overlay,
+.s-modal-visible .m-body-overlay {
 	display: block;
 }
 
@@ -84,7 +86,8 @@ html.s-loading {
 		z-index: 100;
 	}
 
-	.body-overlay {
+	.body-overlay,
+	.m-body-overlay {
 		display: block;
 	}
 }
