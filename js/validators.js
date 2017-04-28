@@ -308,7 +308,7 @@
                 cmp = a.shift();
 
             if (!testCondition(a)) return true;
-            return cmp <= value;
+            return Number(cmp) <= Number(value);
 
         },
 
@@ -319,7 +319,7 @@
                 cmp = a.shift();
 
             if (!testCondition(a)) return true;
-            return cmp >= value;
+            return Number(cmp) >= Number(value);
 
         },
 
