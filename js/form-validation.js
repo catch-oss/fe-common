@@ -424,7 +424,9 @@
                         $($form[0].elements).each(function() {
 
                             var $elem = $(this),
-                                $parsley = $elem.parsley();
+                                $parsley = $elem.parsley(),
+                                $container = $($elem.attr('data-validate-errors-container')),
+                                $correctContainer = $('#parsley-id-' + $elem.attr(ns + '-id'));
 
                             if ($parsley.unsubscribe !== undefined)
                                 $parsley
@@ -449,6 +451,8 @@
                                                     var cls = $(this).attr('class'),
                                                         $all = $correctContainer.find('[class="' + cls + '"]'),
                                                         keep = $all.length ? $all[0].outerHTML : '';
+
+                                                    // console.log(cls, $all.length, $all, keep);
 
                                                     // keep the first one and remove the rest
                                                     if ($all.length > 1) {
@@ -488,12 +492,28 @@
                                 $correctContainer = $('#parsley-id-' + $elem.attr(ns + '-id')),
                                 $children = $container.find('.error-list').children();
 
+                            // move the errors to the right location
                             $correctContainer.append($children.detach());
+
+                            // if there's errors
                             if ($children.length) {
+
+                                // make sure the correct classes are added
                                 $correctContainer.addClass('filled');
+
+                                // remove bad stuff
                                 $container.find('.error-list').each(function(){
                                     if (!$(this).is($correctContainer)) $(this).remove();
                                 });
+
+                                // make sure the right classes are in place
+                                $elem
+                                    .addClass('error')
+                                    .closest('.floatlabel-wrapper')
+                                        .addClass('error')
+                                        .end()
+                                        .closest('.m-form-field')
+                                            .addClass('error');
                             }
                         });
 

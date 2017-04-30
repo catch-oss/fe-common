@@ -30,7 +30,7 @@
                         $target = $(target);
 
                     // ensure there's a modal overlay
-                    if (!$('.m-modal-overlay').length && !$('.body-overlay').length) {
+                    if (!$('.m-modal-overlay').length && !$('.body-overlay').length && !$('.m-body-overlay').length) {
                         $('body').append('<div class="m-modal-overlay"></div>');
                     }
 

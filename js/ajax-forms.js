@@ -2,19 +2,36 @@
 
     // AMD. Register as an anonymous module depending on jQuery.
     if (typeof define === 'function' && define.amd)
-        define(['jquery', './modals', './../../pagr/pagr'], factory);
+        define(
+            [
+                'jquery',
+                './modals',
+                './util',
+                './../../pagr/pagr'
+            ],
+            factory
+        );
 
     // Node, CommonJS-like
     else if (typeof exports === 'object')
-        module.exports = factory(require('jquery'), require('./modals'), require('./../../pagr/pagr'));
+        module.exports = factory(
+            require('jquery'),
+            require('./modals'),
+            require('./util'),
+            require('./../../pagr/pagr')
+        );
 
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.ajaxForms = factory(root.jQuery, root.catch.modals);
+        root.catch.ajaxForms = factory(
+            root.jQuery,
+            root.catch.modals,
+            root.catch.util
+        );
     }
 
-}(this, function ($, modals, pagr, undefined) {
+}(this, function ($, modals, util, pagr, undefined) {
 
     'use strict';
 
@@ -59,35 +76,10 @@
                                 '</div>' +
                             '</div>' +
                         '</div>' +
-                    '</div>';
+                    '</div>',
+                serialiser = conf.serialiser || function($form, action) {
 
-            var trigger = '<a class="m-modal-trigger" id="ajax-form-modal-trigger" data-modal="#ajax-form-modal"></a>',
-                template =  $(modalTemplate).attr('id', 'ajax-form-modal')[0].outerHTML,
-                uid = function($elem, idBase) {
-
-                    var elementID = $elem.attr('id'),
-                        idBase = idBase || $elem.text().replace(/[^A-Za-z0-9]+/g, '-').toLowerCase(),
-                        i = 2;
-
-                    if (!elementID) {
-                        elementID = idBase;
-                        while (!elementID || $('#' + elementID).length) {
-                            elementID = idBase + '-' + i;
-                            i++;
-                        }
-                        $elem.attr('id', elementID);
-                    }
-                    return elementID;
-                },
-                ajaxProxy = function(action, $form, onAfterRequest) {
-
-                    // default
-                    action = action || window.location.href;
-
-                    // vars
-                    var enctype = $form.attr('enctype') ? $form.attr('enctype') : 'application/x-www-form-urlencoded',
-                        method = $form.attr('method') ? $form.attr('method') : 'get',
-                        data = $form.serialize();
+                    var data = $form.serialize();
 
                     // if we are doing a get then jQuery is a bit of retard in terms of building the URL
                     if (method == 'get' && action.split('?').length > 1) {
@@ -102,6 +94,25 @@
                         action = action.split('?')[0];
                     }
 
+                    return {
+                        action: action,
+                        data: data
+                    };
+                },
+                ajaxProxy = conf.ajaxProxy || function(action, $form, onAfterRequest) {
+
+                    // default
+                    action = action || window.location.href;
+
+                    // vars
+                    var enctype = $form.attr('enctype') ? $form.attr('enctype') : 'application/x-www-form-urlencoded',
+                        method = $form.attr('method') ? $form.attr('method') : 'get',
+                        serialised = serialiser($form, action),
+                        data = serialised.data;
+
+                    // update the action in case it changed (i.e GET requests)
+                    action = serialised.action;
+
                     if (enctype == 'multipart/form-data') {
 
                         // setup
@@ -109,12 +120,17 @@
 
                         // override listener
                         $target[0].onload = function() {
-                            onAfterRequest($target.contents().find("body").html(), 'success');
+                            onAfterRequest($target.contents().find('body').html(), 'success');
                         };
 
                     }
                     else $[method](action, data, onAfterRequest);
                 };
+
+
+            var trigger = '<a class="m-modal-trigger" id="ajax-form-modal-trigger" data-modal="#ajax-form-modal"></a>',
+                template =  $(modalTemplate).attr('id', 'ajax-form-modal')[0].outerHTML,
+                uid = util.elemId;
 
             $(selector).each(function(idx){
 
@@ -148,11 +164,11 @@
                             $body = $('.body').length ? $('.body') : $('body'),
                             replace = $this.attr('data-replace'),
                             scrollTo = $this.attr('data-scroll-to'),
-                            msg = $this.attr('data-success-message'),
                             embedTracking = $this.attr('data-success-tracking-embed'),
                             gaTracking = $this.attr('data-success-tracking-ga'),
                             gtmDataLayer = $this.attr('data-gtm-data-layer') || 'dataLayer',
                             gtmTracking = $this.attr('data-success-tracking-gtm'),
+                            msg = $this.attr('data-success-message'),
                             title = $this.attr('data-success-title'),
                             msgFail = $this.attr('data-fail-message'),
                             titleFail = $this.attr('data-fail-title'),
@@ -182,8 +198,10 @@
                             // make the request
                             ajaxProxy($this.attr('action'), $this, function(data, textStatus, jqXHR) {
 
-                                if (replace == undefined) $form.html($($(data).find(selector)[idx]).html());
-                                else $(replace).html($(data).find(replace).html());
+                                if (replace != '0' || replace != 'false') {
+                                    if (replace == undefined) $form.html($($(data).find(selector)[idx]).html());
+                                    else $(replace).html($(data).find(replace).html());
+                                }
 
                                 ajaxForms(conf);
 
@@ -198,7 +216,14 @@
                                         scrollTop: $(scrollTo).offset().top
                                     }, 600);
 
+                                // success
                                 if (textStatus == 'success' && successTestCb(data, textStatus, jqXHR)) {
+
+                                    // re grab the data
+                                    msg = $this.attr('data-success-message');
+                                    title = $this.attr('data-success-title');
+                                    $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg));
+
                                     if (msg != undefined) {
                                         $body.append($template);
                                         modals();
@@ -232,7 +257,16 @@
                                         gaTracking = JSON.parse(gaTracking);
                                         window.ga(gaTracking.action, gaTracking.data);
                                     }
-                                } else {
+                                }
+
+                                // fail
+                                else {
+
+                                    // re grab the data
+                                    msgFail = $this.attr('data-fail-message');
+                                    titleFail = $this.attr('data-fail-title');
+                                    $templateFail = $(trigger + template.replace(/\{\{title\}\}/, titleFail).replace(/\{\{content\}\}/, msgFail));
+
                                     if (msgFail != undefined) {
                                         $body.append($templateFail);
                                         modals();
@@ -268,11 +302,11 @@
                                 $body = $('.body').length ? $('.body') : $('body'),
                                 replace = $this.attr('data-replace') || $form.attr('data-replace'),
                                 scrollTo = $this.attr('data-scroll-to') || $form.attr('data-scroll-to'),
-                                msg = $this.attr('data-success-message') || $form.attr('data-success-message'),
                                 embedTracking = $this.attr('data-success-tracking-embed') || $form.attr('data-success-tracking-embed'),
                                 gaTracking = $this.attr('data-success-tracking-ga') || $form.attr('data-success-tracking-ga'),
                                 gtmTracking = $this.attr('data-success-tracking-gtm') || $form.attr('data-success-tracking-gtm'),
                                 gtmDataLayer = $this.attr('data-gtm-data-layer') || $form.attr('data-gtm-data-layer'),
+                                msg = $this.attr('data-success-message') || $form.attr('data-success-message'),
                                 title = $this.attr('data-success-title') || $form.attr('data-success-title'),
                                 msgFail = $this.attr('data-fail-message') || $form.attr('data-fail-message'),
                                 titleFail = $this.attr('data-fail-title') || $form.attr('data-fail-title'),
@@ -303,8 +337,10 @@
                                 // make the request
                                 ajaxProxy($this.attr('action'), $form, function(data, textStatus, jqXHR) {
 
-                                    if (replace == undefined) $form.html($($(data).find(selector)[idx]).html());
-                                    else $(replace).html($(data).find(replace).html());
+                                    if (replace != '0' || replace != 'false') {
+                                        if (replace == undefined) $form.html($($(data).find(selector)[idx]).html());
+                                        else $(replace).html($(data).find(replace).html());
+                                    }
 
                                     ajaxForms(conf);
 
@@ -319,7 +355,14 @@
                                             scrollTop: $(scrollTo).offset().top
                                         }, 600);
 
+                                    // success
                                     if (textStatus == 'success' && successTestCb(data, textStatus, jqXHR)) {
+
+                                        // make sure the dats are there if they changed
+                                        msg = $this.attr('data-success-message') || $form.attr('data-success-message');
+                                        title = $this.attr('data-success-title') || $form.attr('data-success-title');
+                                        $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg));
+
                                         if (msg != undefined) {
                                             $body.append($template);
                                             modals();
@@ -350,7 +393,17 @@
                                             gaTracking = JSON.parse(gaTracking);
                                             window.ga(gaTracking.action, gaTracking.data);
                                         }
-                                    } else {
+                                    }
+
+                                    // fail
+                                    else {
+
+                                        // re grab the datas
+                                        msgFail = $this.attr('data-fail-message') || $form.attr('data-fail-message');
+                                        titleFail = $this.attr('data-fail-title') || $form.attr('data-fail-title');
+                                        $templateFail = $(trigger + template.replace(/\{\{title\}\}/, titleFail).replace(/\{\{content\}\}/, msgFail));
+
+                                        // fail?
                                         if (msgFail != undefined) {
                                             $body.append($templateFail);
                                             modals();
