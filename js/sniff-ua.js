@@ -28,6 +28,9 @@
             isSafari = /Version\/[\d\.]+.*Safari/.test(ua);
             isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
+            // let everyone know it's chrome
+            if (isChrome) $('html').addClass('chrome');
+
             // let everyone know it's safari
             if (isSafari) $('html').addClass('safari');
 
