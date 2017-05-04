@@ -58,21 +58,66 @@
                     .on('click.undo', function() {
 
                         // reset non-hidden fields
-                        $form[0].reset();
+                        // $form[0].reset();
 
                         // split up the serialized form into variable pairs
                         var formFields = decodeURIComponent($form.data('initState')).split('&');
 
-                        // put it into an associative array
-                        var splitFields = new Array();
-                        for (var i in formFields){
+                        // transform the data
+                        var splitFields = {}, vals, i;
+                        for (i in formFields){
+
                             vals = formFields[i].split('=');
-                            splitFields[vals[0]] = vals[1];
+
+                            if (typeof splitFields[vals[0]] != 'undefined') {
+
+                                if (typeof splitFields[vals[0]] != 'array' && typeof splitFields[vals[0]] != 'object')
+                                    splitFields[vals[0]] = [splitFields[vals[0]]];
+
+                                splitFields[vals[0]].push(vals[1]);
+                            }
+                            else {
+                                splitFields[vals[0]] = vals[1];
+                            }
                         }
 
-                        // update the hidden fields
-                        $form.find('input[type=hidden]').each(function() {
+                        // update the inputs that accept a value attr
+                        $form.find('input:not([type="radio"]):not([type="checkbox"])').each(function() {
                             this.value = splitFields[this.name];
+                        });
+
+                        // update the inputs that handle the checked prop
+                        $form.find('input[type="radio"], input[type="checkbox"]').each(function() {
+
+                            // single value
+                            if (typeof splitFields[this.name] != 'array' && typeof splitFields[this.name] != 'object')
+                                $(this).prop('checked', typeof splitFields[this.name] !== 'undefined');
+
+                            // multiple values
+                            else $(this).prop('checked', splitFields[this.name].indexOf($(this).val()) >= 0);
+                        });
+
+                        // form select
+                        $form.find('select').each(function() {
+
+                            // the data for this field
+                            var d = splitFields[this.name];
+
+                            // single value
+                            if (typeof d != 'array' && typeof d != 'object')
+                                $(this).val(d);
+
+                            // multiple values
+                            else {
+                                $(this).find('option').each(function() {
+                                    $(this).prop('selected', d.indexOf($(this).attr('value')) >= 0);
+                                });
+                            }
+                        });
+
+                        // text area
+                        $form.find('textarea').each(function() {
+                            this.innerHTML = splitFields[this.name];
                         });
 
                         // update the selects
