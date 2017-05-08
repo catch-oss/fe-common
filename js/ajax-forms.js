@@ -227,13 +227,15 @@
                                     $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg));
 
                                     if (msg != undefined) {
+                                        console.log(onAfterCloseResultModal);
                                         $body.append($template);
                                         modals();
                                         $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
-                                        $('.m-modal__close__trigger, .body-overlay').on('tap click',function(e) {
+                                        $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap click',function(e) {
 
                                             // remove the modal
                                             $template.remove();
+
 
                                             // lifecycle callback
                                             if (typeof onAfterCloseResultModal == 'function')
@@ -273,7 +275,7 @@
                                         $body.append($templateFail);
                                         modals();
                                         $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
-                                        $('.m-modal__close__trigger, .body-overlay').on('tap click',function(e) {
+                                        $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap click',function(e) {
 
                                             // remove the modal
                                             $templateFail.remove();
@@ -370,7 +372,7 @@
                                             $body.append($template);
                                             modals();
                                             $('#ajax-form-modal-trigger').trigger('tap');
-                                            $('.m-modal__close__trigger, .body-overlay').on('tap',function(e) {
+                                            $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap',function(e) {
 
                                                 // remove the modal
                                                 $template.remove();
@@ -387,7 +389,7 @@
                                         // expects gtmTracking to be {key: value, key2: value2}
                                         // see https://developers.google.com/tag-manager/devguide?hl=en for more info
                                         if (gtmTracking) {
-                                            gtmTracking = JSON.parse(gtmTracking);
+                                             gtmTracking = JSON.parse(gtmTracking);
                                             window[gtmDataLayer].push(gtmTracking);
                                         }
                                         // expects gaTracking to be {action: 'send', data {hitType: 'pageview'}}
@@ -411,7 +413,7 @@
                                             $body.append($templateFail);
                                             modals();
                                             $('#ajax-form-modal-trigger').trigger('tap');
-                                            $('.m-modal__close__trigger, .body-overlay').on('tap',function(e) {
+                                            $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap',function(e) {
 
                                                 // remove the modal
                                                 $templateFail.remove();
