@@ -5,6 +5,7 @@ $max-width: 1200px !default;
 
 $width-vsm: 320px !default;
 $width-sm: 480px !default;
+$width-md-sm: 667px !default;
 $width-md: 769px !default;
 $width-md-lg: 900px !default;
 $width-lg: 1024px !default;
@@ -17,6 +18,7 @@ $width-lg-em: em($width-lg) !default;
 $extra-small: new-breakpoint(min-width em($width-vsm)) !default;
 $small: new-breakpoint(min-width em($width-sm)) !default;
 $mobile-only: new-breakpoint(max-width em($width-md)) !default;
+$medium-small: new-breakpoint(min-width em($width-md-sm)) !default;
 $medium: new-breakpoint(min-width em($width-md)) !default;
 $tablet-only: new-breakpoint(min-width $width-md-em max-width $width-lg-em) !default;
 $medium-large: new-breakpoint(min-width em($width-md-lg)) !default;
