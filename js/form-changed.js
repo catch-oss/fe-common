@@ -65,7 +65,7 @@
 
                         // transform the data
                         var splitFields = {}, vals, i;
-                        for (i in formFields){
+                        for (i = 0; i < formFields.length; i++) {
 
                             vals = formFields[i].split('=');
 
