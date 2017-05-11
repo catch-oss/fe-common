@@ -44,7 +44,7 @@
                         .off('nochange.condForm')
                         .on('click.condForm, change.condForm, keyup.condForm, nochange.condForm', function() {
 
-                            var changed = $form.data('initState') != $form.serialize();
+                            var changed = decodeURIComponent($form.data('initState')) != decodeURIComponent($form.serialize());
                             $form.toggleClass('s-changed', changed);
 
                             var otherFormsChanged = $('form.s-changed').length > 0;
