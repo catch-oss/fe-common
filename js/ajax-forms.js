@@ -232,13 +232,16 @@
                                         $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
                                         $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap click',function(e) {
 
-                                            // remove the modal
-                                            $template.remove();
+                                            // was it the ajax modal?
+                                            if ($('body').find('#ajax-form-modal').length > 0) {
 
+                                                // remove the modal
+                                                $template.remove();
 
-                                            // lifecycle callback
-                                            if (typeof onAfterCloseResultModal == 'function')
-                                                onAfterCloseResultModal($this, {success: true, message: 'success'});
+                                                // lifecycle callback
+                                                if (typeof onAfterCloseResultModal == 'function')
+                                                    onAfterCloseResultModal($this, {success: true, message: 'success'});
+                                            }
                                         });
                                     }
 
@@ -276,12 +279,16 @@
                                         $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
                                         $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap click',function(e) {
 
-                                            // remove the modal
-                                            $templateFail.remove();
+                                            // was it the ajax modal
+                                            if ($('body').find('#ajax-form-modal').length > 0) {
 
-                                            // lifecycle callback
-                                            if (typeof onAfterCloseResultModal == 'function')
-                                                onAfterCloseResultModal($this, {success: false, message: 'fail'});
+                                                // remove the modal
+                                                $templateFail.remove();
+
+                                                // lifecycle callback
+                                                if (typeof onAfterCloseResultModal == 'function')
+                                                    onAfterCloseResultModal($this, {success: false, message: 'fail'});
+                                            }
                                         });
                                     }
                                 }
@@ -373,12 +380,16 @@
                                             $('#ajax-form-modal-trigger').trigger('tap');
                                             $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap',function(e) {
 
-                                                // remove the modal
-                                                $template.remove();
+                                                // was it the ajax modal
+                                                if ($('body').find('#ajax-form-modal').length > 0) {
 
-                                                // lifecycle callback
-                                                if (typeof onAfterCloseResultModal == 'function')
-                                                    onAfterCloseResultModal($form, {success: true, message: 'success'});
+                                                    // remove the modal
+                                                    $template.remove();
+
+                                                    // lifecycle callback
+                                                    if (typeof onAfterCloseResultModal == 'function')
+                                                        onAfterCloseResultModal($form, {success: true, message: 'success'});
+                                                }
                                             });
                                         }
                                         // just chuck in the embed code
@@ -414,12 +425,16 @@
                                             $('#ajax-form-modal-trigger').trigger('tap');
                                             $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap',function(e) {
 
-                                                // remove the modal
-                                                $templateFail.remove();
+                                                // was it the ajax modal
+                                                if ($('body').find('#ajax-form-modal').length > 0) {
 
-                                                // lifecycle callback
-                                                if (typeof onAfterCloseResultModal == 'function')
-                                                    onAfterCloseResultModal($form, {success: false, message: 'fail'});
+                                                    // remove the modal
+                                                    $templateFail.remove();
+
+                                                    // lifecycle callback
+                                                    if (typeof onAfterCloseResultModal == 'function')
+                                                        onAfterCloseResultModal($form, {success: false, message: 'fail'});
+                                                }
                                             });
                                         }
                                     }
