@@ -227,7 +227,6 @@
                                     $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg));
 
                                     if (msg != undefined) {
-                                        console.log(onAfterCloseResultModal);
                                         $body.append($template);
                                         modals();
                                         $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
