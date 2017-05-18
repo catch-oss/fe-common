@@ -14,11 +14,15 @@
 
 }(this, function ($, undefined) {
 
-    return function() {
+    return function(opts) {
+
+        // defaults
+        opts = opts || {};
+        opts.hiddenClass = opts.hiddenClass || 's-hidden';
 
         $(function() {
 
-            $('.m-modal-link, .m-modal-trigger')
+            $('.m-modal-link, .m-modal-trigger, .modal-link')
                 .off('click.m-modal')
                 .off('tap.m-modal')
                 .on('click.m-modal tap.m-modal',function(e) {
@@ -59,15 +63,15 @@
                             }
 
                             // hide it
-                            $activeModal.addClass('s-hidden');
+                            $activeModal.addClass(opts.hiddenClass);
                         }
 
                         $('body').addClass('s-modal-visible').attr('data-activeModal', target);
-                        $target.removeClass('s-hidden').css('max-height', '100%').trigger('m-modal:open');;
+                        $target.removeClass(opts.hiddenClass).css('max-height', '100%').trigger('m-modal:open');;
                     }
                 });
 
-            $('.m-modal-overlay, .body-overlay, .m-modal__close-trigger, .m-modal__close__trigger, .m-modal__close__trigger-one')
+            $('.m-modal-overlay, .body-overlay, .m-modal__close-trigger, .m-modal__close__trigger, .m-modal__close__trigger-one, .modal-close')
                 .off('click.m-modal')
                 .off('tap.m-modal')
                 .on('click.m-modal tap.m-modal', function(e) {
@@ -81,7 +85,7 @@
                         modalHistory = rawModalHistory ? JSON.parse(rawModalHistory) : [];
 
                     // hide the modal and trigger the close event
-                    $target.addClass('s-hidden').trigger('m-modal:close');
+                    $target.addClass(opts.hiddenClass).trigger('m-modal:close');
 
                     // check the history to see if we need to restore a previous modal
                     if (modalHistory.length) {
@@ -95,7 +99,7 @@
 
                         // show the previous modal
                         $('body').addClass('s-modal-visible').attr('data-activeModal', prevModal);
-                        $prevModal.removeClass('s-hidden').css('max-height', '100%').trigger('modal:open');
+                        $prevModal.removeClass(opts.hiddenClass).css('max-height', '100%').trigger('modal:open');
                     }
 
                     // nothing to restore close everything
