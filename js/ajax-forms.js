@@ -80,7 +80,9 @@
                     '</div>',
                 serialiser = conf.serialiser || function($form, action) {
 
-                    var data = $form.serialize();
+                    var data = $form.serialize(),
+                        method = $form.attr('method') ? $form.attr('method') : 'get';
+
 
                     // if we are doing a get then jQuery is a bit of retard in terms of building the URL
                     if (method == 'get' && action.split('?').length > 1) {
