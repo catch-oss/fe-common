@@ -48,6 +48,16 @@
               .off('load.fepopstate')
               .on('load.fepopstate', function() {
 
+                  var originalLocation = window.location.pathname,
+                      hashChange = '';
+
+                  $("a[href*=\\#]").off('click.fepopstate')
+                    .on('click.fepopstate', function(e) {
+
+                        var link = $(this).attr('href');
+                        hashChange = link.substr(link.indexOf('#'));
+                    });
+
                   // hack to dodge popstate onload in older buggy history api implementations
                   setTimeout(function() {
 
@@ -60,7 +70,9 @@
                           .on('popstate.fepopstate', function(e) {
 
                               // default
-                              var doReload = true;
+                              var doReload = originalLocation != window.location.pathname;
+
+                              doReload = doReload || (window.location.hash != hashChange);
 
                               // if this is a state we pushed then do some stuff
                               if (e.originalEvent.state && e.originalEvent.state.key !== undefined) {
