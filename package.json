@@ -1,7 +1,7 @@
 {
     "author": "Aaron Latham-Anderson <aaron@catch.co.nz>",
     "name": "catch-fe-common",
-    "version": "2.0.7",
+    "version": "2.0.9",
     "license": "UNLICENSED",
     "private": true,
     "repository": "git@gl.catch.co.nz:catch/fe-common.git",

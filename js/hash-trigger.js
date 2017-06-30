@@ -29,7 +29,12 @@
             // vars
             var $el         = $(hash),
                 $scrollElem = $.scrollElem(),
-                clearHeight = twoDegrees.dockNav('height');
+                clearHeight = 0;
+
+            // catch is a reserved word :(
+            if (window.catch && window.dockNav) {
+                clearHeight = window.catch.dockNav('height');
+            }
 
             if ($el.length) {
 
@@ -54,12 +59,16 @@
                 })
                 .trigger('hashchange');
 
-            $("a[href*=#]")
+            $("a[href*=\\#]")
                 .off('click.hashTrigger')
                 .on('click.hashTrigger', function(e) {
-                    if ($($(this).attr('href')).length)
+                    var link = $(this).attr('href'),
+                        hash = link.substr(link.indexOf('#'));
+
+                    if ($(hash).length) {
                         e.preventDefault();
-                        hashHandler($(this).attr('href'));
+                        hashHandler(hash);
+                    }
                 });
 
         });

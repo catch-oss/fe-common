@@ -17,7 +17,7 @@
 
     'use strict';
 
-    return function() {
+    return function(onUpdate) {
 
         $(function() {
 
@@ -122,6 +122,10 @@
                     // update pagination stuff
                     $('.pagination-appended-total').html(pagr.appendedTotal());
                     $('.pagination-total').html(pagr.getTotal());
+
+                    if (typeof onUpdate === 'function') {
+                        onUpdate();
+                    }
                 }
             });
         });
