@@ -79,9 +79,11 @@
                 return false;
             };
 
+            var ieVersion = detectIE();
+
             // let everyone know it's ie10 or greater
-            if (detectIE() >= 10) {
-                $('html').addClass('ie gt-ie9');
+            if (ieVersion >= 10) {
+                $('html').addClass('ie gt-ie9 ie' + ieVersion);
             }
         });
     };
