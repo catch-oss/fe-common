@@ -1,4 +1,4 @@
-.m-modal {
+.#{$component-prefix}modal {
 	z-index: 200;
 	bottom: 0;
 	margin: 0 auto;
@@ -10,7 +10,7 @@
 	position: fixed;
 	overflow: auto;
 
-	&.s-hidden {
+	&.#{$state-prefix}hidden {
 		display: none;
 	}
 
@@ -46,9 +46,9 @@
 }
 
 // modal overlay
-.m-modal-overlay,
+.#{$component-prefix}modal-overlay,
 .body-overlay,
-.m-body-overlay {
+.#{$component-prefix}body-overlay {
 	display: none;
 	height: 100%;
 	width: 100%;
@@ -67,27 +67,27 @@
 
 // modal visible-active
 // NB the js prefix isn't so great
-.s-modal-visible .m-modal-overlay,
-.s-modal-visible .body-overlay,
-.s-modal-visible .m-body-overlay {
+.#{$state-prefix}modal-visible .#{$component-prefix}modal-overlay,
+.#{$state-prefix}modal-visible .body-overlay,
+.#{$state-prefix}modal-visible .#{$component-prefix}body-overlay {
 	display: block;
 }
 
-body.s-modal-visible,
-body.s-modal-active {
+body.#{$state-prefix}modal-visible,
+body.#{$state-prefix}modal-active {
 	overflow: hidden;
 }
 
-html.s-loading {
+html.#{$state-prefix}loading {
 
-	.m-loader {
+	.#{$component-prefix}loader {
 		visibility: visible;
 		opacity: 0.6;
 		z-index: 100;
 	}
 
 	.body-overlay,
-	.m-body-overlay {
+	.#{$component-prefix}body-overlay {
 		display: block;
 	}
 }
@@ -98,7 +98,7 @@ html.s-loading {
 
 @include media($medium) {
 
-	.m-modal {
+	.#{$component-prefix}modal {
 		@include prefixed(transform, translateY(-50%));
 		background-color: transparent;
 		padding: 0;

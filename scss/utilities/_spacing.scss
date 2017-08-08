@@ -3,13 +3,13 @@
 	// Horizontal spacing
 
 	.pad-h-base-#{$i}x,
-	.h-pad-h-base-#{$i}x {
+	.#{$utility-prefix}pad-h-base-#{$i}x {
 		padding-left: rem($i * $hbu);
 		padding-right: rem($i * $hbu);
 	}
 
 	.mar-h-base-#{$i}x,
-	.h-mar-h-base-#{$i}x {
+	.#{$utility-prefix}mar-h-base-#{$i}x {
 		margin-left: rem($i * $hbu);
 		margin-right: rem($i * $hbu);
 	}
@@ -17,13 +17,13 @@
 	// Vertical spacing
 
 	.pad-v-base-#{$i}x,
-	.h-pad-v-base-#{$i}x {
+	.#{$utility-prefix}pad-v-base-#{$i}x {
 		padding-top: rem($i * $vbu);
 		padding-bottom: rem($i * $vbu);
 	}
 
 	.mar-v-base-#{$i}x,
-	.h-mar-v-base-#{$i}x {
+	.#{$utility-prefix}mar-v-base-#{$i}x {
 		margin-top: rem($i * $vbu);
 		margin-bottom: rem($i * $vbu);
 	}
@@ -31,7 +31,7 @@
 	// Margin top
 
 	.mt-#{$i}x,
-	.h-mt-#{$i}x {
+	.#{$utility-prefix}mt-#{$i}x {
 		margin-top: rem($i * $vbu);
 
 		// Overwrite global margin top
@@ -47,7 +47,7 @@
 	// Margin bottom
 
 	.mb-#{$i}x,
-	.h-mb-#{$i}x {
+	.#{$utility-prefix}mb-#{$i}x {
 		margin-bottom: rem($i * $vbu);
 
 		// Overwrite global margin bottom
@@ -62,7 +62,7 @@
 
 	// Padding bottom
 	.pb-#{$i}x,
-	.h-pb-#{$i}x {
+	.#{$utility-prefix}pb-#{$i}x {
 		padding-bottom: rem($i * $vbu);
 	}
 }
@@ -74,13 +74,13 @@
 		// Horizontal spacing
 
 		.pad-h-base-#{$i}x#{$bem-m-str}mobile,
-		.h-pad-h-base-#{$i}x#{$bem-m-str}mobile {
+		.#{$utility-prefix}pad-h-base-#{$i}x#{$bem-m-str}mobile {
 			padding-left: rem($i * $hbu);
 			padding-right: rem($i * $hbu);
 		}
 
 		.mar-h-base-#{$i}x#{$bem-m-str}mobile,
-		.h-mar-h-base-#{$i}x#{$bem-m-str}mobile {
+		.#{$utility-prefix}mar-h-base-#{$i}x#{$bem-m-str}mobile {
 			margin-left: rem($i * $hbu);
 			margin-right: rem($i * $hbu);
 		}
@@ -88,13 +88,13 @@
 		// Vertical spacing
 
 		.pad-v-base-#{$i}x#{$bem-m-str}mobile,
-		.h-pad-v-base-#{$i}x#{$bem-m-str}mobile {
+		.#{$utility-prefix}pad-v-base-#{$i}x#{$bem-m-str}mobile {
 			padding-top: rem($i * $vbu);
 			padding-bottom: rem($i * $vbu);
 		}
 
 		.mar-v-base-#{$i}x#{$bem-m-str}mobile,
-		.h-mar-v-base-#{$i}x#{$bem-m-str}mobile {
+		.#{$utility-prefix}mar-v-base-#{$i}x#{$bem-m-str}mobile {
 			margin-top: rem($i * $vbu);
 			margin-bottom: rem($i * $vbu);
 		}
@@ -102,7 +102,7 @@
 		// Margin top
 
 		.mt-#{$i}x#{$bem-m-str}mobile,
-		.h-mt-#{$i}x#{$bem-m-str}mobile {
+		.#{$utility-prefix}mt-#{$i}x#{$bem-m-str}mobile {
 			margin-top: rem($i * $vbu);
 
 			// Overwrite global margin top
@@ -118,7 +118,7 @@
 		// Margin bottom
 
 		.mb-#{$i}x#{$bem-m-str}mobile,
-		.h-mb-#{$i}x#{$bem-m-str}mobile {
+		.#{$utility-prefix}mb-#{$i}x#{$bem-m-str}mobile {
 			margin-bottom: rem($i * $vbu);
 
 			// Overwrite global margin bottom
@@ -133,7 +133,7 @@
 
 		// Padding bottom
 		.pb-#{$i}x#{$bem-m-str}mobile,
-		.h-pb-#{$i}x#{$bem-m-str}mobile {
+		.#{$utility-prefix}pb-#{$i}x#{$bem-m-str}mobile {
 			padding-bottom: rem($i * $vbu);
 		}
 	}

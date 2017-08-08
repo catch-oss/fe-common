@@ -14,11 +14,11 @@
 //
 
 @each $col in $colours {
-	.h-col-#{nth($col, 1)} {
+	.#{$utility-prefix}col-#{nth($col, 1)} {
 		color: #{nth($col, 2)} !important;
 	}
 
-	.h-bg-#{nth($col, 1)} {
+	.#{$utility-prefix}bg-#{nth($col, 1)} {
 		background-color: #{nth($col, 2)} !important;
 	}
 }

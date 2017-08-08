@@ -1,11 +1,11 @@
-.m-accordion-header {
+.#{$component-prefix}accordion-header {
 	clear: both;
 
 	// Remove all height from body when not active - This is because Firefox generates space in some circumstances
 	&:not(.active),
-	&:not(.s-active) {
+	&:not(.#{$state-prefix}active) {
 
-		+ .m-accordion-body {
+		+ .#{$component-prefix}accordion-body {
 			height: 0;
 			// * {
 			// 	height: 0;
@@ -22,7 +22,7 @@
 		margin-top: 3px;
 	}
 
-	+ .m-accordion-body {
+	+ .#{$component-prefix}accordion-body {
 		@include prefixed(transition, all 0.2s ease-in-out);
 		overflow: hidden;
 		visibility: hidden;
@@ -38,11 +38,11 @@
 // active
 // ------
 
-.s-active {
-	&.m-accordion-header {
+.#{$state-prefix}active {
+	&.#{$component-prefix}accordion-header {
 		border-bottom: 0;
 
-		+ .m-accordion-body {
+		+ .#{$component-prefix}accordion-body {
 			visibility: visible;
 			opacity: 1;
 			height: auto;
@@ -61,9 +61,9 @@
 
 @include media($medium) {
 
-	.m-accordion-header.s-active {
+	.#{$component-prefix}accordion-header.#{$state-prefix}active {
 
-		+ .m-accordion-body {
+		+ .#{$component-prefix}accordion-body {
 			visibility: visible;
 			opacity: 1;
 			height: auto !important;

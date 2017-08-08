@@ -1,5 +1,5 @@
 .video-container, // legacy
-.h-responsive-iframe {
+.#{$utility-prefix}responsive-iframe {
 	position: relative;
 	padding-bottom: 56.25%;
 	padding-top: 35px;

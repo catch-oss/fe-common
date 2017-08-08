@@ -1,5 +1,5 @@
 [class*="h-icon-"],
-.h-icon {
+.#{$utility-prefix}icon {
 	&::before,
 	&::after {
 		font-family: "icomoon";
@@ -16,7 +16,7 @@
 	}
 }
 
-.h-icon {
+.#{$utility-prefix}icon {
 
 	&#{$bem-m-str}90 {
 		&::before,
@@ -57,7 +57,7 @@
 				content: $content;
 			}
 
-			&.h-icon#{$bem-m-str}after {
+			&.#{$utility-prefix}icon#{$bem-m-str}after {
 				&::after {
 					content: $content;
 					float: right;
@@ -75,7 +75,7 @@
 			}
 		}
 
-		&#{$bem-m-str}#{nth($col, 1)}-disc.h-icon#{$bem-m-str}after {
+		&#{$bem-m-str}#{nth($col, 1)}-disc.#{$utility-prefix}icon#{$bem-m-str}after {
 			&::after {
 				padding: 10%;
 				background: nth($col, 2);
