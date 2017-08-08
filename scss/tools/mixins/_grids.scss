@@ -55,7 +55,7 @@
 		.ie & {
 			margin-left: rem(gutter($bp, $grid) * -1);
 
-			& > * {
+			> * {
 				margin-left: rem(gutter($bp, $grid));
 			}
 		}
