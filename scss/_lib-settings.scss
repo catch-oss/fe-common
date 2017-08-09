@@ -1,1 +1,13 @@
-// This is where you would put lib config, but nothing fe-common references accepts var config
+// Neat Setting Defaults
+// ---------------------------------------------------
+
+// Change the neat grid settings
+$gutter: (24 / 16) * 1em !default; // Gutter between each two columns
+$grid-columns: 12 !default;
+$max-width: 1200px !default;
+
+$visual-grid-color: red !default;
+$visual-grid-index: front !default;
+$visual-grid-opacity: 0.1 !default;
+
+$visual-grid: false !default;
