@@ -10,6 +10,7 @@
         "backbone.localStorage": "~1.1.16",
         "bourbon": "~4.2.1",
         "confirmadon": "~0.1.0",
+        "css-grid-polyfill-binaries": "https://github.com/FremyCompany/css-grid-polyfill.git#~1.1",
         "droposaurus": "git@gl.catch.co.nz:catch/droposaurus.git#~0.8",
         "graphraptor": "git@gl.catch.co.nz:catch/graphraptor.git",
         "html5-boilerplate": "~5.1.0",

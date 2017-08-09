@@ -37,6 +37,6 @@
 		"selectivizr2": "~1.0.8",
 		"slidatron": ">=0.5.3",
 		"tablizr": "~0.3.0",
-		"css-grid-polyfill-binaries": "~1.1"
+		"css-grid-polyfill-binaries": "https://github.com/FremyCompany/css-grid-polyfill.git#~1.1"
 	}
 }
