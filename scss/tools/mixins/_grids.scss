@@ -1,6 +1,6 @@
-@mixin build-flex-grid-bp($bp, $prefix, $grid) {
+@mixin build-flex-grid-bp($bp, $prefix, $grid, $suffix: "") {
 	@for $cols from 1 through max-cols($bp, $grid) {
-		#{$prefix}span#{$cols} {
+		#{$prefix}span#{$cols}#{$suffix} {
 			flex-basis: calc(#{(($cols / max-cols($bp) * 100) * 1%)} - #{rem(gutter($bp))});
 			margin-left: rem(gutter($bp));
 
@@ -31,6 +31,7 @@
 			}
 		}
 
+		// base grid
 		@each $bp, $cols in map-get($g, "cols") {
 			@if ($bp == "base") {
 				@include build-flex-grid-bp($bp, #{$prefix + "__"}, $grid);
@@ -39,6 +40,48 @@
 				@media(min($bp)) {
 					@include build-flex-grid-bp($bp, #{$prefix + "__"}, $grid);
 					margin-left: rem(gutter($bp, $grid) * -1);
+				}
+			}
+		}
+
+		// max grids
+		$prev-bp: "base";
+		@each $bp-ref, $cols-ref in map-get($g, "cols") {
+
+			// dont generate a class for base
+			@if ($bp-ref != "base") {
+
+				// iterate through breakpoints
+				@each $bp, $cols in map-get($g, "cols") {
+
+					// from the min break point generate classes for all larger BPs
+					@if bp($bp-ref) >= if($bp == "base", 0, bp($bp)) {
+						@media(max($bp)) {
+							@include build-flex-grid-bp($prev-bp, #{$prefix + "__"}, $grid, #{"--max-" + $bp-ref});
+						}
+					}
+				}
+
+				// stash this as we generate max based on the previous cycle
+				$prev-bp: $bp-ref;
+			}
+		}
+
+		// min grids
+		@each $bp-ref, $cols-ref in map-get($g, "cols") {
+
+			// dont generate a class for base
+			@if ($bp-ref != "base") {
+
+				// iterate through breakpoints
+				@each $bp, $cols in map-get($g, "cols") {
+
+					// from the min break point generate classes for all larger BPs
+					@if $bp != "base" and bp($bp-ref) <= bp($bp) {
+						@media(min($bp)) {
+							@include build-flex-grid-bp($bp, #{$prefix + "__"}, $grid, #{"--min-" + $bp-ref});
+						}
+					}
 				}
 			}
 		}
