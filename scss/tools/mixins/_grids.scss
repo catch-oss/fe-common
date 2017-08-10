@@ -1,3 +1,5 @@
+// scss lint needs to be update with the new specs of CSS Grid
+// scss-lint:disable PropertySpelling
 @mixin build-flex-grid-bp($bp, $prefix, $grid) {
 	@for $cols from 1 through max-cols($bp, $grid) {
 		#{$prefix}span#{$cols} {
@@ -105,3 +107,4 @@
 		}
 	}
 }
+// scss-lint:enable PropertySpelling
