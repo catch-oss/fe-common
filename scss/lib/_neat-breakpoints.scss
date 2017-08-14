@@ -1,12 +1,5 @@
-// Sometimes sass is a bit derpy so we've redefined a default here
-$make-neat-breakpoints: false !default;
-
 // do the thing
 @if $make-neat-breakpoints {
-
-    // this should be set by neat, but sometimes isn't
-    $golden: 1.618 !default;
-    $column: modular-scale(3, 1em, $golden) !default;
 
     // widths
     $width-vsm: 320px !default;

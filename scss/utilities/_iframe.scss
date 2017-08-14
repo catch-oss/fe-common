@@ -1,6 +1,4 @@
-$include-utilities-iframe: true !default;
-
-@if $include-all-modules or $include-utilities-iframe {
+@if $fe-include-all or $fe-include-utilities-iframe {
 
 	.video-container, // legacy
 	.#{$utility-prefix}responsive-iframe {
