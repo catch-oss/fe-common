@@ -1,3 +1,7 @@
+// Sometimes sass is a bit derpy so we've redefined a default here
+$make-neat-breakpoints: false !default;
+
+// do the thing
 @if $make-neat-breakpoints {
 
     // this should be set by neat, but sometimes isn't
