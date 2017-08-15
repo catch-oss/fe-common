@@ -20,6 +20,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		margin-left: rem(gutter("base", $grid) * -1);
+		width: calc(100% + rem(gutter("base", $grid)));
 
 		.ie & {
 			display: block;
@@ -37,9 +38,10 @@
 				@include build-flex-grid-bp($bp, #{$prefix + "__"}, $grid);
 			}
 			@else {
-				@media(min($bp)) {
+				@media #{min($bp)} {
 					@include build-flex-grid-bp($bp, #{$prefix + "__"}, $grid);
 					margin-left: rem(gutter($bp, $grid) * -1);
+					width: calc(100% + rem(gutter($bp, $grid)));
 				}
 			}
 		}
@@ -56,7 +58,7 @@
 
 					// from the min break point generate classes for all larger BPs
 					@if bp($bp-ref) >= if($bp == "base", 0, bp($bp)) {
-						@media(max($bp)) {
+						@media #{max($bp)} {
 							@include build-flex-grid-bp($prev-bp, #{$prefix + "__"}, $grid, #{"--max-" + $bp-ref});
 						}
 					}
@@ -78,7 +80,7 @@
 
 					// from the min break point generate classes for all larger BPs
 					@if $bp != "base" and bp($bp-ref) <= bp($bp) {
-						@media(min($bp)) {
+						@media #{min($bp)} {
 							@include build-flex-grid-bp($bp, #{$prefix + "__"}, $grid, #{"--min-" + $bp-ref});
 						}
 					}
@@ -114,7 +116,7 @@
 			@include build-css-grid-bp($bp, $prefix, $grid);
 		}
 		@else {
-			@media(min($bp)) {
+			@media #{min($bp)} {
 				@include build-css-grid-bp($bp, $prefix, $grid);
 			}
 		}
@@ -142,7 +144,7 @@
 			@include build-container-bp($bp, $prefix, $grid);
 		}
 		@else {
-			@media(min($bp)) {
+			@media #{min($bp)} {
 				@include build-container-bp($bp, $prefix, $grid);
 			}
 		}
