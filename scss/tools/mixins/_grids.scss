@@ -20,7 +20,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		margin-left: rem(gutter("base", $grid) * -1);
-		width: calc(100% + rem(gutter("base", $grid)));
+		width: calc(100% + #{rem(gutter("base", $grid))});
 
 		.ie & {
 			display: block;
@@ -41,7 +41,7 @@
 				@media #{min($bp)} {
 					@include build-flex-grid-bp($bp, #{$prefix + "__"}, $grid);
 					margin-left: rem(gutter($bp, $grid) * -1);
-					width: calc(100% + rem(gutter($bp, $grid)));
+					width: calc(100% + #{rem(gutter($bp, $grid))});
 				}
 			}
 		}
