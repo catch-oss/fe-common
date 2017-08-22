@@ -58,9 +58,22 @@
                         $tooltip.removeClass('s-tooltip-active');
                     })
                     .on('mousemove', function(e) {
+
+                        var tooltipWidth = $tooltip.outerWidth(true),
+                            pageWidth = $(window).width(),
+                            mouseOffset = e.pageX + conf.offset.x;
+
+                        // if we are closer to right edge, make it max right + offset.x
+                        if ((mouseOffset + tooltipWidth) > pageWidth) {
+                            mouseOffset = pageWidth - tooltipWidth;
+
+                        // negative x offset could go too far left
+                        } else if (mouseOffset < 0) {
+                            mouseOffset = 0;
+                        }
                         $tooltip.css({
                             position: 'fixed',
-                            left: e.pageX + conf.offset.x,
+                            left: mouseOffset,
                             top: e.pageY + conf.offset.y
                         });
                     });
