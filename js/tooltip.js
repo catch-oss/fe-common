@@ -4,7 +4,8 @@
     if (typeof define === 'function' && define.amd)
         define(
             [
-                'jquery'
+                'jquery',
+                './../../body-toucher/body-toucher'
             ],
             factory
         );
@@ -12,7 +13,8 @@
     // Node, CommonJS-like
     else if (typeof exports === 'object')
         module.exports = factory(
-            require('jquery')
+            require('jquery'),
+            require('./../../body-toucher/body-toucher')
         );
 
     // Browser globals (root is window)
@@ -23,7 +25,7 @@
         );
     }
 
-} (this, function ($, undefined) {
+} (this, function ($, bodyToucher, undefined) {
 
     return function(conf) {
 
@@ -60,7 +62,7 @@
                     .on('mousemove', function(e) {
 
                         var tooltipWidth = $tooltip.outerWidth(true),
-                            pageWidth = $(window).width(),
+                            pageWidth = $.scrollElem()[0].clientWidth,
                             mouseOffset = e.pageX + conf.offset.x;
 
                         // if we are closer to right edge, make it max right + offset.x
