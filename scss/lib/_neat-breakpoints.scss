@@ -2,29 +2,29 @@
 @if $make-neat-breakpoints {
 
     // widths
-    $width-vsm: 320px !default;
-    $width-sm: 480px !default;
-    $width-md-sm: 667px !default;
-    $width-md: 769px !default;
-    $width-md-lg: 900px !default;
-    $width-lg: 1024px !default;
-    $width-vlg: 1200px !default;
-    $width-md-em: em($width-md) !default;
-    $width-lg-em: em($width-lg) !default;
+    $width-vsm: 320px !default !global;
+    $width-sm: 480px !default !global;
+    $width-md-sm: 667px !default !global;
+    $width-md: 769px !default !global;
+    $width-md-lg: 900px !default !global;
+    $width-lg: 1024px !default !global;
+    $width-vlg: 1200px !default !global;
+    $width-md-em: em($width-md) !default !global;
+    $width-lg-em: em($width-lg) !default !global;
 
     // Define your breakpoints
-    $extra-small: new-breakpoint(min-width em($width-vsm)) !default;
-    $small: new-breakpoint(min-width em($width-sm)) !default;
-    $mobile-only: new-breakpoint(max-width em($width-md)) !default;
-    $medium-small: new-breakpoint(min-width em($width-md-sm)) !default;
-    $medium: new-breakpoint(min-width em($width-md)) !default;
-    $tablet-only: new-breakpoint(min-width $width-md-em max-width $width-lg-em) !default;
-    $medium-large: new-breakpoint(min-width em($width-md-lg)) !default;
-    $large: new-breakpoint(min-width em($width-lg)) !default;
-    $extra-large: new-breakpoint(min-width em($width-vlg)) !default;
+    $extra-small: new-breakpoint(min-width em($width-vsm)) !default !global;
+    $small: new-breakpoint(min-width em($width-sm)) !default !global;
+    $mobile-only: new-breakpoint(max-width em($width-md)) !default !global;
+    $medium-small: new-breakpoint(min-width em($width-md-sm)) !default !global;
+    $medium: new-breakpoint(min-width em($width-md)) !default !global;
+    $tablet-only: new-breakpoint(min-width $width-md-em max-width $width-lg-em) !default !global;
+    $medium-large: new-breakpoint(min-width em($width-md-lg)) !default !global;
+    $large: new-breakpoint(min-width em($width-lg)) !default !global;
+    $extra-large: new-breakpoint(min-width em($width-vlg)) !default !global;
 
     // Set Bourbon's flex-grid variables to match what Neat is doing
     // http://bourbon.io/docs/#flex-grid
-    $fg-column: $column !default;
-    $fg-gutter: $gutter !default;
+    $fg-column: $column !default !global;
+    $fg-gutter: $gutter !default !global;
 }
