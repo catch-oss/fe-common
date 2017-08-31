@@ -1,8 +1,11 @@
+// using a hack to import correct lib
+// scss-lint:disable all
+
 @import
 "../../bourbon/app/assets/stylesheets/bourbon",
 "../../neat/app/assets/stylesheets/neat-helpers",
 "lib/grid-settings",
 "../../neat/app/assets/stylesheets/neat",
-"../../normalize-scss/normalize",
+"../../normalize-scss/_normalize",
 "lib/h5bp-reset",
 "lib/h5bp-print";
