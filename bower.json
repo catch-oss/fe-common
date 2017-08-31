@@ -1,6 +1,6 @@
 {
 	"name": "catch-fe-common",
-	"version": "2.2.1",
+	"version": "2.2.2",
 	"authors": [
 		"Aaron Latham-Anderson <aaron@catch.co.nz>"
 	],
@@ -30,7 +30,7 @@
 		"parsleyjs": "2.0.7",
 		"picturefill": "~2.1.0",
 		"polyholder": "~1.1.0",
-		"react": "~15.4.1",
+		"react": "~15.6.1",
 		"requirejs": "https://github.com/requirejs/requirejs-bower.git#~2.3.2",
 		"requirejs-plugins": "~1.0.3",
 		"respond": "~1.4.2",
