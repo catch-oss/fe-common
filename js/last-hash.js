@@ -36,7 +36,7 @@
             .off('hashchange.lastHash')
             .off('click.lastHash')
             .on('click.lastHash hashchange.lastHash', function(e) {
-                document.cookie = 'lastHash=' + this.href.split('#')[1];
+                document.cookie = 'lastHash=' + this.href.split('#')[1] + '; path=/;';
             });
     }
 }));
