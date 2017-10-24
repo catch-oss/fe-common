@@ -31,6 +31,9 @@
                 $scrollElem = $.scrollElem(),
                 clearHeight = 0;
 
+            // check for the opt out flag 
+            if ($el.attr('data-hashtrigger') == 'false') return;
+
             // catch is a reserved word :(
             if (window.catch && window.dockNav) {
                 clearHeight = window.catch.dockNav('height');
