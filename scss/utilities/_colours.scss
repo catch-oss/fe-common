@@ -13,6 +13,9 @@
 //
 //
 
+// Utility classes are allowed to be important
+// scss-lint:disable ImportantRule
+
 @each $col in $colours {
 	.#{$utility-prefix}col-#{nth($col, 1)} {
 		color: #{nth($col, 2)} !important;
