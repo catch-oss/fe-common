@@ -81,17 +81,21 @@
 
 			var ieVersion = detectIE();
 
-			$('html').addClass('ie ie' + ieVersion);
+			if (ieVersion !== false) {
+				$('html').addClass('ie ie' + ieVersion);
 
-			// let everyone know it's ie10 or greater
-			if (ieVersion >= 10) {
-				$('html').addClass('gt-ie9');
+				// let everyone know it's ie10 or greater
+				if (ieVersion >= 10) {
+					$('html').addClass('gt-ie9');
+				}
+
+				// let everyone know it's less than ie11
+				if (ieVersion <= 10) {
+					$('html').addClass('lt-ie11');
+				}
 			}
 
-			// let everyone know it's less than ie11
-			if (ieVersion <= 10) {
-				$('html').addClass('lt-ie11');
-			}
+
 		});
 	};
 }));
