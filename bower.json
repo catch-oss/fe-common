@@ -18,7 +18,7 @@
 		"jquery-mask-plugin": "~1.14.3",
 		"jquery-mobile": "~1.4.5",
 		"jquery-ui": "https://github.com/jquery/jquery-ui.git#~1.12",
-		"jquery-tokenize": "https://github.com/azt3k/Tokenize.git#master",
+		"jquery-tokenize": "https://github.com/catchnz/Tokenize.git#master",
 		"jsencrypt": "~2.3.0",
 		"jsrsasign": "~6.0.1",
 		"jsx-requirejs-plugin": "~0.6.2",
