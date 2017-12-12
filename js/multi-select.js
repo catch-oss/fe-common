@@ -1,10 +1,10 @@
 ;(function (root, factory) {
 
      // AMD. Register as an anonymous module depending on jQuery.
-     if (typeof define === 'function' && define.amd) define(['jquery', '../../jquery-tokenize-old/jquery.tokenize'], factory);
+     if (typeof define === 'function' && define.amd) define(['jquery', '../../jquery-tokenize/jquery.tokenize'], factory);
 
      // Node, CommonJS-like
-     else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('../../jquery-tokenize-old/jquery.tokenize'));
+     else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('../../jquery-tokenize/jquery.tokenize'));
 
      // Browser globals (root is window)
      else {
