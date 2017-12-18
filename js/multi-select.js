@@ -57,6 +57,7 @@
                     $sel.trigger('change');
                     var $input = $sel.next().find('.TokenSearch input');
                     $input.blur();
+                    $('.multi-select').removeClass('s-active');
                 },
                 onRemoveToken: function(val, e) {
 
@@ -162,13 +163,15 @@
                             '</button>'
                         ).on('click', function(e) {
                             triggerSelect(e);
+                            $(this).closest('.multi-select').addClass('s-active');
                         })
                     );
                 }
 
                 // using a label
-                $("label[for='" + id + "']").on('click', function(e) {
+                $("label[for='" + id + "']").off('click').on('click', function(e) {
                     triggerSelect(e);
+                    $(this).is('.s-active') ? $(this).removeClass('s-active') : $(this).addClass('s-active');
                 });
 
                 // trigger the select
@@ -187,7 +190,6 @@
                         $input.trigger('click');
                     }
                 }
-
             });
         });
     };
