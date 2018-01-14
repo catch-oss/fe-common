@@ -165,7 +165,6 @@
                                 '</button>'
                             ).on('click', function(e) {
                                 triggerSelect(e);
-                                $(this).closest('.multi-select').addClass('s-active');
                             })
                         );
                     }
@@ -173,7 +172,6 @@
                     // using a label
                     $("label[for='" + id + "']").off('click').on('click', function(e) {
                         triggerSelect(e);
-                        $(this).is('.s-active') ? $(this).removeClass('s-active') : $(this).addClass('s-active');
                     });
 
                     // trigger the select
@@ -184,11 +182,15 @@
                         // prevent the event from propagating to the parent handlers
                         e.stopPropagation();
 
+                        var $ms = $input.closest('.multi-select');
+
                         // trigger focus / blur appropriately
                         if ($cont.is('.Focused') || closing) {
+                            $ms.trigger('multi-select:close');
                             $input.trigger('blur');
                         } else {
                             // focus doesn't seem to trigger properly so we are using click
+                            $ms.trigger('multi-select:open');
                             $input.trigger('click');
                         }
                     }
