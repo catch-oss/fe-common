@@ -90,6 +90,8 @@
 	}
 }
 
+// scss-lint:disable PropertySpelling
+// lint doesn't like the grid properties...
 @mixin build-css-grid-bp($bp, $prefix, $grid) {
 	#{$prefix} {
 		display: grid;
@@ -106,6 +108,7 @@
 		}
 	}
 }
+// scss-lint:enable PropertySpelling
 
 @mixin build-css-grid($grid: "main", $prefix: ".o-2d-grid") {
 
