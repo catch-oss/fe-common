@@ -1,18 +1,21 @@
 ;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
-    if (typeof define === 'function' && define.amd) define(['jquery'], factory);
+    if (typeof define === 'function' && define.amd) define(['jquery', './dock-nav'], factory);
 
     // Node, CommonJS-like
-    else if (typeof exports === 'object') module.exports = factory(require('jquery'));
+    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./dock-nav'));
 
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.modal = factory(root.jQuery);
+        root.catch.hashTrigger = factory(
+            root.jQuery,
+            root.catch.dockNav
+        );
     }
 
-}(this, function ($, undefined) {
+}(this, function ($, dockNav) {
 
     'use strict';
 
@@ -28,12 +31,12 @@
 
             // vars
             var $el         = $(hash),
-                $scrollElem = $.scrollElem(),
+                $scrollElem = $.scrollElem(true),
                 clearHeight = 0;
 
             // catch is a reserved word :(
-            if (window.catch && window.dockNav) {
-                clearHeight = window.catch.dockNav('height');
+            if ($('.dockable-nav-container').length) {
+                clearHeight = dockNav('height');
             }
 
             if ($el.length) {
