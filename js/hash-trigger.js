@@ -19,7 +19,8 @@
 
     'use strict';
 
-    return function() {
+    // expects function that returns a boolean
+    return function(checkNavHeight) {
 
         var hashHandler = function(hash) {
 
@@ -34,8 +35,10 @@
                 $scrollElem = $.scrollElem(true),
                 clearHeight = 0;
 
-            // catch is a reserved word :(
-            if ($('.dockable-nav-container').length) {
+            if (
+                $('.dockable-nav-container').length &&
+                ((checkNavHeight === undefined) || checkNavHeight())
+            ) {
                 clearHeight = dockNav('height');
             }
 

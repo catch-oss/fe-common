@@ -33,7 +33,7 @@
                 // on scroll...
                 $scrollElemPos
                     .off('scroll.dockNav')
-                    .on('scroll.dockNav',function(){
+                    .on('scroll.dockNav',function() {
                         $nav.toggleClass('docked', $(this).scrollTop() > dockPoint);
                     });
 
