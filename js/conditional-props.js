@@ -1,6 +1,4 @@
-'use strict';
-
- ;(function (root, factory) {
+;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
     if (typeof define === 'function' && define.amd)

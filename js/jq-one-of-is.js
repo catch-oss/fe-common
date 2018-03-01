@@ -6,7 +6,7 @@
     if (typeof define === 'function' && define.amd)
         define(
             [
-                'jquery',
+                'jquery'
             ],
             factory
         );
@@ -14,7 +14,7 @@
     // Node, CommonJS-like
     else if (typeof exports === 'object')
         module.exports = factory(
-            require('jquery'),
+            require('jquery')
         );
 
     // Browser globals (root is window)

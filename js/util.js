@@ -1,6 +1,4 @@
-'use strict';
-
- ;(function (root, factory) {
+;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
     if (typeof define === 'function' && define.amd)
@@ -148,7 +146,7 @@
 
         ev: {
 
-            bind:function(el, ev, fn){
+            bind: function(el, ev, fn){
                 if (window.addEventListener) { // modern browsers including IE9+
                     el.addEventListener(ev, fn, false);
                 } else if(window.attachEvent) { // IE8 and below
@@ -159,7 +157,7 @@
                 return this;
             },
 
-            unbind:function(el, ev, fn){
+            unbind: function(el, ev, fn){
                 if (window.removeEventListener) {
                     el.removeEventListener(ev, fn, false);
                 } else if(window.detachEvent) {
@@ -170,7 +168,7 @@
                 return this;
             },
 
-            stop:function(ev) {
+            stop: function(ev) {
                 var e = ev || window.event;
                 e.cancelBubble = true;
                 if (e.stopPropagation) e.stopPropagation();
