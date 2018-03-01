@@ -1,18 +1,34 @@
-;(function (root, factory) {
+'use strict';
+
+ ;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
-    if (typeof define === 'function' && define.amd) define(['jquery'], factory);
+    if (typeof define === 'function' && define.amd)
+        define(
+            [
+                'jquery',
+                './jq-one-of-is'
+            ],
+            factory
+        );
 
     // Node, CommonJS-like
-    else if (typeof exports === 'object') module.exports = factory(require('jquery'));
+    else if (typeof exports === 'object')
+        module.exports = factory(
+            require('jquery'),
+            require('./jq-one-of-is')
+        );
 
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.util = factory(root.jQuery);
+        root.catch.conditionalProps = factory(
+            root.jQuery,
+            root.catch.jqOneOfIs
+        );
     }
 
-}(this, function ($, undefined) {
+}(this, function ($, jqOneOfIsDummy) {
 
     'use strict';
 

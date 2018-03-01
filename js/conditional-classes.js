@@ -2,8 +2,8 @@
 
  ;(function (root, factory) {
 
-     // AMD. Register as an anonymous module depending on jQuery.
-     if (typeof define === 'function' && define.amd)
+    // AMD. Register as an anonymous module depending on jQuery.
+    if (typeof define === 'function' && define.amd)
         define(
             [
                 'jquery',
@@ -12,21 +12,21 @@
             factory
         );
 
-     // Node, CommonJS-like
-     else if (typeof exports === 'object')
+    // Node, CommonJS-like
+    else if (typeof exports === 'object')
         module.exports = factory(
             require('jquery'),
             require('./util')
         );
 
-     // Browser globals (root is window)
-     else {
-         root.catch = (root.catch || {});
-         root.catch.conditionalClasses = factory(
-             root.jQuery,
-             root.catch.util
-         );
-     }
+    // Browser globals (root is window)
+    else {
+        root.catch = (root.catch || {});
+        root.catch.conditionalClasses = factory(
+            root.jQuery,
+            root.catch.util
+        );
+    }
 
 }(this, function ($, util) {
 
