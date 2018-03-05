@@ -28,9 +28,20 @@
 
 }(this, function ($, util, jqOneOfIsDummy) {
 
-    var handle = function($el, condition, prop, trueVal, falseVal) {
-        if (util.testCondition(condition)) $el.prop(prop, trueVal);
-        else $el.prop(prop, falseVal);
+    var handle = function($el, condition, prop, trueVal, falseVal, emitOnChange) {
+
+        // get the old val
+        var oldVal = $el.prop(prop);
+
+        // set the new val
+        $el.prop(prop, (util.testCondition(condition) ? trueVal : falseVal));
+
+        // get the new val
+        var newVal = $el.prop(prop);
+
+        // trigger event if it changed
+        if (oldVal != newVal)
+            $el.trigger(emitOnChange, {prev: oldVal, current: newVal});
     };
 
     return function() {
@@ -48,6 +59,7 @@
                     falseVal = $el.attr('data-prop-false-val'),
                     bindSelector = $el.attr('data-prop-bind-selector'),
                     bindEvent = $el.attr('data-prop-bind-event'),
+                    emitOnChange = $el.attr('data-prop-emit-on-change'),
                     eName = bindEvent + '.condprop' + elID,
                     eNameDummy = 'dummy' + '.condprop' + elID;
 
@@ -59,7 +71,7 @@
                     .off(eName)
                     .off(eNameDummy)
                     .on(eName + ' ' + eNameDummy, function() {
-                        handle($el, condition, prop, trueVal, falseVal);
+                        handle($el, condition, prop, trueVal, falseVal, emitOnChange);
                     });
             });
         });
