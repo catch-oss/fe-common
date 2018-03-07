@@ -40,7 +40,7 @@
         var newVal = $el.prop(prop);
 
         // trigger event if it changed
-        if (oldVal != newVal)
+        if (oldVal != newVal && emitOnChange && emitOnChange !== undefined)
             $el.trigger(emitOnChange, {prev: oldVal, current: newVal});
     };
 
