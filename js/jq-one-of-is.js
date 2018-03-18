@@ -42,5 +42,17 @@
             return rVal;
 
         };
+
+        $.fn.noneOfAre = function(selector) {
+
+            var rVal = true;
+
+            this.each(function() {
+                if ($(this).is(selector)) rVal = false;
+            });
+
+            return rVal;
+
+        };
     });
 }));
