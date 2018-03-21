@@ -36,13 +36,13 @@
         conf.disabledClass = conf.disabledClass || 's-disabled';
         conf.validCB = conf.validCB || function($els) {
             $els.prop('disabled', false)
-            .removeAttr('disabled')
-            .removeClass(conf.disabledClass);
+                .removeAttr('disabled')
+                .removeClass(conf.disabledClass);
         };
         conf.invalidCB = conf.invalidCB || function($els) {
             $els.prop('disabled', true)
-            .attr('disabled', 'disabled')
-            .addClass(conf.disabledClass);
+                .attr('disabled', 'disabled')
+                .addClass(conf.disabledClass);
         };
 
         formValidation(conf.formValidationConf);
@@ -72,7 +72,7 @@
                                 })
                                 .fail(function() {
 
-                                    if (typeof conf.validCB == 'function')
+                                    if (typeof conf.invalidCB == 'function')
                                         conf.invalidCB($(conf.submitSelector))
                                 });
                         })

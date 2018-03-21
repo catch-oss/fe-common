@@ -31,6 +31,9 @@
 
 }(this, function ($, moment, util, undefined) {
 
+    // weird hack - moment is frequently undefined at this point but exports a browser global
+    moment = moment || window.moment;
+
     // Validation Helpers
     // ------------------
 
@@ -260,7 +263,7 @@
 
         },
 
-        // pastdate
+        // validdate
         // e.g.
         // data-validate-validdate="YYYY-MM-DD"
         validdate: function(value, requirement) {
@@ -275,6 +278,27 @@
             // compare to now
             return date.isValid();
 
+        },
+
+        // validdateif
+        // e.g.
+        // data-validate-validdate="YYYY-MM-DD,{selector},{comparison operator},{value to compare}"
+        validdateif: function(value, requirement) {
+
+            var a = parseCSV(requirement),
+                cmp = a.shift();
+
+            if (!testCondition(a)) return true;
+
+            // make date
+            var date = moment(
+                value,
+                cmp || 'YYYY-MM-DD',
+                true
+            );
+
+            // compare to now
+            return date.isValid();
         },
 
         // futuredate
