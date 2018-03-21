@@ -130,7 +130,6 @@
                 .off('click.m-modal-stop')
                 .off('tap.m-modal-stop')
                 .on('click.m-modal-stop tap.m-modal-stop', function(e) {
-                    console.log(this)
                     e.stopPropagation();
                 });
 

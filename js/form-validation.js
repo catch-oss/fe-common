@@ -66,11 +66,14 @@
 
         $(function() {
 
-            // error template
-            window.ParsleyConfig = {
+            // define global options
+            var globalOpts = {
                 errorClass: 'error',
                 errorsWrapper: '<ul class="error-list"></ul>'
             };
+
+            // set the global opts
+            window.Parsley.options = $.extend({}, window.Parsley.options, globalOpts);
 
             // create the validator plugin interface
             $.fn.validator = function(options, args) {

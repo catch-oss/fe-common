@@ -1,6 +1,6 @@
 {
 	"name": "catch-fe-common",
-	"version": "3.8.1",
+	"version": "3.8.2",
 	"authors": [
 		"Aaron Latham-Anderson <aaron@catch.co.nz>"
 	],
@@ -27,7 +27,7 @@
 		"neat": "~1.7.2",
 		"normalize-scss": "https://github.com/JohnAlbin/normalize-scss.git#~7",
 		"pagr": ">=0.4.2",
-		"parsleyjs": "~2.2.0",
+		"parsleyjs": "~2.8.0",
 		"picturefill": "~2.1.0",
 		"polyholder": "~1.1.0",
 		"react": "~15.4.1",
