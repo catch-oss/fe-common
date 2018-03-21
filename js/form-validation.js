@@ -78,6 +78,8 @@
                 if ($this.length) {
                     if (options == 'validate') return $this.parsley().validate(args);
                     if (options == 'destroy') return $this.parsley().destroy();
+                    if (options == 'isValid') return $this.parsley().isValid(args);
+                    if (options == 'whenValid') return $this.parsley().whenValid(args);
                 }
                 return $this.parsley();
             };
