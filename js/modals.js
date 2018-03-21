@@ -19,6 +19,8 @@
         // defaults
         opts = opts || {};
         opts.hiddenClass = opts.hiddenClass || 's-hidden';
+        opts.extraCloseSelector = opts.extraCloseSelector || '';
+        opts.preventCloseSelector = opts.preventCloseSelector || '.m-modal__dialog';
 
         var closeModal = function(e) {
 
@@ -115,12 +117,21 @@
                 '.m-modal__close__trigger, ' +
                 '.m-modal__close__trigger-one, ' +
                 '.modal-close, ' +
-                '.js-modal-close'
+                '.js-modal-close ' +
+                opts.extraCloseSelector
             )
                 .off('click.m-modal')
                 .off('tap.m-modal')
                 .on('click.m-modal tap.m-modal', function(e) {
                     closeModal(e);
+                });
+
+            $(opts.preventCloseSelector)
+                .off('click.m-modal-stop')
+                .off('tap.m-modal-stop')
+                .on('click.m-modal-stop tap.m-modal-stop', function(e) {
+                    console.log(this)
+                    e.stopPropagation();
                 });
 
             $(document)

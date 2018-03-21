@@ -430,10 +430,10 @@
                                 $container = $($elem.attr('data-validate-errors-container')),
                                 $correctContainer = $('#parsley-id-' + $elem.attr(ns + '-id'));
 
-                            if ($parsley.unsubscribe !== undefined)
+                            if ($parsley.off !== undefined)
                                 $parsley
-                                    .unsubscribe('parsley:field:error')
-                                    .subscribe('parsley:field:error', function(el) {
+                                    .off('field:error')
+                                    .on('field:error', function(el) {
 
                                         // ensure the elem has an error
                                         el.$element
@@ -466,8 +466,8 @@
                                             });
 
                                     })
-                                    .unsubscribe('parsley:field:success')
-                                    .subscribe('parsley:field:success', function(el) {
+                                    .off('field:success')
+                                    .on('field:success', function(el) {
 
                                         // remove error classes
                                         el.$element
@@ -521,15 +521,15 @@
 
                         // add classes to form once it's validated
                         $form.parsley()
-                            .unsubscribe('parsley:form:validated')
-                            .subscribe('parsley:form:validated', function(){
+                            .off('form:validated')
+                            .on('form:validated', function(){
                                 $form.addClass('validator-validated');
                             });
 
                         // handle conflict with sticky nav
                         $form.parsley()
-                            .unsubscribe('parsley:form:error')
-                            .subscribe('parsley:form:error', function(){
+                            .off('form:error')
+                            .on('form:error', function(){
 
                                 // don't scroll on error
                                 if (!$form.is('.m-form--no-scroll-on-error, .m-form_no-scroll-on-error, .js-no-scroll-on-error')) {
