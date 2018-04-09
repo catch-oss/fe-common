@@ -20,7 +20,7 @@
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.conditionalProps = factory(
+        root.catch.util = factory(
             root.jQuery,
             root.catch.jqOneOfIs
         );
