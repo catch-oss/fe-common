@@ -123,14 +123,20 @@
                 .off('click.m-modal')
                 .off('tap.m-modal')
                 .on('click.m-modal tap.m-modal', function(e) {
-                    closeModal(e);
+                    var preventModalPropagation = !$(e.target).closest('.js-prevent-modal-propagation').length;
+                    if(preventModalPropagation){
+                        closeModal(e);
+                    }
                 });
 
             $(opts.preventCloseSelector)
                 .off('click.m-modal-stop')
                 .off('tap.m-modal-stop')
                 .on('click.m-modal-stop tap.m-modal-stop', function(e) {
-                    e.stopPropagation();
+                    var preventModalPropagation = !$(e.target).closest('.js-prevent-modal-propagation').length;
+                    if(preventModalPropagation){
+                        e.stopPropagation();
+                    }
                 });
 
             $(document)
