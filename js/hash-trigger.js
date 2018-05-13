@@ -16,7 +16,12 @@
 
     'use strict';
 
-    return function() {
+    return function(conf) {
+
+        conf = conf || {};
+
+        // this is a really weird default, but necessary to not break compatibility
+        conf.accordionHeaderSelector = '.accordion-header, .m-accordion-header';
 
         var hashHandler = function(hash) {
 
@@ -31,7 +36,7 @@
                 $scrollElem = $.scrollElem(),
                 clearHeight = 0;
 
-            // check for the opt out flag 
+            // check for the opt out flag
             if ($el.attr('data-hashtrigger') == 'false') return;
 
             // catch is a reserved word :(
@@ -41,11 +46,34 @@
 
             if ($el.length) {
 
-                $scrollElem.animate({ scrollTop: $el.offsetTop() - clearHeight }, 400);
+                // if we are scrolling to an accordion header / tab then trigger a tap to open it
+                var $target = $el;
 
-                // if we are scrolling to an accordion header trigger a tap to open it
-                if (!$el.is('.active')) $el.trigger('tap').trigger('click');
-            }
+                while (!$target.is('html')) {
+
+                    // get associated elems for tabs - they should be the same element
+                    // however we are allowing for some derpery by the html author
+                    var $labelEl = $('#' + $target.attr('aria-labelledby')),
+                        $controlsEl = $('[aria-controls="' + $target.attr('id') + '"]');
+
+                    // handle clicks on the element itself or the controller element
+                    $labelEl.trigger('tap').trigger('click');
+
+                    // handle derpery by the html author
+                    if ($labelEl[0] != $controlsEl[0])
+                        $controlsEl.trigger('tap').trigger('click');
+
+                    // Direct accordion refs
+                    $target.trigger('tap').trigger('click');
+
+                    // nested accorion refs
+                    $target.prev(conf.accordionHeaderSelector).trigger('tap').trigger('click');
+
+                    // look at parent
+                    $target = $target.parent();
+                }
+
+                $scrollElem.animate({ scrollTop: $el.offsetTop() - clearHeight }, 400);
         };
 
         $(function() {
