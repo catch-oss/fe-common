@@ -25,7 +25,7 @@
             init,
             toDesktop;
 
-        if ($(menu).length && !Modernizr.touch) {
+        if ($(menu).length) {
 
             init = 0;
 
