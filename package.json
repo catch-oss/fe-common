@@ -32,7 +32,6 @@
         "react": "~15.4.1",
         "requirejs": "~2.3.2",
         "requirejs-plugins": "~1.0.3",
-        "respond": "~1.4.2",
         "selectivizr2": "~1.0.8",
         "slidatron": ">=0.5.3",
         "tablizr": "~0.3.0"
