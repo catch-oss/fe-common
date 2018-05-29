@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# set current dir
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# go to the modernizr dir
+cd "$DIR/../../modernizr"
+
+# build modernizr
+npm install
+./bin/modernizr -c "$DIR/../conf/modernizr-build.json"
