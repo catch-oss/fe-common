@@ -74,6 +74,7 @@
                 }
 
                 $scrollElem.animate({ scrollTop: $el.offsetTop() - clearHeight }, 400);
+            }
         };
 
         $(function() {
