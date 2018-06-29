@@ -1,3 +1,4 @@
+// Change min and max function name because it's overide SASS function
 @function bp-min($bp) {
 	@return "(min-width: #{($bp / 16) * 1em})";
 }
