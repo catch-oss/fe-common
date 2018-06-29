@@ -1,3 +1,23 @@
+@function bp-min($bp) {
+	@return "(min-width: #{($bp / 16) * 1em})";
+}
+
+@function bp-max($bp) {
+	@return "(max-width: #{($bp / 16) * 1em})";
+}
+
+@function bp-min-max($bp-min, $bp-max) {
+	@return "#{min($bp-min)} and #{max($bp-max)}";
+}
+
+
+/*********************************************
+* ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+* THIS BP DOESN'T CALCULATE PROPERLY
+* I suspect some project still using it
+* Use the above instead ↑↑↑↑↑
+* ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+**********************************************/
 @function gutter($bp: "base", $grid: "main") {
 	$g: map-get($grids, $grid);
 	@return map-get(map-get($g, "gutter"), $bp);
