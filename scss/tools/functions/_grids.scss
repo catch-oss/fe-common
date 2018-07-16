@@ -8,7 +8,7 @@
 }
 
 @function bp-min-max($bp-min, $bp-max) {
-	@return "#{min($bp-min)} and #{max($bp-max)}";
+	@return "#{bp-min($bp-min)} and #{bp-max($bp-max)}";
 }
 
 
