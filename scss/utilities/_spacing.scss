@@ -1,4 +1,4 @@
-@for $i from 0 through 15 {
+@for $i from 0 through 26 {
 
 	// Horizontal spacing
 
@@ -69,7 +69,7 @@
 
 @include media($mobile-only) {
 
-	@for $i from 0 through 15 {
+	@for $i from 0 through 26 {
 
 		// Horizontal spacing
 
