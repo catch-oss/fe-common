@@ -1,155 +1,155 @@
-@mixin build-flex-grid-bp($bp, $prefix, $grid, $suffix: "") {
-	@for $cols from 1 through max-cols($bp, $grid) {
-		#{$prefix}span#{$cols}#{$suffix} {
-			flex-basis: calc(#{(($cols / max-cols($bp) * 100) * 1%)} - #{rem(gutter($bp))});
-			margin-left: rem(gutter($bp));
+@mixin build-flex-grid-bp($bp, $prefix, $grid, $suffix: '') {
+    @for $cols from 1 through max-cols($bp, $grid) {
+        #{$prefix}span#{$cols}#{$suffix} {
+            flex-basis: calc(#{(($cols / max-cols($bp) * 100) * 1%)} - #{rem(gutter($bp))});
+            margin-left: rem(gutter($bp));
 
-			.lt-ie11 & {
-				float: left;
-				width: calc(#{(($cols / max-cols($bp) * 100) * 1%)} - #{rem(gutter($bp))});
-			}
-		}
-	}
+            .lt-ie11 & {
+                float: left;
+                width: calc(#{(($cols / max-cols($bp) * 100) * 1%)} - #{rem(gutter($bp))});
+            }
+        }
+    }
 }
 
-@mixin build-flex-grid($grid: "main", $prefix: ".o-f-grid") {
+@mixin build-flex-grid($grid: 'main', $prefix: '.o-f-grid') {
 
-	$g: map-get($grids, $grid);
+    $g: map-get($grids, $grid);
 
-	#{$prefix} {
-		display: flex;
-		flex-wrap: wrap;
-		margin-left: rem(gutter("base", $grid) * -1);
-		width: calc(100% + #{rem(gutter("base", $grid))});
+    #{$prefix} {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: rem(gutter('base', $grid) * -1);
+        width: calc(100% + #{rem(gutter('base', $grid))});
 
-		.lt-ie11 & {
-			display: block;
+        .lt-ie11 & {
+            display: block;
 
-			&::after {
-				content: "";
-				display: block;
-				clear: both;
-			}
-		}
+            &::after {
+                content: '';
+                display: block;
+                clear: both;
+            }
+        }
 
-		// base grid
-		@each $bp, $cols in map-get($g, "cols") {
-			@if ($bp == "base") {
-				@include build-flex-grid-bp($bp, #{$prefix + "__"}, $grid);
-			}
-			@else {
-				@media #{min($bp)} {
-					@include build-flex-grid-bp($bp, #{$prefix + "__"}, $grid);
-					margin-left: rem(gutter($bp, $grid) * -1);
-					width: calc(100% + #{rem(gutter($bp, $grid))});
-				}
-			}
-		}
+        // base grid
+        @each $bp, $cols in map-get($g, 'cols') {
+            @if ($bp == 'base') {
+                @include build-flex-grid-bp($bp, #{$prefix + '__'}, $grid);
+            }
+            @else {
+                @media #{min($bp)} {
+                    @include build-flex-grid-bp($bp, #{$prefix + '__'}, $grid);
+                    margin-left: rem(gutter($bp, $grid) * -1);
+                    width: calc(100% + #{rem(gutter($bp, $grid))});
+                }
+            }
+        }
 
-		// max grids
-		$prev-bp: "base";
-		@each $bp-ref, $cols-ref in map-get($g, "cols") {
+        // max grids
+        $prev-bp: 'base';
+        @each $bp-ref, $cols-ref in map-get($g, 'cols') {
 
-			// dont generate a class for base
-			@if ($bp-ref != "base") {
+            // dont generate a class for base
+            @if ($bp-ref != 'base') {
 
-				// iterate through breakpoints
-				@each $bp, $cols in map-get($g, "cols") {
+                // iterate through breakpoints
+                @each $bp, $cols in map-get($g, 'cols') {
 
-					// from the min break point generate classes for all larger BPs
-					@if bp($bp-ref) >= if($bp == "base", 0, bp($bp)) {
-						@media #{max($bp)} {
-							@include build-flex-grid-bp($prev-bp, #{$prefix + "__"}, $grid, #{"--max-" + $bp-ref});
-						}
-					}
-				}
+                    // from the min break point generate classes for all larger BPs
+                    @if bp($bp-ref) >= if($bp == 'base', 0, bp($bp)) {
+                        @media #{max($bp)} {
+                            @include build-flex-grid-bp($prev-bp, #{$prefix + '__'}, $grid, #{'--max-' + $bp-ref});
+                        }
+                    }
+                }
 
-				// stash this as we generate max based on the previous cycle
-				$prev-bp: $bp-ref;
-			}
-		}
+                // stash this as we generate max based on the previous cycle
+                $prev-bp: $bp-ref;
+            }
+        }
 
-		// min grids
-		@each $bp-ref, $cols-ref in map-get($g, "cols") {
+        // min grids
+        @each $bp-ref, $cols-ref in map-get($g, 'cols') {
 
-			// dont generate a class for base
-			@if ($bp-ref != "base") {
+            // dont generate a class for base
+            @if ($bp-ref != 'base') {
 
-				// iterate through breakpoints
-				@each $bp, $cols in map-get($g, "cols") {
+                // iterate through breakpoints
+                @each $bp, $cols in map-get($g, 'cols') {
 
-					// from the min break point generate classes for all larger BPs
-					@if $bp != "base" and bp($bp-ref) <= bp($bp) {
-						@media #{min($bp)} {
-							@include build-flex-grid-bp($bp, #{$prefix + "__"}, $grid, #{"--min-" + $bp-ref});
-						}
-					}
-				}
-			}
-		}
-	}
+                    // from the min break point generate classes for all larger BPs
+                    @if $bp != 'base' and bp($bp-ref) <= bp($bp) {
+                        @media #{min($bp)} {
+                            @include build-flex-grid-bp($bp, #{$prefix + '__'}, $grid, #{'--min-' + $bp-ref});
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 // scss-lint:disable PropertySpelling
 // lint doesn't like the grid properties...
 @mixin build-css-grid-bp($bp, $prefix, $grid) {
-	#{$prefix} {
-		display: grid;
-		grid-template-columns: repeat(max-cols($bp, $grid), 1fr);
-		grid-template-rows: auto;
-		grid-column-gap: rem(gutter($bp, $grid));
+    #{$prefix} {
+        display: grid;
+        grid-template-columns: repeat(max-cols($bp, $grid), 1fr);
+        grid-template-rows: auto;
+        grid-column-gap: rem(gutter($bp, $grid));
 
-		.ie & {
-			margin-left: rem(gutter($bp, $grid) * -1);
+        .ie & {
+            margin-left: rem(gutter($bp, $grid) * -1);
 
-			> * {
-				margin-left: rem(gutter($bp, $grid));
-			}
-		}
-	}
+            > * {
+                margin-left: rem(gutter($bp, $grid));
+            }
+        }
+    }
 }
 // scss-lint:enable PropertySpelling
 
-@mixin build-css-grid($grid: "main", $prefix: ".o-2d-grid") {
+@mixin build-css-grid($grid: 'main', $prefix: '.o-2d-grid') {
 
-	$g: map-get($grids, $grid);
+    $g: map-get($grids, $grid);
 
-	@each $bp, $cols in map-get($g, "cols") {
-		@if ($bp == "base") {
-			@include build-css-grid-bp($bp, $prefix, $grid);
-		}
-		@else {
-			@media #{min($bp)} {
-				@include build-css-grid-bp($bp, $prefix, $grid);
-			}
-		}
-	}
+    @each $bp, $cols in map-get($g, 'cols') {
+        @if ($bp == 'base') {
+            @include build-css-grid-bp($bp, $prefix, $grid);
+        }
+        @else {
+            @media #{min($bp)} {
+                @include build-css-grid-bp($bp, $prefix, $grid);
+            }
+        }
+    }
 }
 
 @mixin build-container-bp($bp, $prefix, $grid) {
 
-	$g: map-get($grids, $grid);
-	$max: map-get($g, "max-width");
+    $g: map-get($grids, $grid);
+    $max: map-get($g, 'max-width');
 
-	#{$prefix} {
-		padding: 0 rem(gutter($bp, $grid));
-		margin: auto;
-		max-width: if(unitless($max), rem($max), $max);
-	}
+    #{$prefix} {
+        padding: 0 rem(gutter($bp, $grid));
+        margin: auto;
+        max-width: if(unitless($max), rem($max), $max);
+    }
 }
 
-@mixin build-container($grid: "main", $prefix: ".o-container") {
+@mixin build-container($grid: 'main', $prefix: '.o-container') {
 
-	$g: map-get($grids, $grid);
+    $g: map-get($grids, $grid);
 
-	@each $bp, $cols in map-get($g, "cols") {
-		@if ($bp == "base") {
-			@include build-container-bp($bp, $prefix, $grid);
-		}
-		@else {
-			@media #{min($bp)} {
-				@include build-container-bp($bp, $prefix, $grid);
-			}
-		}
-	}
+    @each $bp, $cols in map-get($g, 'cols') {
+        @if ($bp == 'base') {
+            @include build-container-bp($bp, $prefix, $grid);
+        }
+        @else {
+            @media #{min($bp)} {
+                @include build-container-bp($bp, $prefix, $grid);
+            }
+        }
+    }
 }

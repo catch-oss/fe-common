@@ -1,64 +1,63 @@
 .#{$component-prefix}modal {
-	z-index: 200;
-	bottom: 0;
-	margin: 0 auto;
-	right: 0;
-	left: 0;
-	top: 0;
-	padding: 0 0 20px;
-	background-color: colour("white");
-	position: fixed;
-	overflow: auto;
+    z-index: 200;
+    bottom: 0;
+    margin: 0 auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    padding: 0 0 20px;
+    background-color: colour('white');
+    position: fixed;
+    overflow: auto;
 
-	&.#{$state-prefix}hidden {
-		display: none;
-	}
+    &.#{$state-prefix}hidden {
+        display: none;
+    }
 
-	// modal body
-	&__body {
-		padding: 20px 4%;
-	}
+    // modal body
+    &__body {
+        padding: 20px 4%;
+    }
 
-	// close button
-	&__close {
+    // close button
+    &__close {
+        &__trigger {
+            position: relative;
+            text-align: center;
+            display: block;
+            margin-top: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid colour('grey-tone1');
 
-		&__trigger {
-			position: relative;
-			text-align: center;
-			display: block;
-			margin-top: 20px;
-			padding-bottom: 20px;
-			border-bottom: 1px solid colour("grey-tone1");
+            &::before {
+                position: absolute;
+                left: 75px;
+                right: 0;
+            }
+        }
+    }
 
-			&::before {
-				position: absolute;
-				left: 75px;
-				right: 0;
-			}
-		}
-	}
-
-	h2 {
-		.dashboard & {
-			margin: 0;
-		}
-	}
+    h2 {
+        .dashboard & {
+            margin: 0;
+        }
+    }
 }
 
 // modal overlay
 .#{$component-prefix}modal-overlay,
 .body-overlay,
 .#{$component-prefix}body-overlay {
-	display: none;
-	height: 100%;
-	width: 100%;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 100;
-	position: fixed;
-	background-color: rgba(colour("black"), 0.75);
+    display: none;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    position: fixed;
+    background-color: rgba(colour('black'), 0.75);
 }
 
 // ------------------
@@ -70,26 +69,25 @@
 .#{$state-prefix}modal-visible .#{$component-prefix}modal-overlay,
 .#{$state-prefix}modal-visible .body-overlay,
 .#{$state-prefix}modal-visible .#{$component-prefix}body-overlay {
-	display: block;
+    display: block;
 }
 
 body.#{$state-prefix}modal-visible,
 body.#{$state-prefix}modal-active {
-	overflow: hidden;
+    overflow: hidden;
 }
 
 html.#{$state-prefix}loading {
+    .#{$component-prefix}loader {
+        visibility: visible;
+        opacity: 0.6;
+        z-index: 100;
+    }
 
-	.#{$component-prefix}loader {
-		visibility: visible;
-		opacity: 0.6;
-		z-index: 100;
-	}
-
-	.body-overlay,
-	.#{$component-prefix}body-overlay {
-		display: block;
-	}
+    .body-overlay,
+    .#{$component-prefix}body-overlay {
+        display: block;
+    }
 }
 
 // ------------------
@@ -97,42 +95,41 @@ html.#{$state-prefix}loading {
 // ------------------
 
 @include media($medium) {
+    .#{$component-prefix}modal {
+        @include prefixed(transform, translateY(-50%));
+        background-color: transparent;
+        padding: 0;
+        bottom: auto;
+        top: 50%;
 
-	.#{$component-prefix}modal {
-		@include prefixed(transform, translateY(-50%));
-		background-color: transparent;
-		padding: 0;
-		bottom: auto;
-		top: 50%;
+        &__dialog {
+            position: relative;
+            width: 600px;
+            margin: 0 auto;
+        }
 
-		&__dialog {
-			position: relative;
-			width: 600px;
-			margin: 0 auto;
-		}
+        &__body {
+            @include prefixed(border-radius, 3px);
+            background-color: colour('white');
+        }
 
-		&__body {
-			@include prefixed(border-radius, 3px);
-			background-color: colour("white");
-		}
+        &__close {
+            height: 36px;
+            margin-top: 50px;
 
-		&__close {
-			height: 36px;
-			margin-top: 50px;
+            &__trigger {
+                color: colour('white');
+                position: absolute;
+                right: 0;
+                text-decoration: none;
+                border: 0;
 
-			&__trigger {
-				color: colour("white");
-				position: absolute;
-				right: 0;
-				text-decoration: none;
-				border: 0;
-
-				&::before {
-					position: absolute;
-					right: 0;
-					left: auto;
-				}
-			}
-		}
-	}
+                &::before {
+                    position: absolute;
+                    right: 0;
+                    left: auto;
+                }
+            }
+        }
+    }
 }

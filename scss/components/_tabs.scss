@@ -1,7 +1,7 @@
-[role="tabpanel"] {
-	display: none;
+[role='tabpanel'] {
+    display: none;
 
-	&[aria-hidden="false"] {
-		display: block;
-	}
+    &[aria-hidden='false'] {
+        display: block;
+    }
 }

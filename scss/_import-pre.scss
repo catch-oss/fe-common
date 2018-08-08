@@ -1,7 +1,8 @@
 // use this pre if you are not using sprockets
+// stylelint-disable indentation
 
 @import
-"lib-settings", // lib settings e.g. asset path etc
-"lib-pre",      // non-declarative library imports, mixins, functions etc
-"settings",     // vars, config
-"tools";        // mixins, functions etc
+'lib-settings', // lib settings e.g. asset path etc
+'lib-pre',      // non-declarative library imports, mixins, functions etc
+'settings',     // vars, config
+'tools';        // mixins, functions etc

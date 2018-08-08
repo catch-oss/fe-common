@@ -1,96 +1,95 @@
 %#{$utility-prefix}icon {
-	&::before,
-	&::after {
-		font-family: "icomoon";
-		speak: none;
-		font-style: normal;
-		font-weight: normal;
-		font-variant: normal;
-		text-transform: none;
-		line-height: 1;
+    &::before,
+    &::after {
+        font-family: icomoon, sans-serif;
+        speak: none;
+        font-style: normal;
+        font-weight: 400;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
 
-		// better font rendering
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-	}
+        // better font rendering
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
 }
 
-[class*="#{$utility-prefix}icon"],
+[class*='#{$utility-prefix}icon'],
 .#{$utility-prefix}icon {
-	@extend %#{$utility-prefix}icon;
+    @extend %#{$utility-prefix}icon;
 }
 
 .#{$utility-prefix}icon#{$bem-m-str}90 {
-	&::before,
-	&::after {
-		@include prefixed(transform, rotate(90deg));
-		display: inline-block;
-	}
+    &::before,
+    &::after {
+        @include prefixed(transform, rotate(90deg));
+        display: inline-block;
+    }
 }
 
 .#{$utility-prefix}icon#{$bem-m-str}180 {
-	&::before,
-	&::after {
-		@include prefixed(transform, rotate(180deg));
-		display: inline-block;
-	}
+    &::before,
+    &::after {
+        @include prefixed(transform, rotate(180deg));
+        display: inline-block;
+    }
 }
 
 .#{$utility-prefix}icon#{$bem-m-str}270 {
-	&::before,
-	&::after {
-		@include prefixed(transform, rotate(270deg));
-		display: inline-block;
-	}
+    &::before,
+    &::after {
+        @include prefixed(transform, rotate(270deg));
+        display: inline-block;
+    }
 }
 
 .#{$utility-prefix}icon#{$bem-m-str}after {
-	&::before {
-		display: none;
-	}
+    &::before {
+        display: none;
+    }
 }
 
 @each $val in $icons {
-	$name: nth($val, 1);
-	$content: nth($val, 2);
+    $name: nth($val, 1);
+    $content: nth($val, 2);
 
-	%#{$utility-prefix}icon#{$bem-m-str}#{$name} {
-		&::before {
-			content: $content;
-		}
+    %#{$utility-prefix}icon#{$bem-m-str}#{$name} {
+        &::before {
+            content: $content;
+        }
 
-		&.#{$utility-prefix}icon#{$bem-m-str}after {
-			&::after {
-				content: $content;
-				float: right;
-			}
-		}
-	}
+        &.#{$utility-prefix}icon#{$bem-m-str}after {
+            &::after {
+                content: $content;
+                float: right;
+            }
+        }
+    }
 
-	.#{$utility-prefix}icon#{$bem-m-str}#{$name} {
-		@extend %#{$utility-prefix}icon#{$bem-m-str}#{$name};
-	}
+    .#{$utility-prefix}icon#{$bem-m-str}#{$name} {
+        @extend %#{$utility-prefix}icon#{$bem-m-str}#{$name};
+    }
 }
 
 @each $col in $colours {
+    %#{$utility-prefix}icon#{$bem-m-str}#{nth($col, 1)}-disc {
+        &::before {
+            padding: 10%;
+            background: nth($col, 2);
+            border-radius: 50%;
+        }
 
-	%#{$utility-prefix}icon#{$bem-m-str}#{nth($col, 1)}-disc {
-		&::before {
-			padding: 10%;
-			background: nth($col, 2);
-			border-radius: 50%;
-		}
+        &.#{$utility-prefix}icon#{$bem-m-str}after {
+            &::after {
+                padding: 10%;
+                background: nth($col, 2);
+                border-radius: 50%;
+            }
+        }
+    }
 
-		&.#{$utility-prefix}icon#{$bem-m-str}after {
-			&::after {
-				padding: 10%;
-				background: nth($col, 2);
-				border-radius: 50%;
-			}
-		}
-	}
-
-	.#{$utility-prefix}icon#{$bem-m-str}#{nth($col, 1)}-disc {
-		@extend %#{$utility-prefix}icon#{$bem-m-str}#{nth($col, 1)}-disc;
-	}
+    .#{$utility-prefix}icon#{$bem-m-str}#{nth($col, 1)}-disc {
+        @extend %#{$utility-prefix}icon#{$bem-m-str}#{nth($col, 1)}-disc;
+    }
 }
