@@ -1,10 +1,10 @@
-// declarative library imports i.e. ones that produce CSS - this will introduce sub tirangles than can be overridden
-// stylelint-disable indentation
+// declarative library imports i.e. ones that produce CSS - this will introduce
+// sub tirangles than can be overridden
 
 @import
 '../../normalize-scss/sass/normalize',
-// this is weird because it isn't creating CSS, but it does rely on the lib tools
-// and for other things to have been configured at this point
+// this is weird because it isn't creating CSS, but it does rely on the lib
+// tools and for other things to have been configured at this point
 'lib/neat-breakpoints',
 // some would say these should be under generic,
 // but they are packaged libs we have included them in the lib

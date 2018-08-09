@@ -1,7 +1,8 @@
 .#{$component-prefix}accordion-header {
     clear: both;
 
-    // Remove all height from body when not active - This is because Firefox generates space in some circumstances
+    // Remove all height from body when not active - This is because Firefox
+    // generates space in some circumstances
     &:not(.active),
     &:not(.#{$state-prefix}active) {
         + .#{$component-prefix}accordion-body {

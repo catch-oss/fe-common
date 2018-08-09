@@ -56,7 +56,8 @@
                 // iterate through breakpoints
                 @each $bp, $cols in map-get($g, 'cols') {
 
-                    // from the min break point generate classes for all larger BPs
+                    // from the min break point generate classes for all larger
+                    // BPs
                     @if bp($bp-ref) >= if($bp == 'base', 0, bp($bp)) {
                         @media #{max($bp)} {
                             @include build-flex-grid-bp($prev-bp, #{$prefix + '__'}, $grid, #{'--max-' + $bp-ref});
@@ -78,7 +79,8 @@
                 // iterate through breakpoints
                 @each $bp, $cols in map-get($g, 'cols') {
 
-                    // from the min break point generate classes for all larger BPs
+                    // from the min break point generate classes for all larger
+                    // BPs
                     @if $bp != 'base' and bp($bp-ref) <= bp($bp) {
                         @media #{min($bp)} {
                             @include build-flex-grid-bp($bp, #{$prefix + '__'}, $grid, #{'--min-' + $bp-ref});
