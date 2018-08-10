@@ -75,10 +75,4 @@
 @mixin inline-block {
     display: inline-block;
     vertical-align: baseline;
-    zoom: 1;
-    // this is a hack
-    // stylelint-disable
-    *display: inline;
-    *vertical-align: auto;
-    // stylelint-enable
 }
