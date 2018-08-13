@@ -15,6 +15,7 @@
 @mixin build-flex-grid($grid: 'main', $prefix: '.o-f-grid') {
 
     $g: map-get($grids, $grid);
+    $prev-bp: 'base';
 
     #{$prefix} {
         display: flex;
@@ -47,7 +48,6 @@
         }
 
         // max grids
-        $prev-bp: 'base';
         @each $bp-ref, $cols-ref in map-get($g, 'cols') {
 
             // dont generate a class for base
@@ -92,8 +92,6 @@
     }
 }
 
-// scss-lint:disable PropertySpelling
-// lint doesn't like the grid properties...
 @mixin build-css-grid-bp($bp, $prefix, $grid) {
     #{$prefix} {
         display: grid;
