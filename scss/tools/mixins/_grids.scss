@@ -108,7 +108,6 @@
         }
     }
 }
-// scss-lint:enable PropertySpelling
 
 @mixin build-css-grid($grid: 'main', $prefix: '.o-2d-grid') {
 
@@ -117,8 +116,7 @@
     @each $bp, $cols in map-get($g, 'cols') {
         @if ($bp == 'base') {
             @include build-css-grid-bp($bp, $prefix, $grid);
-        }
-        @else {
+        } @else {
             @media #{min($bp)} {
                 @include build-css-grid-bp($bp, $prefix, $grid);
             }
@@ -145,8 +143,7 @@
     @each $bp, $cols in map-get($g, 'cols') {
         @if ($bp == 'base') {
             @include build-container-bp($bp, $prefix, $grid);
-        }
-        @else {
+        } @else {
             @media #{min($bp)} {
                 @include build-container-bp($bp, $prefix, $grid);
             }
