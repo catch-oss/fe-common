@@ -1,11 +1,13 @@
 @function gutter($bp: 'base', $grid: 'main') {
     $g: map-get($grids, $grid);
+
     @return map-get(map-get($g, 'gutter'), $bp);
 }
 
 @function bp($bp, $grid: 'main') {
     $g: map-get($grids, $grid);
     $w: map-get(map-get($g, 'breakpoints'), $bp);
+
     @return if($w, $w, 0);
 }
 
@@ -23,5 +25,6 @@
 
 @function max-cols($bp: 'base', $grid: 'main') {
     $g: map-get($grids, $grid);
+
     @return map-get(map-get($g, 'cols'), $bp);
 }
