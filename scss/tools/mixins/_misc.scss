@@ -35,6 +35,7 @@
 // for use with icomoon
 @mixin icon($name, $after: false) {
     @extend .h-icon--#{$name};
+
     @if ($after) {
         &::after {
             font-family: icomoon, sans-serif;
@@ -47,8 +48,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-    }
-    @else {
+    } @else {
         &::before {
             font-family: icomoon, sans-serif;
             speak: none;

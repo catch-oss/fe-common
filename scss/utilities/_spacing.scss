@@ -68,11 +68,9 @@
 }
 
 @include media($mobile-only) {
-
     @for $i from 0 through 15 {
 
         // Horizontal spacing
-
         .pad-h-base-#{$i}x#{$bem-m-str}mobile,
         .#{$utility-prefix}pad-h-base-#{$i}x#{$bem-m-str}mobile {
             padding-left: rem($i * $hbu);
