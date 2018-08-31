@@ -63,13 +63,18 @@
         // defaults
         opts.docNavHeight = opts.docNavHeight === undefined ? 0 : opts.docNavHeight;
         opts.animateScroll = opts.animateScroll === undefined ? true : opts.animateScroll;
+        opts.errorClass = opts.errorClass || 'error';
+        opts.errorsWrapper = opts.errorsWrapper || '<ul class="error-list"></ul>';
+        opts.fieldWrapper = opts.fieldWrapper || '.m-form-field';
+        opts.fieldErrorWrapperClass = opts.fieldErrorWrapperClass || 'error';
+        opts.floatLabelWrapper = opts.floatLabelWrapper || '.floatlabel-wrapper';
 
         $(function() {
 
             // define global options
             var globalOpts = {
-                errorClass: 'error',
-                errorsWrapper: '<ul class="error-list"></ul>'
+                errorClass: opts.errorClass,
+                errorsWrapper: opts.errorsWrapper
             };
 
             // set the global opts
@@ -440,12 +445,12 @@
 
                                         // ensure the elem has an error
                                         el.$element
-                                            .addClass('error')
-                                            .closest('.floatlabel-wrapper')
-                                                .addClass('error')
+                                            .addClass(opts.errorClass)
+                                            .closest(opts.floatLabelWrapper)
+                                                .addClass(opts.errorClass)
                                                 .end()
-                                                .closest('.m-form-field')
-                                                    .addClass('error');
+                                                .closest(opts.fieldWrapper)
+                                                    .addClass(opts.fieldErrorWrapperClass);
 
                                         // handle server supplied errors
                                         if ($elem.is('[data-validate-errors-container]'))
@@ -474,12 +479,12 @@
 
                                         // remove error classes
                                         el.$element
-                                            .removeClass('error')
-                                            .closest('.floatlabel-wrapper')
-                                                .removeClass('error')
+                                            .removeClass(opts.errorClass)
+                                            .closest(opts.floatLabelWrapper)
+                                                .removeClass(opts.errorClass)
                                                 .end()
-                                                .closest('.m-form-field')
-                                                    .removeClass('error');
+                                                .closest(opts.fieldWrapper)
+                                                    .removeClass(opts.fieldErrorWrapperClass);
 
                                         // handle server supplied errors
                                         if ($elem.is('[data-validate-errors-container]'))
@@ -513,12 +518,12 @@
 
                                 // make sure the right classes are in place
                                 $elem
-                                    .addClass('error')
-                                    .closest('.floatlabel-wrapper')
-                                        .addClass('error')
+                                    .addClass(opts.errorClass)
+                                    .closest(opts.floatLabelWrapper)
+                                        .addClass(opts.errorClass)
                                         .end()
-                                        .closest('.m-form-field')
-                                            .addClass('error');
+                                        .closest(opts.fieldWrapper)
+                                            .addClass(opts.fieldErrorWrapperClass);
                             }
                         });
 
