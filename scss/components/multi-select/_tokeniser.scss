@@ -1,11 +1,11 @@
 // we don't choose these
-// scss-lint:disable SelectorFormat
+// stylelint-disable
 
 //colors
-$white: #fff;
-$color-vis-vis-approx: #fcefa1;
-$color-orange-white-approx: #fbf9ee;
-$color-alto-approx: #ddd;
+$white: #FFFFFF;
+$color-vis-vis-approx: #FCEFA1;
+$color-orange-white-approx: #FBF9EE;
+$color-alto-approx: #DDDDDD;
 
 //fonts
 $font0: Arial;
@@ -17,108 +17,105 @@ $font3: sans-serif !important;
 //original selectors
 //div.Tokenize ul.TokensContainer li.Token, div.Tokenize ul.TokensContainer li.TokenSearch
 %extend_1 {
-	margin: 5px 0 0 5px;
-	height: 18px;
-	float: left;
+    margin: 5px 0 0 5px;
+    height: 18px;
+    float: left;
 }
 
 div {
 
-	&.TokenizeMeasure {
-		font-family: $font0, $font1, $font2;
-		font-size: 12px;
-	}
+    &.TokenizeMeasure {
+        font-family: $font0, $font1, $font2;
+        font-size: 12px;
+    }
 
-	&.Tokenize {
-		position: relative;
-		display: inline-block;
-		zoom: 1;
+    &.Tokenize {
+        position: relative;
+        display: inline-block;
+        zoom: 1;
 
-		ul {
-			list-style: none;
-			padding: 0;
-			margin: 0;
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
 
-			li {
-				white-space: nowrap;
-			}
+            li {
+                white-space: nowrap;
+            }
 
-			&.TokensContainer {
-				cursor: text;
-				overflow-y: auto;
-				user-select: none;
+            &.TokensContainer {
+                cursor: text;
+                overflow-y: auto;
+                user-select: none;
 
-				li {
+                li {
 
-					&.Token {
+                    &.Token {
 
-						&.MovingShadow {
-							border: 1px solid $color-vis-vis-approx;
-							background-color: $color-orange-white-approx;
-						}
+                        &.MovingShadow {
+                            border: 1px solid $color-vis-vis-approx;
+                            background-color: $color-orange-white-approx;
+                        }
 
-						&.PendingDelete {
-							opacity: 0.5;
-							// ie
-							// scss-lint:disable SpaceAroundOperator
-							filter: alpha(opacity=50);
-							// scss-lint:enable SpaceAroundOperator
-						}
+                        &.PendingDelete {
+                            opacity: 0.5;
+                            filter: alpha(opacity=50);
+                        }
 
-						a.Close {
-							cursor: pointer;
+                        a.Close {
+                            cursor: pointer;
 
-							&:hover {
-								background: transparent;
-								text-decoration: none;
-							}
-						}
-					}
+                            &:hover {
+                                background: transparent;
+                                text-decoration: none;
+                            }
+                        }
+                    }
 
-					&.Placeholder {
-						color: $color-alto-approx;
-						position: absolute;
-						line-height: 20px;
-						padding: 5px 0 0 5px;
-						display: none;
-					}
-				}
+                    &.Placeholder {
+                        color: $color-alto-approx;
+                        position: absolute;
+                        line-height: 20px;
+                        padding: 5px 0 0 5px;
+                        display: none;
+                    }
+                }
 
-				&.Autosize {
-					height: auto;
-				}
+                &.Autosize {
+                    height: auto;
+                }
 
-				&.ui-sortable:not(.ui-sortable-disabled) li.Token {
-					cursor: move;
-				}
-			}
+                &.ui-sortable:not(.ui-sortable-disabled) li.Token {
+                    cursor: move;
+                }
+            }
 
-			&.Dropdown {
-				box-sizing: border-box;
-				display: none;
-				width: 100%;
-				position: absolute;
-				overflow-y: auto;
-				background-clip: padding-box;
-				z-index: 20;
+            &.Dropdown {
+                box-sizing: border-box;
+                display: none;
+                width: 100%;
+                position: absolute;
+                overflow-y: auto;
+                background-clip: padding-box;
+                z-index: 20;
 
-				li {
-					overflow: hidden;
-					cursor: pointer;
-				}
-			}
-		}
+                li {
+                    overflow: hidden;
+                    cursor: pointer;
+                }
+            }
+        }
 
-		&.Disabled ul.TokensContainer {
-			cursor: not-allowed;
+        &.Disabled ul.TokensContainer {
+            cursor: not-allowed;
 
-			input {
-				cursor: not-allowed;
-			}
+            input {
+                cursor: not-allowed;
+            }
 
-			li.Token a.Close {
-				display: none;
-			}
-		}
-	}
+            li.Token a.Close {
+                display: none;
+            }
+        }
+    }
 }

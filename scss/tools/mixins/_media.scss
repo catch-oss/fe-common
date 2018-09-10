@@ -1,11 +1,13 @@
+// stylelint-disable
+
 @mixin hdpi($density: 2) {
-	@media
-	only screen and (-webkit-min-device-pixel-ratio: $density),
-	only screen and (min--moz-device-pixel-ratio: $density),
-	only screen and (-o-min-device-pixel-ratio: $density / 1),
-	only screen and (min-device-pixel-ratio: $density),
-	only screen and (min-resolution: ($density / 2)  * 192dpi),
-	only screen and (min-resolution: $density * 1dppx) {
-		@content;
-	}
+    @media
+    only screen and (-webkit-min-device-pixel-ratio: $density),
+    only screen and (min--moz-device-pixel-ratio: $density),
+    only screen and (-o-min-device-pixel-ratio: $density / 1),
+    only screen and (min-device-pixel-ratio: $density),
+    only screen and (min-resolution: ($density / 2)  * 192dpi),
+    only screen and (min-resolution: $density * 1dppx) {
+        @content;
+    }
 }
