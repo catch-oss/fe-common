@@ -21,10 +21,10 @@
         "jsrsasign": "~8",
         "labelizr": "azt3k/labelizr#~0.2.3",
         "normalize-scss": "^7",
-        "pagr": ">=0.4.2",
+        "pagr": "azt3k/pagr#^0.4.2",
         "parsleyjs": "2.0.7",
         "picturefill": "~3.0.2",
-        "polyholder": "~1.1.0",
+        "polyholder": "azt3k/polyholder#~1.1.0",
         "react": "~16",
         "slidatron": ">=0.5.3",
         "tablizr": "~0.3.0"
