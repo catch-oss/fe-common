@@ -27,7 +27,7 @@
         "polyholder": "azt3k/polyholder#~1.1.0",
         "react": "~16",
         "slidatron": ">=0.5.3",
-        "tablizr": "~0.3.0"
+        "tablizr": "azt3k/tablizr#~0.3.0"
     },
     "engines": {
         "node": ">=0.10.0"
