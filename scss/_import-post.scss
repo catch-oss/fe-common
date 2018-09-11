@@ -1,9 +1,0 @@
-// use this import if you are not using sprockets
-
-@import
-'lib',              // declarative library imports i.e. ones that produce CSS - this will introduce sub tirangles than can be overridden
-'generic',          // things like resets etc
-'elements',         // html elements e.g. h1, h2, ul, hr etc
-'objects',          // 'components' that have a broader reach than an individual use case e.g. grid, container, animations
-'components',       // discrete functional components e.g. accordion, modal, content feature etc
-'utilities';        // helpers, trumps and override classes - this is where all the importants go

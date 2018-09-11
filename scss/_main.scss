@@ -1,13 +1,6 @@
 // use this main if you are not using sprockets
 
 @import
-'lib-settings', // lib settings e.g. asset path etc
-'lib-pre',      // non-declarative library imports, mixins, functions etc
-'settings',     // vars, config
-'tools',        // mixins, functions etc
-'lib',          // declarative library imports i.e. ones that produce CSS - this may introduce sub tirangles than can be overridden
-'generic',      // things like resets etc
-'elements',     // html elements e.g. h1, h2, ul, hr etc
-'objects',      // 'components' that have a broader reach than an individual use case e.g. grid, container, animations
-'components',   // discrete functional components e.g. accordion, modal, content feature etc
-'utilities';    // helpers, trumps and override classes - this is where all the importants go
+'settings',
+'lib',
+'tools';

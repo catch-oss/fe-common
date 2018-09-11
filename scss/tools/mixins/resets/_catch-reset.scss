@@ -1,0 +1,10 @@
+@mixin catch-reset() {
+    table,
+    tbody,
+    thead,
+    tr,
+    th,
+    td {
+        border-collapse: collapse;
+    }
+}
