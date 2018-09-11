@@ -21,7 +21,7 @@
         "jsrsasign": "~8",
         "labelizr": "azt3k/labelizr#semver:~0.2.3",
         "normalize-scss": "^7",
-        "pagr": "azt3k/pagr#^0.4.2",
+        "pagr": "azt3k/pagr#semver:^0.4.2",
         "parsleyjs": "2.0.7",
         "picturefill": "~3.0.2",
         "polyholder": "azt3k/polyholder#semver:~1.1.0",
