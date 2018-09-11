@@ -1,5 +1,5 @@
-@if $fe-include-all or $fe-include-utilities-iframe {
-    .video-container, // legacy
+@mixin iframe() {
+
     .#{$utility-prefix}responsive-iframe {
         position: relative;
         padding-bottom: 56.25%;
