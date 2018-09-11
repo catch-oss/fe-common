@@ -26,7 +26,7 @@
         "picturefill": "~3.0.2",
         "polyholder": "azt3k/polyholder#semver:~1.1.0",
         "react": "~16",
-        "slidatron": ">=0.5.3",
+        "slidatron": "azt3k/slidatron#semver:^0.5.3",
         "tablizr": "azt3k/tablizr#semver:~0.3.0"
     },
     "engines": {
