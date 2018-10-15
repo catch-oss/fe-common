@@ -11,7 +11,7 @@
         "bourbon": "~4.2.1",
         "confirmadon": "~0.1.0",
         "css-grid-polyfill-binaries": "https://github.com/FremyCompany/css-grid-polyfill.git#~1.1",
-        "droposaurus": "git@gl.catchdesign.co.nz:catch/droposaurus.git#~0.8",
+        "droposaurus": "git@gl.catchdesign.co.nz:catch/droposaurus.git#1.0.0-alpha.2",
         "graphraptor": "git@gl.catchdesign.co.nz:catch/graphraptor.git",
         "html5-boilerplate": "~5.1.0",
         "jquery": "~1.12.4",
