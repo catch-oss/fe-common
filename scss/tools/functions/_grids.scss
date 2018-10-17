@@ -1,3 +1,18 @@
+// Change min and max function name because it's overide SASS function
+@function bp-min($bp) {
+    @return '(min-width: #{($bp / 16) * 1em})';
+}
+
+@function bp-max($bp) {
+    @return '(max-width: #{($bp / 16) * 1em})';
+}
+
+@function bp-min-max($bp-min, $bp-max) {
+    @return '#{bp-min($bp-min)} and #{bp-max($bp-max)}';
+}
+
+// Legacy below. Please don't use for future projects.
+
 @function gutter($bp: 'base', $grid: 'main') {
     $g: map-get($grids, $grid);
 
