@@ -74,10 +74,10 @@
                 }
 
                 $scrollElem.animate({ scrollTop: $el.offsetTop() - clearHeight }, 400);
+            }
         };
 
         $(function() {
-
             $(window)
                 .off('hashchange.hashTrigger')
                 .on('hashchange.hashTrigger', function(e) {
@@ -101,7 +101,7 @@
                         hashHandler(hash);
                     }
                 });
-
         });
+
     };
 }));
