@@ -2,7 +2,7 @@
 // sub tirangles than can be overridden
 
 @import
-'../../normalize-scss/sass/normalize',
+'../../normalize-scss/sass/normalize/import-now',
 // this is weird because it isn't creating CSS, but it does rely on the lib
 // tools and for other things to have been configured at this point
 'lib/neat-breakpoints',
