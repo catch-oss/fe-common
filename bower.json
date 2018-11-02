@@ -1,6 +1,6 @@
 {
 	"name": "catch-fe-common",
-	"version": "0.0.1",
+	"version": "1.22.1",
 	"authors": [
 		"Aaron Latham-Anderson <aaron@catch.co.nz>"
 	],
@@ -20,8 +20,8 @@
 		"polyholder": "~1.0.1",
 		"labelizr": "~0.2.0",
 		"picturefill": "~2.1.0",
-		"droposaurus": "git@gl.catch.co.nz:catch/droposaurus.git",
-		"graphraptor": "git@gl.catch.co.nz:catch/graphraptor.git",
+		"droposaurus": "git@gl.catchdesign.co.nz:catch/droposaurus.git",
+		"graphraptor": "git@gl.catchdesign.co.nz:catch/graphraptor.git",
 		"confirmadon": "~0.1.0",
 		"slidatron": ">=0.5.3",
         "jquery-mask-plugin": "~1.14.3",
