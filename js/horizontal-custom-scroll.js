@@ -131,16 +131,21 @@ define([
             _this.showOrHide();
         });
 
+        _this.timeout = null;
         _this.$scrollView.off('scroll.scrollbar')
-        .on('scroll.scrollbar', _.debounce(function() {
-            if(!_this.lockScrollEvent){
-                var relX = _this.$scrollView.scrollLeft() + _this.$scrollView.width() / 2;
-                var percentageX = (relX / _this.$scrollViewInner.outerWidth() * 100);
- 
-                _this.percent = _this.fixPosition(percentageX);
-                _this.scrollBarPos(_this.percent, true);
-            }
-        }, 10));
+        .on('scroll.scrollbar', function() {
+            clearTimeout(_this.timeout);
+
+            _this.timeout = setTimeout(function () {
+                if (!_this.lockScrollEvent) {
+                    var relX = _this.$scrollView.scrollLeft() + _this.$scrollView.width() / 2;
+                    var percentageX = (relX / _this.$scrollViewInner.outerWidth() * 100);
+
+                    _this.percent = _this.fixPosition(percentageX);
+                    _this.scrollBarPos(_this.percent, true);
+                }
+            }, 50);
+        });
 
         //util
         _this.showOrHide = function(){
@@ -176,11 +181,8 @@ define([
         animate : 800
     };
 
-    var alreadydone = false;
     return function() {
-
-
-        function run(){
+        $(function(){
             $('[' + Scroller.selectors.scrollView + ']').each(function(index, element){
                 new Scroller(element);
             });
@@ -196,16 +198,6 @@ define([
                 });
 
             });
-
-            alreadydone = true;
-        }
-
-        if(!alreadydone){
-            $(function(){
-                run();
-            });
-        }
-
-        return run;
+        });
     };
 });
