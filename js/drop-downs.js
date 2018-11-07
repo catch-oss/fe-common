@@ -43,11 +43,15 @@
 
                 // are we going to use droposarus on mobile?
                 if (options !== undefined && options.useBrowserSelectOnTouch && hasTouch()) {
-                    $(selector)
-                        .addClass('s-has-touch')
-                        .wrap('<span class="s-has-touch m-dropdown__inner" />')
-                        .closest('.m-dropdown')
-                            .addClass('s-has-touch');
+                    $(selector).each(function() {
+                        if (!$(this).hasClass('s-has-touch')) {
+                            $(this).addClass('s-has-touch')
+                                .wrap('<span class="s-has-touch m-dropdown__inner" />')
+                                .closest('.m-dropdown')
+                                    .addClass('s-has-touch');
+                        }
+                    });
+
                 }
 
                 else $(selector).catchDropdown(options, params);
