@@ -14,22 +14,20 @@
 
 }(this, function ($, undefined) {
 
-    return function() {
+    return function(conf) {
+
+        conf = conf || {};
+        conf.selector = conf.selector || '.js-accordion';
+        conf.activeClass = conf.activeClass || 's-active';
 
         $(function() {
-
-            // .accordion-header is deprecated
-            $('.m-accordion-header, .accordion-header')
+            $(conf.selector)
                 .off('click.accordion')
                 .on('click.accordion', function(e) {
-
                     e.preventDefault();
-
-                    // .active is deprecated
-                    $(this).toggleClass('s-active');
+                    $(this).toggleClass(conf.activeClass);
                 });
         });
     }
 
 }))
-
