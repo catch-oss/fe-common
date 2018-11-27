@@ -537,7 +537,7 @@
                         // handle conflict with sticky nav
                         $form.parsley()
                             .off('form:error')
-                            .on('form:error', function(){
+                            .on('form:error', function() {
 
                                 // don't scroll on error
                                 if (!$form.is('.m-form--no-scroll-on-error, .m-form_no-scroll-on-error, .js-no-scroll-on-error')) {
@@ -557,17 +557,6 @@
                                     });
                                 }
                             });
-
-                        // There is a known issue with parsley remote and submit buttons
-                        // The submit button value should be submitted alone with the form params if the button has a name attr
-                        // https://github.com/guillaumepotier/Parsley.js/issues/826
-                        // this is a hack that should act as a work around until a patch is released
-                        $form.on('submit', function() {
-                            $form.find('[type="submit"]').each(function(idx){
-                                var $submit = $(this);
-                                $submit.after('<input type="hidden" name="' + $submit.attr('name') + '" value="' + $submit.attr('value') + '">');
-                            });
-                        });
                     }
                 }
             });
