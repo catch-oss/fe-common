@@ -1,4 +1,0 @@
-// get colour from the list of colour variables
-@function color($ref) {
-    @return map-get($colors, $ref);
-}

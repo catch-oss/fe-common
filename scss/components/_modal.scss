@@ -1,135 +1,45 @@
-.#{$component-prefix}modal {
-    z-index: 200;
-    bottom: 0;
-    margin: 0 auto;
-    right: 0;
-    left: 0;
-    top: 0;
-    padding: 0 0 20px;
-    background-color: colour('white');
-    position: fixed;
-    overflow: auto;
+@mixin modal {
 
-    &.#{$state-prefix}hidden {
-        display: none;
-    }
+    // <div class="c-modal s-hidden" id="MODAL">
+    //     <div class="c-moal__content">
+    //         <div class="c-modal__header">
+    //             <a class="c-modal__close">Close</a>
+    //         </div>
+    //         <div class="c-modal__body">
+    //             <p>Hello</p>
+    //         </div>
+    //         <div class="c-modal__footer">
+    //             <p>Footer</p>
+    //         </div>
+    //     </div>
+    // </div>
 
-    // modal body
-    &__body {
-        padding: 20px 4%;
+    .#{$component-prefix}modal {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        background-color: $color-white;
+        margin: 0 auto;
+        overflow: auto;
+        padding: 0 0 20px;
+
+        @media (min-width: 840px) {
+            transform: translateY(-50%);
+            padding: 0;
+            bottom: auto;
+            top: 50%;
+        }
+
+        &.#{$state-prefix}hidden {
+            display: none;
+        }
     }
 
     // close button
-    &__close {
-        &__trigger {
-            position: relative;
-            text-align: center;
-            display: block;
-            margin-top: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid colour('grey-tone1');
-
-            &::before {
-                position: absolute;
-                left: 75px;
-                right: 0;
-            }
-        }
-    }
-
-    h2 {
-        .dashboard & {
-            margin: 0;
-        }
-    }
-}
-
-// modal overlay
-.#{$component-prefix}modal-overlay,
-.body-overlay,
-.#{$component-prefix}body-overlay {
-    display: none;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 100;
-    position: fixed;
-    background-color: rgba(colour('black'), 0.75);
-}
-
-// ------------------
-// state
-// ------------------
-
-// modal visible-active
-// NB the js prefix isn't so great
-.#{$state-prefix}modal-visible .#{$component-prefix}modal-overlay,
-.#{$state-prefix}modal-visible .body-overlay,
-.#{$state-prefix}modal-visible .#{$component-prefix}body-overlay {
-    display: block;
-}
-
-body.#{$state-prefix}modal-visible,
-body.#{$state-prefix}modal-active {
-    overflow: hidden;
-}
-
-html.#{$state-prefix}loading {
-    .#{$component-prefix}loader {
-        visibility: visible;
-        opacity: 0.6;
-        z-index: 100;
-    }
-
-    .body-overlay,
-    .#{$component-prefix}body-overlay {
-        display: block;
-    }
-}
-
-// ------------------
-// media
-// ------------------
-
-@include media($medium) {
-    .#{$component-prefix}modal {
-        @include prefixed(transform, translateY(-50%));
-        background-color: transparent;
-        padding: 0;
-        bottom: auto;
-        top: 50%;
-
-        &__dialog {
-            position: relative;
-            width: 600px;
-            margin: 0 auto;
-        }
-
-        &__body {
-            @include prefixed(border-radius, 3px);
-            background-color: colour('white');
-        }
-
-        &__close {
-            height: 36px;
-            margin-top: 50px;
-
-            &__trigger {
-                color: colour('white');
-                position: absolute;
-                right: 0;
-                text-decoration: none;
-                border: 0;
-
-                &::before {
-                    position: absolute;
-                    right: 0;
-                    left: auto;
-                }
-            }
-        }
+    .#{$component-prefix}modal__close {
+        cursor: pointer;
     }
 }

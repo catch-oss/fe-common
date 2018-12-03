@@ -15,20 +15,13 @@
 }(this, function ($, undefined) {
 
     return function() {
-
         $(function() {
-
-            // .accordion-header is deprecated
-            $('.m-alert__close')
+            $('.c-alert__close')
                 .off('click.alert')
                 .on('click.alert', function(e) {
-
                     e.preventDefault();
-
-                    // .active is deprecated
-                    $(this).closest('.m-alert').remove();
+                    $(this).closest('.c-alert').remove();
                 });
         });
     }
-
 }))

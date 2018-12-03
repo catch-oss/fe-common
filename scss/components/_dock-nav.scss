@@ -1,6 +1,8 @@
-.dockable-nav-container {
-    &.docked {
-        position: fixed;
-        top: 0;
+@mixin dock-nav {
+    .#{$component-prefix}dockable-nav-container {
+        &.#{$component-prefix}docked {
+            position: fixed;
+            top: 0;
+        }
     }
 }

@@ -1,6 +1,57 @@
-// use this main if you are using sprockets
+// Use this main for sprockets projects - The difference is that the asset
+// helpers aren't imported below.
+
+// Libraries
+// =============================================================================
 
 @import
-'settings',
-'lib',
-'tools-sprockets';
+'../../normalize-scss/sass/normalize',
+'../../bourbon/core/bourbon';
+
+// Settings
+// =============================================================================
+
+@import
+'settings/conventions',
+'settings/paths',
+'settings/spacing',
+'settings/colors';
+
+// Tools
+// =============================================================================
+
+@import
+'tools/functions/ratio',
+'tools/functions/str-replace';
+
+@import
+'tools/mixins/define-font',
+'tools/mixins/clearfix',
+'tools/mixins/hdpi';
+
+// Generic
+// =============================================================================
+
+@import
+'generic/resets/h5bp-reset',
+'generic/resets/h5bp-print',
+'generic/resets/catch-reset',
+'generic/resets/all-resets';
+
+// Components
+// =============================================================================
+
+@import
+'components/accordion',
+'components/dock-nav',
+'components/responsive-iframe',
+'components/body-overlay',
+'components/modal',
+'components/tabs';
+
+// Utilities
+// =============================================================================
+
+@import
+'utilities/spacing',
+'utilities/visually-hidden';

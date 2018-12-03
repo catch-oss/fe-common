@@ -32,8 +32,8 @@
 
         opts = opts || {};
 
-        var noticeSelector = opts.noticeSelector || '.m-notice__notice',
-            closeSelector = opts.closeSelector || '.m-notice__notice__close',
+        var noticeSelector = opts.noticeSelector || '.c-notice',
+            closeSelector = opts.closeSelector || '.c-notice__close',
             activeClass = opts.activeClass || 's-active',
             htmlActiveClass = opts.htmlActiveClass || 's-notice-active',
             cookieName = opts.cookieName || 'seenNotice';

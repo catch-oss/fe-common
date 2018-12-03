@@ -1,6 +1,57 @@
-// use this main if you are not using sprockets
+// Use this main for non-sprockets projects.
+
+// Libraries
+// =============================================================================
 
 @import
-'settings',
-'lib',
-'tools';
+'../../normalize-scss/sass/normalize',
+'../../bourbon/core/bourbon';
+
+// Settings
+// =============================================================================
+
+@import
+'settings/conventions',
+'settings/paths',
+'settings/spacing',
+'settings/colors';
+
+// Tools
+// =============================================================================
+
+@import
+'tools/functions/ratio',
+'tools/functions/str-replace',
+'tools/functions/asset-helpers';
+
+@import
+'tools/mixins/define-font',
+'tools/mixins/clearfix',
+'tools/mixins/hdpi';
+
+// Generic
+// =============================================================================
+
+@import
+'generic/resets/h5bp-reset',
+'generic/resets/h5bp-print',
+'generic/resets/catch-reset',
+'generic/resets/all-resets';
+
+// Components
+// =============================================================================
+
+@import
+'components/accordion',
+'components/dock-nav',
+'components/responsive-iframe',
+'components/body-overlay',
+'components/modal',
+'components/tabs';
+
+// Utilities
+// =============================================================================
+
+@import
+'utilities/spacing',
+'utilities/visually-hidden';

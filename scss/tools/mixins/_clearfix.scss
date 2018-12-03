@@ -1,0 +1,21 @@
+// https://css-tricks.com/snippets/sass/extend-wrapper-aka-mixtend/
+
+@mixin clearfix($extend: true) {
+    @if $extend {
+        @extend %#{$utility-prefix}clearfix;
+    } @else {
+        &::before,
+        &::after {
+            content: ' ';
+            display: table;
+        }
+
+        &::after {
+            clear: both;
+        }
+    }
+}
+
+%#{$utility-prefix}clearfix {
+    @include clearfix($extend: false);
+}

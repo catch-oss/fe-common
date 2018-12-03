@@ -1,7 +1,0 @@
-@function rem($px) {
-    @return (strip-units($px) / 16) * 1rem;
-}
-
-@function color($key) {
-    @return map-get($colors, $key);
-}

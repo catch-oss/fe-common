@@ -1,0 +1,47 @@
+// Todo
+@mixin spacing($from: 0, $to: 15) {
+
+    @for $i from $from through $to {
+
+        // Horizontal spacing
+        .#{$utility-prefix}padding-horizontal-#{$i}x {
+            padding-left: $i * $hbu + 'px';
+            padding-right: $i * $hbu + 'px';
+        }
+
+        .#{$utility-prefix}margin-horizontal-#{$i}x {
+            margin-left: $i * $hbu + 'px';
+            margin-right: $i * $hbu + 'px';
+        }
+
+        // Vertical spacing
+        .#{$utility-prefix}padding-vertical-#{$i}x {
+            padding-top: $i * $vbu + 'px';
+            padding-bottom: $i * $vbu + 'px';
+        }
+
+        .#{$utility-prefix}margin-vertical-#{$i}x {
+            margin-top: $i * $vbu + 'px';
+            margin-bottom: $i * $vbu + 'px';
+        }
+
+        // Margin top
+        .#{$utility-prefix}margin-top-#{$i}x {
+            margin-top: $i * $vbu + 'px';
+        }
+
+        // Margin bottom
+        .#{$utility-prefix}margin-bottom-#{$i}x {
+            margin-bottom: $i * $vbu + 'px';
+        }
+
+        // Padding bottom
+        .#{$utility-prefix}padding-top-#{$i}x {
+            padding-top: $i * $vbu + 'px';
+        }
+        // Padding bottom
+        .#{$utility-prefix}padding-bottom-#{$i}x {
+            padding-bottom: $i * $vbu + 'px';
+        }
+    }
+}

@@ -1,0 +1,25 @@
+@mixin catch-reset() {
+    html {
+        box-sizing: border-box;
+    }
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: inherit;
+    }
+
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    table,
+    tbody,
+    thead,
+    tr,
+    th,
+    td {
+        border-collapse: collapse;
+    }
+}

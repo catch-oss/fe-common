@@ -1,0 +1,25 @@
+@mixin body-overlay {
+    .#{$component-prefix}body-overlay {
+        display: none;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 100;
+        position: fixed;
+        background-color: rgba($color-black, 0.75);
+    }
+
+    // State
+    // =========================================================================
+
+    .#{$state-prefix}body-overlay-active .#{$component-prefix}body-overlay {
+        display: block;
+    }
+
+    body.#{$state-prefix}body-overlay-active {
+        overflow: hidden;
+    }
+}

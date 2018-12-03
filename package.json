@@ -27,7 +27,8 @@
         "polyholder": "azt3k/polyholder#semver:~1.1.0",
         "react": "~16",
         "slidatron": "azt3k/slidatron#semver:^0.5.3",
-        "tablizr": "azt3k/tablizr#semver:~0.3.0"
+        "tablizr": "azt3k/tablizr#semver:~0.3.0",
+        "body-toucher": "git+ssh://git@gl.catchdesign.co.nz:catch/body-toucher.git#semver:~0.2.8"
     },
     "engines": {
         "node": ">=0.10.0"

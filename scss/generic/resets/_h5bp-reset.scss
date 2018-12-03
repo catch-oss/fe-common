@@ -1,0 +1,46 @@
+// H5BP reset styles
+// =============================================================================
+// What follows is the result of much research on cross-browser styling.
+// Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+// Kroc Camen, and the H5BP dev community and team.
+
+@mixin h5bp-reset() {
+    html {
+        color: #222222;
+        font-size: 1em;
+        line-height: 1.4;
+    }
+
+    ::selection {
+        background: #B3D4FC;
+        text-shadow: none;
+    }
+
+    hr {
+        display: block;
+        height: 1px;
+        border: 0;
+        border-top: 1px solid #CCCCCC;
+        margin: 1em 0;
+        padding: 0;
+    }
+
+    audio,
+    canvas,
+    iframe,
+    img,
+    svg,
+    video {
+        vertical-align: middle;
+    }
+
+    fieldset {
+        border: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    textarea {
+        resize: vertical;
+    }
+}

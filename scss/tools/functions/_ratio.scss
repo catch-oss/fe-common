@@ -1,0 +1,3 @@
+@function ratio($x, $y) {
+    @return percentage($y / $x);
+}

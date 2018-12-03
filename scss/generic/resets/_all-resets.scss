@@ -1,6 +1,6 @@
 @mixin all-resets() {
     @include normalize();
-    @include h5pb-reset();
-    @include h5pb-print();
+    @include h5bp-reset();
+    @include h5bp-print();
     @include catch-reset();
 }

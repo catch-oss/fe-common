@@ -1,79 +1,27 @@
-.#{$component-prefix}accordion-header {
-    clear: both;
+@mixin accordion {
+    .#{$component-prefix}accordion__header {
+        clear: both;
 
-    // Remove all height from body when not active - This is because Firefox
-    // generates space in some circumstances
-    &:not(.active),
-    &:not(.#{$state-prefix}active) {
-        + .#{$component-prefix}accordion-body {
-            height: 0;
-            // * {
-            //     height: 0;
-            //     // margin: 0;
-            // }
+        // There is no focus state for this element in fe-common. We'll leave
+        // that up to the masterlibrary or project styling.
+        &:hover { // stylelint-disable-line
+            cursor: pointer;
         }
     }
 
-    &:hover {
-        cursor: pointer;
-    }
-
-    &::after {
-        margin-top: 3px;
-    }
-
-    + .#{$component-prefix}accordion-body {
-        @include prefixed(transition, all 0.2s ease-in-out);
-        overflow: hidden;
-        visibility: hidden;
+    .#{$component-prefix}accordion__header + .#{$component-prefix}accordion__body {
         height: 0;
+        overflow: hidden;
         opacity: 0;
+        transition: opacity 0.2s ease;
     }
-}
 
-// =============================================================================
-// state
-// =============================================================================
+    // State
+    // =========================================================================
 
-// active
-// ------
-
-.#{$state-prefix}active {
-    &.#{$component-prefix}accordion-header {
-        border-bottom: 0;
-
-        + .#{$component-prefix}accordion-body {
-            visibility: visible;
-            opacity: 1;
-            height: auto;
-            border-top: 0;
-            overflow: auto;
-        }
-
-        &::after {
-            @include prefixed(transform, rotate(-180deg));
-        }
-    }
-}
-
-// media
-// -----
-
-@include media($medium) {
-    .#{$component-prefix}accordion-header.#{$state-prefix}active {
-        + .#{$component-prefix}accordion-body {
-            visibility: visible;
-            opacity: 1;
-            // accordion-body height must always be set to auto when the
-            // accordion is active
-            height: auto !important; // stylelint-disable-line
-            border-top: 0;
-            margin-bottom: -1px;
-
-            // * {
-            //     height: auto;
-            // }
-            // this is getting in my way...
-        }
+    .#{$component-prefix}accordion__header.#{$state-prefix}active + .#{$component-prefix}accordion__body {
+        height: auto;
+        opacity: 1;
+        overflow: auto;
     }
 }
