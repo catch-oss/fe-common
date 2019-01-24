@@ -96,7 +96,7 @@
                     }
 
                     $('body').addClass('s-modal-visible').attr('data-activeModal', target);
-                    $target.removeClass(opts.hiddenClass).css('max-height', '100%').trigger('m-modal:open');;
+                    $target.removeClass(opts.hiddenClass).css('max-height', '100%').trigger('m-modal:open');
                 }
             };
 
