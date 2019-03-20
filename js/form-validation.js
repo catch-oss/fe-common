@@ -74,7 +74,8 @@
             // define global options
             var globalOpts = {
                 errorClass: opts.errorClass,
-                errorsWrapper: opts.errorsWrapper
+                errorsWrapper: opts.errorsWrapper,
+                namespace: 'data-validate-'
             };
 
             // set the global opts

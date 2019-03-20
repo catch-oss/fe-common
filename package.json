@@ -1,6 +1,6 @@
 {
-    "author": "Aaron Latham-Anderson <aaron@catch.co.nz>",
-    "name": "fe-common",
+    "author": "Aaron Latham-Anderson <aaron@catchdesign.co.nz>",
+    "name": "catch-fe-common",
     "version": "6.0.0",
     "license": "UNLICENSED",
     "private": true,
