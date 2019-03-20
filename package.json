@@ -8,6 +8,7 @@
     "dependencies": {
         "backbone": "~1.3.3",
         "backbone.localstorage": "~2.0.2",
+        "body-toucher": "git+ssh://git@gl.catchdesign.co.nz:catch/body-toucher.git#semver:~0.2.8",
         "bourbon": "~5.1.0",
         "confirmadon": "azt3k/confirmadon#semver:~1",
         "css-grid-polyfill-binaries": "FremyCompany/css-grid-polyfill#master",
@@ -16,19 +17,18 @@
         "jquery": "~3",
         "jquery-mask-plugin": "~1.14.3",
         "jquery-mobile": "jquery/jquery-mobile#1.5.0-rc1",
-        "tokenize2": "~1.2",
         "jsencrypt": "v3.0.0-rc.1",
         "jsrsasign": "~8",
         "labelizr": "azt3k/labelizr#semver:~0.2.3",
         "normalize-scss": "^7",
         "pagr": "azt3k/pagr#semver:^0.4.2",
-        "parsleyjs": "2.0.7",
+        "parsleyjs": "^2.8.1",
         "picturefill": "~3.0.2",
         "polyholder": "azt3k/polyholder#semver:~1.1.0",
         "react": "~16",
         "slidatron": "azt3k/slidatron#semver:^0.5.3",
         "tablizr": "azt3k/tablizr#semver:~0.3.0",
-        "body-toucher": "git+ssh://git@gl.catchdesign.co.nz:catch/body-toucher.git#semver:~0.2.8"
+        "tokenize2": "~1.2"
     },
     "engines": {
         "node": ">=0.10.0"
