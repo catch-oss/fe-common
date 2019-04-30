@@ -33,10 +33,12 @@ define([
             _this.showOrHide();
             _this.unlockScroll();
             _this.indicatorSize();
-            var focus = _this.getScrollViewFocus();
+            if (_this.$scrollBar.is(':visible')) {
+                var focus = _this.getScrollViewFocus();
 
-            _this.scrollViewPos(focus, _this.firstInitHasHappened);
-            _this.scrollBarPos(focus, true);
+                _this.scrollViewPos(focus, _this.firstInitHasHappened);
+                _this.scrollBarPos(focus, true);
+            }
         };
 
         //focus element found in from Scroller.selectors.scrollViewFocus and center in screen
