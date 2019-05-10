@@ -62,7 +62,7 @@
                         .on('click.defensive, change.defensive, keyup.defensive, nochange.defensive', function() {
 
                             if (typeof conf.validCB == 'function')
-                                conf.invalidCB($(conf.submitSelector))
+                                conf.invalidCB($form.find(conf.submitSelector))
 
                             $form.validator('whenValid')
                                 .done(function() {
