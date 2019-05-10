@@ -68,12 +68,12 @@
                                 .done(function() {
 
                                     if (typeof conf.validCB == 'function')
-                                        conf.validCB($(conf.submitSelector))
+                                        conf.validCB($form.find(conf.submitSelector))
                                 })
                                 .fail(function() {
 
                                     if (typeof conf.invalidCB == 'function')
-                                        conf.invalidCB($(conf.submitSelector))
+                                        conf.invalidCB($form.find(conf.submitSelector))
                                 });
                         })
                         .trigger('nochange');
