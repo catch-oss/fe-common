@@ -421,6 +421,10 @@
             return validatorHelpers.validateCVC(value, $ccInput.val());
         },
 
+        validatecvc: function(value, requirements) {
+            return validatorHelpers.validateCVC(value, requirements);
+        },
+
         // cvc
         // e.g.
         // data-validate-cvc="#ccInputSelector,input:radio[name=paymentMethod]:checked,==,'cc'"
