@@ -88,6 +88,8 @@
                     $tabpan.siblings('div[role="tabpanel"]').not($tabpan[0]).attr('aria-hidden', 'true');
                     $tabpan.attr('aria-hidden', 'false');
 
+                    $tabpan.trigger('panelshow');
+
                     if (opts.useHistory && pushState) pushHistory($this);
 
                     $(window).trigger('resize');
@@ -118,6 +120,8 @@
 
                             $('div[role="tabpanel"]').not($tabpan[0]).attr('aria-hidden', 'true');
                             $tabpan.attr('aria-hidden', 'false');
+
+                            $tabpan.trigger('panelshow');
 
                             if (opts.useHistory) pushHistory($('li[aria-selected="true"]'));
 
