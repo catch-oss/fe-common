@@ -20,7 +20,7 @@
         "tokenize2": "~1.2",
         "jsencrypt": "v3.0.0-rc.1",
         "jsrsasign": "~8",
-        "labelizr": "~0.2.0",
+        "labelizr": "git@github.com:catchnz/labelizr.git#~0.2",
         "modernizr": "~3.3.1",
         "normalize-scss": "^7",
         "pagr": ">=0.4.2",
