@@ -12,6 +12,7 @@
         "bourbon": "~5.1.0",
         "confirmadon": "azt3k/confirmadon#semver:~1",
         "css-grid-polyfill-binaries": "FremyCompany/css-grid-polyfill#master",
+        "dimensionator": "https://github.com/azt3k/dimensionator.git#semver:~0.3",
         "droposaurus": "git+ssh://git@gl.catchdesign.co.nz:catch/droposaurus.git#1.0.0-alpha.2",
         "graphraptor": "git+ssh://git@gl.catchdesign.co.nz:catch/graphraptor.git#2.0.0-alpha.1",
         "jquery": "~3",
