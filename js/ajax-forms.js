@@ -56,12 +56,14 @@
         $(function() {
 
             var namespace = conf.namespace || 'ajax-form',
-                selector = conf.selector || '.ajax-form',
+                selector = conf.selector || '.js-ajax-form',
+                actionSelector = conf.actionSelector || '.js-ajax-form-action',
                 successTestCb = conf.successTestCb || function(data, textStatus, jqXHR) { return true; },
                 onBeforeRequest = conf.onBeforeRequest || null,
                 onAfterRequest = conf.onAfterRequest || null,
                 onAfterCloseResultModal = conf.onAfterCloseResultModal || null,
                 customValidator = conf.customValidator || function($form) { return true; },
+                showModalDefault = conf.showModal || true,
                 modalTemplate = conf.modalTemplate ||
                     '<div class="m-modal m-modal--form s-hidden" id="ajax-form-modal">' +
                         '<div class="m-modal__dialog m-modal__dialog--compact">' +
@@ -102,14 +104,15 @@
                         data: data
                     };
                 },
-                ajaxProxy = conf.ajaxProxy || function(action, $form, onAfterRequest) {
+                ajaxProxy = conf.ajaxProxy || function(action, method, $form, onAfterRequest) {
+
+                    console.log(arguments);
 
                     // default
                     action = action || window.location.href;
 
                     // vars
                     var enctype = $form.attr('enctype') ? $form.attr('enctype') : 'application/x-www-form-urlencoded',
-                        method = $form.attr('method') ? $form.attr('method') : 'get',
                         serialised = serialiser($form, action),
                         data = serialised.data;
 
@@ -166,6 +169,7 @@
                         var $this = $(this),
                             $body = $('.body').length ? $('.body') : $('body'),
                             replace = $this.attr('data-replace'),
+                            showModal = $this.attr('data-show-modal') || showModalDefault,
                             scrollTo = $this.attr('data-scroll-to'),
                             embedTracking = $this.attr('data-success-tracking-embed'),
                             gaTracking = $this.attr('data-success-tracking-ga'),
@@ -180,8 +184,9 @@
                             disabledClass = $this.attr('data-disabled-class') || 'disabled',
                             maxSubmissions = $this.attr('data-max-submissions'),
                             disabled =  $this.is('.' + disabledClass),
+                            action = $this.attr('action'),
                             submissionCount = $this.attr('data-submission-count') || 0,
-                            method = $this.attr('method') ? $this.attr('method') : 'get',
+                            method = $this.attr('method') || 'get',
                             validate = $this.is('[data-validate]'),
                             validateOnly = $this.attr('data-ajax-validate-only') || null;
 
@@ -200,7 +205,7 @@
                             if (typeof onBeforeRequest == 'function') onBeforeRequest($this);
 
                             // make the request
-                            ajaxProxy($this.attr('action'), $this, function(data, textStatus, jqXHR) {
+                            ajaxProxy(action, method, $this, function(data, textStatus, jqXHR) {
 
                                 if (replace != '0' || replace != 'false') {
                                     if (replace == undefined) $form.html($($(data).find(selector)[idx]).html());
@@ -223,28 +228,31 @@
                                 // success
                                 if (textStatus == 'success' && successTestCb(data, textStatus, jqXHR)) {
 
-                                    // re grab the data
-                                    msg = $this.attr('data-success-message');
-                                    title = $this.attr('data-success-title');
-                                    $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg));
+                                    if (showModal) {
 
-                                    if (msg != undefined) {
-                                        $body.append($template);
-                                        modals();
-                                        $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
-                                        $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap click',function(e) {
+                                        // re grab the data
+                                        msg = $this.attr('data-success-message');
+                                        title = $this.attr('data-success-title');
+                                        $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg));
 
-                                            // was it the ajax modal?
-                                            if ($('body').find('#ajax-form-modal').length > 0) {
+                                        if (msg != undefined) {
+                                            $body.append($template);
+                                            modals();
+                                            $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
+                                            $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap click',function(e) {
 
-                                                // remove the modal
-                                                $template.remove();
+                                                // was it the ajax modal?
+                                                if ($('body').find('#ajax-form-modal').length > 0) {
 
-                                                // lifecycle callback
-                                                if (typeof onAfterCloseResultModal == 'function')
-                                                    onAfterCloseResultModal($this, {success: true, message: 'success'});
-                                            }
-                                        });
+                                                    // remove the modal
+                                                    $template.remove();
+
+                                                    // lifecycle callback
+                                                    if (typeof onAfterCloseResultModal == 'function')
+                                                        onAfterCloseResultModal($this, {success: true, message: 'success'});
+                                                }
+                                            });
+                                        }
                                     }
 
                                     // just chuck in the embed code
@@ -270,28 +278,31 @@
                                 // fail
                                 else {
 
-                                    // re grab the data
-                                    msgFail = $this.attr('data-fail-message');
-                                    titleFail = $this.attr('data-fail-title');
-                                    $templateFail = $(trigger + template.replace(/\{\{title\}\}/, titleFail).replace(/\{\{content\}\}/, msgFail));
+                                    if (showModal) {
 
-                                    if (msgFail != undefined) {
-                                        $body.append($templateFail);
-                                        modals();
-                                        $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
-                                        $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap click',function(e) {
+                                        // re grab the data
+                                        msgFail = $this.attr('data-fail-message');
+                                        titleFail = $this.attr('data-fail-title');
+                                        $templateFail = $(trigger + template.replace(/\{\{title\}\}/, titleFail).replace(/\{\{content\}\}/, msgFail));
 
-                                            // was it the ajax modal
-                                            if ($('body').find('#ajax-form-modal').length > 0) {
+                                        if (msgFail != undefined) {
+                                            $body.append($templateFail);
+                                            modals();
+                                            $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
+                                            $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap click',function(e) {
 
-                                                // remove the modal
-                                                $templateFail.remove();
+                                                // was it the ajax modal
+                                                if ($('body').find('#ajax-form-modal').length > 0) {
 
-                                                // lifecycle callback
-                                                if (typeof onAfterCloseResultModal == 'function')
-                                                    onAfterCloseResultModal($this, {success: false, message: 'fail'});
-                                            }
-                                        });
+                                                    // remove the modal
+                                                    $templateFail.remove();
+
+                                                    // lifecycle callback
+                                                    if (typeof onAfterCloseResultModal == 'function')
+                                                        onAfterCloseResultModal($this, {success: false, message: 'fail'});
+                                                }
+                                            });
+                                        }
                                     }
                                 }
 
@@ -300,7 +311,7 @@
                             });
                         }
                     })
-                    .find('.form-action')
+                    .find(actionSelector)
                         .off('tap.' + namespace)
                         .off('click.' + namespace)
                         .off('change.' + namespace)
@@ -313,6 +324,7 @@
                                 $form = $this.closest('form'),
                                 $body = $('.body').length ? $('.body') : $('body'),
                                 replace = $this.attr('data-replace') || $form.attr('data-replace'),
+                                showModal = $this.attr('data-show-modal') || $form.attr('data-show-modal') || showModalDefault,
                                 scrollTo = $this.attr('data-scroll-to') || $form.attr('data-scroll-to'),
                                 embedTracking = $this.attr('data-success-tracking-embed') || $form.attr('data-success-tracking-embed'),
                                 gaTracking = $this.attr('data-success-tracking-ga') || $form.attr('data-success-tracking-ga'),
@@ -324,12 +336,12 @@
                                 titleFail = $this.attr('data-fail-title') || $form.attr('data-fail-title'),
                                 $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg)),
                                 $templateFail = $(trigger + template.replace(/\{\{title\}\}/, titleFail).replace(/\{\{content\}\}/, msgFail)),
-                                action = $this.attr('data-action') || $form.attr('data-action'),
+                                action = $this.attr('data-action') || $form.attr('action'),
                                 disabledClass = $this.attr('data-disabled-class') || $form.attr('data-disabled-class') || 'disabled',
                                 maxSubmissions = $this.attr('data-max-submissions') || $form.attr('data-max-submissions'),
                                 disabled =  $this.is('.' + disabledClass),
                                 submissionCount = $this.attr('data-submission-count') || $form.attr('data-submission-count') || 0,
-                                method = $this.attr('data-method') ? $this.attr('data-method') : 'get',
+                                method = $this.attr('data-method') || $form.attr('method') || 'get',
                                 validate = $this.is('[data-validate]'),
                                 validateOnly = $this.attr('data-ajax-validate-only') || $form.attr('data-ajax-validate-only');
 
@@ -348,7 +360,7 @@
                                 if (typeof onBeforeRequest == 'function') onBeforeRequest($this);
 
                                 // make the request
-                                ajaxProxy($this.attr('action'), $form, function(data, textStatus, jqXHR) {
+                                ajaxProxy(action, method, $form, function(data, textStatus, jqXHR) {
 
                                     if (replace != '0' || replace != 'false') {
                                         if (replace == undefined) $form.html($($(data).find(selector)[idx]).html());
@@ -370,30 +382,34 @@
 
                                     // success
                                     if (textStatus == 'success' && successTestCb(data, textStatus, jqXHR)) {
+                                        
+                                        if (showModal) {
+                                        
+                                            // make sure the dats are there if they changed
+                                            msg = $this.attr('data-success-message') || $form.attr('data-success-message');
+                                            title = $this.attr('data-success-title') || $form.attr('data-success-title');
+                                            $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg));
 
-                                        // make sure the dats are there if they changed
-                                        msg = $this.attr('data-success-message') || $form.attr('data-success-message');
-                                        title = $this.attr('data-success-title') || $form.attr('data-success-title');
-                                        $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg));
+                                            if (msg != undefined) {
+                                                $body.append($template);
+                                                modals();
+                                                $('#ajax-form-modal-trigger').trigger('tap');
+                                                $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap',function(e) {
 
-                                        if (msg != undefined) {
-                                            $body.append($template);
-                                            modals();
-                                            $('#ajax-form-modal-trigger').trigger('tap');
-                                            $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap',function(e) {
+                                                    // was it the ajax modal
+                                                    if ($('body').find('#ajax-form-modal').length > 0) {
 
-                                                // was it the ajax modal
-                                                if ($('body').find('#ajax-form-modal').length > 0) {
+                                                        // remove the modal
+                                                        $template.remove();
 
-                                                    // remove the modal
-                                                    $template.remove();
-
-                                                    // lifecycle callback
-                                                    if (typeof onAfterCloseResultModal == 'function')
-                                                        onAfterCloseResultModal($form, {success: true, message: 'success'});
-                                                }
-                                            });
+                                                        // lifecycle callback
+                                                        if (typeof onAfterCloseResultModal == 'function')
+                                                            onAfterCloseResultModal($form, {success: true, message: 'success'});
+                                                    }
+                                                });
+                                            }
                                         }
+
                                         // just chuck in the embed code
                                         if (embedTracking) {
                                             $('body').append(embedTracking);
@@ -415,29 +431,32 @@
                                     // fail
                                     else {
 
-                                        // re grab the datas
-                                        msgFail = $this.attr('data-fail-message') || $form.attr('data-fail-message');
-                                        titleFail = $this.attr('data-fail-title') || $form.attr('data-fail-title');
-                                        $templateFail = $(trigger + template.replace(/\{\{title\}\}/, titleFail).replace(/\{\{content\}\}/, msgFail));
+                                        if (showModal) {
+                                            
+                                            // re grab the datas
+                                            msgFail = $this.attr('data-fail-message') || $form.attr('data-fail-message');
+                                            titleFail = $this.attr('data-fail-title') || $form.attr('data-fail-title');
+                                            $templateFail = $(trigger + template.replace(/\{\{title\}\}/, titleFail).replace(/\{\{content\}\}/, msgFail));
 
-                                        // fail?
-                                        if (msgFail != undefined) {
-                                            $body.append($templateFail);
-                                            modals();
-                                            $('#ajax-form-modal-trigger').trigger('tap');
-                                            $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap',function(e) {
+                                            // fail?
+                                            if (msgFail != undefined) {
+                                                $body.append($templateFail);
+                                                modals();
+                                                $('#ajax-form-modal-trigger').trigger('tap');
+                                                $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap',function(e) {
 
-                                                // was it the ajax modal
-                                                if ($('body').find('#ajax-form-modal').length > 0) {
+                                                    // was it the ajax modal
+                                                    if ($('body').find('#ajax-form-modal').length > 0) {
 
-                                                    // remove the modal
-                                                    $templateFail.remove();
+                                                        // remove the modal
+                                                        $templateFail.remove();
 
-                                                    // lifecycle callback
-                                                    if (typeof onAfterCloseResultModal == 'function')
-                                                        onAfterCloseResultModal($form, {success: false, message: 'fail'});
-                                                }
-                                            });
+                                                        // lifecycle callback
+                                                        if (typeof onAfterCloseResultModal == 'function')
+                                                            onAfterCloseResultModal($form, {success: false, message: 'fail'});
+                                                    }
+                                                });
+                                            }
                                         }
                                     }
 

@@ -17,16 +17,31 @@
 
     'use strict';
 
-    return function(onUpdate) {
+    return function() {
+
+        var conf = arguments[0];
+
+        // handle old syntax
+        // selector, onAfterRequest, namespace, successTestCb, modalTemplate
+        if (typeof conf != 'object') {
+            conf = {
+                onUpdate: arguments[0],
+            }
+        }
+
+        conf.sortSelector = conf.sortSelector ||  '.js-pagination-sort a';
+        conf.sortSelectedClass = conf.sortSelectedClass ||  's-selected';
+        conf.showMoreSelector = conf.showMoreSelector || '.js-paginated-more';
+        conf.showMoreClass = conf.showMoreClass || '.js-paginated-more';
 
         $(function() {
 
             // ensure that when you click on a sort link it is selected
             // we also flush the table contents here as pagr will reload the data
-            $('.pagination-sort a').on('tap, click', function(e) {
+            $(conf.sortSelector).on('tap, click', function(e) {
                 e.preventDefault();
-                $('.pagination-sort a').removeClass('selected');
-                $(this).addClass('selected');
+                $(conf.sortSelector).removeClass(conf.sortSelectedClass);
+                $(this).addClass(conf.sortSelectedClass);
                 $('.paginated.paginated-more').html('');
             });
 
@@ -87,8 +102,8 @@
                     }
 
                     // sort links
-                    if ($('.pagination-sort a').length)
-                        pagr.$element.attr('data-sort-by', $('.pagination-sort a.selected').attr('data-sort'));
+                    if ($(conf.sortSelector).length)
+                        pagr.$element.attr('data-sort-by', $(conf.sortSelector + '.' + conf.sortSelectedClass).attr('data-sort'));
 
                 },
                 onInit: function(pagr, e) {
@@ -123,8 +138,8 @@
                     $('.pagination-appended-total').html(pagr.appendedTotal());
                     $('.pagination-total').html(pagr.getTotal());
 
-                    if (typeof onUpdate === 'function') {
-                        onUpdate();
+                    if (typeof conf.onUpdate === 'function') {
+                        conf.onUpdate();
                     }
                 }
             });
