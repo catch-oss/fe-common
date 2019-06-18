@@ -33,6 +33,10 @@
         conf.sortSelectedClass = conf.sortSelectedClass ||  's-selected';
         conf.showMoreSelector = conf.showMoreSelector || '.js-paginated-more';
         conf.showMoreClass = conf.showMoreClass || '.js-paginated-more';
+        conf.pageLinkSelector = conf.pageLinkSelector || '.js-page-link';
+        conf.disabledButtonClass = conf.disabledButtonClass || '.s-disabled';
+        conf.appendedTotalSelector = conf.appendedTotalSelector || '.js-pagination-appended-total';
+        conf.totalSelector = conf.totalSelector || '.js-pagination-total';
 
         $(function() {
 
@@ -42,14 +46,15 @@
                 e.preventDefault();
                 $(conf.sortSelector).removeClass(conf.sortSelectedClass);
                 $(this).addClass(conf.sortSelectedClass);
-                $('.paginated.paginated-more').html('');
+                $(conf.showMoreSelector).html('');
             });
 
             // init load more containers with pagr
-            $('.paginated.paginated-more').pagr({
+            $(conf.showMoreSelector).pagr({
                 ajax: true,
                 behaviour: 'append',
                 pager: false,
+                pageLinkSelector: conf.pageLinkSelector,
                 requestNotifier: function(pagr, requestUrl, qs, url) {
 
                     var $el         = pagr.$element,
@@ -109,19 +114,19 @@
                 onInit: function(pagr, e) {
 
                     // find next buttons
-                    var $els = $('.page-link[data-page="next"]');
+                    var $els = $(conf.pageLinkSelector + '[data-page="next"]');
 
                     // update classes and emit events
                     $els.each(function() {
                         var $this = $(this);
-                        $this.toggleClass('btn--disabled', $this.is(".disabled"))
+                        $this.toggleClass(conf.disabledButtonClass, $this.is(".disabled"))
                              .trigger('noMorePages', [$this.is(".disabled")]);
                     });
                 },
                 onAfterPage: function(pagr, e) {
 
                     // find next buttons
-                    var $els = $('.page-link[data-page="next"]');
+                    var $els = $(conf.pageLinkSelector + '[data-page="next"]');
 
                     // re-bind
                     if (typeof picturefill == 'function') picturefill();
@@ -130,13 +135,13 @@
                     // update classes and emit events
                     $els.each(function() {
                         var $this = $(this);
-                        $this.toggleClass('btn--disabled', $this.is(".disabled"))
+                        $this.toggleClass(conf.disabledButtonClass, $this.is(".disabled"))
                              .trigger('noMorePages', [$this.is(".disabled")]);
                     });
 
                     // update pagination stuff
-                    $('.pagination-appended-total').html(pagr.appendedTotal());
-                    $('.pagination-total').html(pagr.getTotal());
+                    $(conf.appendedTotalSelector).html(pagr.appendedTotal());
+                    $(conf.totalSelector).html(pagr.getTotal());
 
                     if (typeof conf.onUpdate === 'function') {
                         conf.onUpdate();
