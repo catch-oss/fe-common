@@ -1,19 +1,23 @@
 ;(function (root, factory) {
 
-     // AMD. Register as an anonymous module depending on jQuery.
-     if (typeof define === 'function' && define.amd)
-        define(['jquery', './accordions', './../../pagr/pagr'], factory);
+    // AMD. Register as an anonymous module depending on jQuery.
+    if (typeof define === 'function' && define.amd)
+        define(['jquery', './../../pagr/pagr'], factory);
 
-     // Node, CommonJS-like
-     else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./accordions'), require('./../../pagr/pagr'));
+    // Node, CommonJS-like
+    else if (typeof exports === 'object')
+        module.exports = factory(
+            require('jquery'),
+            require('./../../pagr/pagr')
+        );
 
-     // Browser globals (root is window)
-     else {
-         root.catch = (root.catch || {});
-         root.catch.pagination = factory(root.jQuery, root.catch.accordions);
-     }
+    // Browser globals (root is window)
+    else {
+        root.catch = (root.catch || {});
+        root.catch.pagination = factory(root.jQuery);
+    }
 
-}(this, function ($, accordions, pagr, undefined) {
+}(this, function ($, pagr, undefined) {
 
     'use strict';
 
@@ -32,11 +36,12 @@
         conf.sortSelector = conf.sortSelector ||  '.js-pagination-sort a';
         conf.sortSelectedClass = conf.sortSelectedClass ||  's-selected';
         conf.showMoreSelector = conf.showMoreSelector || '.js-paginated-more';
-        conf.showMoreClass = conf.showMoreClass || '.js-paginated-more';
         conf.pageLinkSelector = conf.pageLinkSelector || '.js-page-link';
-        conf.disabledButtonClass = conf.disabledButtonClass || '.s-disabled';
+        conf.disabledClass = conf.disabledClass || '.s-disabled';
+        conf.loadingClass = conf.loadingClass || '.s-loading';
         conf.appendedTotalSelector = conf.appendedTotalSelector || '.js-pagination-appended-total';
         conf.totalSelector = conf.totalSelector || '.js-pagination-total';
+        conf.filterFormSelector = conf.filterFormSelector || '.js-filter-form';
 
         $(function() {
 
@@ -51,10 +56,14 @@
 
             // init load more containers with pagr
             $(conf.showMoreSelector).pagr({
+                selector: conf.showMoreSelector,
                 ajax: true,
                 behaviour: 'append',
                 pager: false,
                 pageLinkSelector: conf.pageLinkSelector,
+                filterFormSelector: conf.filterFormSelector,
+                loadingClass: conf.loadingClass,
+                disabledClass: conf.disabledClass,
                 requestNotifier: function(pagr, requestUrl, qs, url) {
 
                     var $el         = pagr.$element,
@@ -119,7 +128,7 @@
                     // update classes and emit events
                     $els.each(function() {
                         var $this = $(this);
-                        $this.toggleClass(conf.disabledButtonClass, $this.is(".disabled"))
+                        $this.toggleClass(conf.disabledClass, $this.is(".disabled"))
                              .trigger('noMorePages', [$this.is(".disabled")]);
                     });
                 },
@@ -135,7 +144,7 @@
                     // update classes and emit events
                     $els.each(function() {
                         var $this = $(this);
-                        $this.toggleClass(conf.disabledButtonClass, $this.is(".disabled"))
+                        $this.toggleClass(conf.disabledClass, $this.is(".disabled"))
                              .trigger('noMorePages', [$this.is(".disabled")]);
                     });
 
