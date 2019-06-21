@@ -37,8 +37,8 @@
         conf.sortSelectedClass = conf.sortSelectedClass ||  's-selected';
         conf.showMoreSelector = conf.showMoreSelector || '.js-paginated-more';
         conf.pageLinkSelector = conf.pageLinkSelector || '.js-page-link';
-        conf.disabledClass = conf.disabledClass || '.s-disabled';
-        conf.loadingClass = conf.loadingClass || '.s-loading';
+        conf.disabledClass = conf.disabledClass || 's-disabled';
+        conf.loadingClass = conf.loadingClass || 's-loading';
         conf.appendedTotalSelector = conf.appendedTotalSelector || '.js-pagination-appended-total';
         conf.totalSelector = conf.totalSelector || '.js-pagination-total';
         conf.filterFormSelector = conf.filterFormSelector || '.js-filter-form';
@@ -117,7 +117,12 @@
 
                     // sort links
                     if ($(conf.sortSelector).length)
-                        pagr.$element.attr('data-sort-by', $(conf.sortSelector + '.' + conf.sortSelectedClass).attr('data-sort'));
+                        pagr.$element
+                            .attr(
+                                'data-sort-by',
+                                $(conf.sortSelector + '.' + conf.sortSelectedClass
+                            )
+                            .attr('data-sort'));
 
                 },
                 onInit: function(pagr, e) {
@@ -128,8 +133,7 @@
                     // update classes and emit events
                     $els.each(function() {
                         var $this = $(this);
-                        $this.toggleClass(conf.disabledClass, $this.is(".disabled"))
-                             .trigger('noMorePages', [$this.is(".disabled")]);
+                        $this.trigger('noMorePages', [$this.is('.' + conf.disabledClass)]);
                     });
                 },
                 onAfterPage: function(pagr, e) {
@@ -137,15 +141,14 @@
                     // find next buttons
                     var $els = $(conf.pageLinkSelector + '[data-page="next"]');
 
-                    // re-bind
-                    if (typeof picturefill == 'function') picturefill();
-                    accordions();
+                    // re-bind polyfill
+                    if (typeof picturefill == 'function')
+                        picturefill();
 
                     // update classes and emit events
                     $els.each(function() {
                         var $this = $(this);
-                        $this.toggleClass(conf.disabledClass, $this.is(".disabled"))
-                             .trigger('noMorePages', [$this.is(".disabled")]);
+                        $this.trigger('noMorePages', [$this.is('.' + conf.disabledClass)]);
                     });
 
                     // update pagination stuff

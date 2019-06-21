@@ -23,7 +23,7 @@
         "labelizr": "git@github.com:catchnz/labelizr.git#~0.2",
         "modernizr": "~3.3.1",
         "normalize-scss": "^7",
-        "pagr": ">=0.6.0",
+        "pagr": ">=0.6.1",
         "parsleyjs": "2.0.7",
         "picturefill": "~2.1.0",
         "polyholder": "~1.1.0",

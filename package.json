@@ -22,7 +22,7 @@
         "jsrsasign": "~8",
         "labelizr": "https://github.com/catchnz/labelizr.git#semver:~0.2",
         "normalize-scss": "^7",
-        "pagr": "azt3k/pagr#semver:^0.6.0",
+        "pagr": "azt3k/pagr#semver:^0.6.1",
         "parsleyjs": "^2.8.1",
         "picturefill": "~3.0.2",
         "polyholder": "azt3k/polyholder#semver:~1.1.0",
