@@ -156,7 +156,7 @@
                     $(conf.totalSelector).html(pagr.getTotal());
 
                     if (typeof conf.onUpdate === 'function') {
-                        conf.onUpdate();
+                        conf.onUpdate(pagr, e);
                     }
                 }
             });
