@@ -120,9 +120,8 @@
                         pagr.$element
                             .attr(
                                 'data-sort-by',
-                                $(conf.sortSelector + '.' + conf.sortSelectedClass
-                            )
-                            .attr('data-sort'));
+                                $(conf.sortSelector + '.' + conf.sortSelectedClass).attr('data-sort')
+                            );
 
                 },
                 onInit: function(pagr, e) {
