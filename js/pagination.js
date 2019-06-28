@@ -2,13 +2,18 @@
 
     // AMD. Register as an anonymous module depending on jQuery.
     if (typeof define === 'function' && define.amd)
-        define(['jquery', './../../pagr/pagr'], factory);
+        define([
+            'jquery',
+            './../../pagr/pagr',
+            './popstate'
+        ], factory);
 
     // Node, CommonJS-like
     else if (typeof exports === 'object')
         module.exports = factory(
             require('jquery'),
-            require('./../../pagr/pagr')
+            require('./../../pagr/pagr'),
+            require('./popstate')
         );
 
     // Browser globals (root is window)
@@ -17,7 +22,7 @@
         root.catch.pagination = factory(root.jQuery);
     }
 
-}(this, function ($, pagr, undefined) {
+}(this, function ($, pagr, popstate, undefined) {
 
     'use strict';
 
@@ -42,6 +47,7 @@
         conf.appendedTotalSelector = conf.appendedTotalSelector || '.js-pagination-appended-total';
         conf.totalSelector = conf.totalSelector || '.js-pagination-total';
         conf.filterFormSelector = conf.filterFormSelector || '.js-filter-form';
+        conf.useHistory = conf.useHistory === undefined ? true : conf.useHistory;
 
         $(function() {
 
@@ -104,6 +110,18 @@
                         // trigger event on the elem
                         $uEl.trigger('urlchange');
                     }
+
+                    if (conf.useHistory)
+                        popstate.pushState(
+                            {
+                                url: requestUrl,
+                                type: 'pagination',
+                                doReload: true,
+                            },
+                            '',
+                            requestUrl
+                        );
+
                 },
                 onBeforePage: function(pagr, e) {
 
@@ -123,8 +141,15 @@
                                 $(conf.sortSelector + '.' + conf.sortSelectedClass).attr('data-sort')
                             );
 
+                    // on before page
+                    if (typeof conf.onBeforePage === 'function')
+                        conf.onBeforePage(pagr, e);
+
                 },
                 onInit: function(pagr, e) {
+
+                    // add a popstate handler if history is on
+                    if (conf.useHistory) popstate.bindPopState();
 
                     // find next buttons
                     var $els = $(conf.pageLinkSelector + '[data-page="next"]');
@@ -154,9 +179,8 @@
                     $(conf.appendedTotalSelector).html(pagr.appendedTotal());
                     $(conf.totalSelector).html(pagr.getTotal());
 
-                    if (typeof conf.onUpdate === 'function') {
+                    if (typeof conf.onUpdate === 'function')
                         conf.onUpdate(pagr, e);
-                    }
                 }
             });
         });
