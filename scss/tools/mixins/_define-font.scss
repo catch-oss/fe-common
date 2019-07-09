@@ -3,6 +3,11 @@
         font-family: $font-name;
         font-weight: $weight;
         font-style: $style;
+
+        @if variable-exists(font-display-setting) {
+            font-display: $font-display-setting;
+        }
+
         src: url(font-path('#{$font}.woff2')) format('woff2'), // Super Modern Browsers
             url(font-path('#{$font}.woff')) format('woff'), // Pretty Modern Browsers
             url(font-path('#{$font}.ttf')) format('truetype'); // Safari, Android, iOS
@@ -14,6 +19,11 @@
         font-family: $font-name;
         font-weight: $weight;
         font-style: $style;
+
+        @if variable-exists(font-display-setting) {
+            font-display: $font-display-setting;
+        }
+
         src: url(lib-font-path('#{$font}.woff2')) format('woff2'), // Super Modern Browsers
             url(lib-font-path('#{$font}.woff')) format('woff'), // Pretty Modern Browsers
             url(lib-font-path('#{$font}.ttf')) format('truetype'); // Safari, Android, iOS
