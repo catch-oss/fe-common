@@ -9,6 +9,7 @@
         "backbone": "~1.3.3",
         "backbone.localstorage": "~2.0.2",
         "body-toucher": "git+ssh://git@gl.catchdesign.co.nz:catch/body-toucher.git#semver:~0.2.8",
+        "body-scroll-lock": "2.6.3",
         "bourbon": "~5.1.0",
         "confirmadon": "azt3k/confirmadon#semver:~1",
         "css-grid-polyfill-binaries": "FremyCompany/css-grid-polyfill#master",

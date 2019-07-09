@@ -14,140 +14,149 @@
 
 }(this, function ($, undefined) {
 
-    return function(opts) {
+    var obj = {
+        opts: {
+            hiddenClass: 's-hidden',
+            closeSelector: 'js-close-modal',
+            preventCloseSelector: '.c-modal__body',
+            overlayClass: '.c-modal-overlay',
+            visibleClass: 's-modal-visible',
+            modalTrigger: 'js-modal-trigger'
+        },
+        setOpts: function(opts) {
+            for (i in opts) {
+                obj.opts[i] = opts[i];
+            }
+            return obj;
+        },
+        getOpts: function() {
+            return obj.opts;
+        },
+        closeModal: function(e) {
 
-        // defaults
-        opts = opts || {};
-        opts.hiddenClass = opts.hiddenClass || 's-hidden';
-        opts.extraCloseSelector = opts.extraCloseSelector || '';
-        opts.preventCloseSelector = opts.preventCloseSelector || '.m-modal__dialog';
+            e.preventDefault();
+            
+            var $target = $($('body').attr('data-activeModal')),
+                opts = obj.getOpts();
 
-        var closeModal = function(e) {
+            // get the modal history
+            var rawModalHistory = $('body').attr('data-modalHistory') || null,
+                modalHistory = rawModalHistory ? JSON.parse(rawModalHistory) : [];
 
-                e.preventDefault();
+            // hide the modal and trigger the close event
+            $target.addClass(opts.hiddenClass).trigger('modal:close');
 
-                var $target = $($('body').attr('data-activeModal'));
+            // check the history to see if we need to restore a previous modal
+            if (modalHistory.length) {
 
-                // get the modal history
-                var rawModalHistory = $('body').attr('data-modalHistory') || null,
-                    modalHistory = rawModalHistory ? JSON.parse(rawModalHistory) : [];
+                // get the prev modal
+                var prevModal = modalHistory.pop(),
+                    $prevModal = $(prevModal);
 
-                // hide the modal and trigger the close event
-                $target.addClass(opts.hiddenClass).trigger('m-modal:close');
+                // stash the modified history for later
+                $('body').attr('data-modalHistory', JSON.stringify(modalHistory));
 
-                // check the history to see if we need to restore a previous modal
-                if (modalHistory.length) {
+                // show the previous modal
+                $('body').addClass(opts.visibleClass).attr('data-activeModal', prevModal);
+                $prevModal.removeClass(opts.hiddenClass).css('max-height', '100%').trigger('modal:open');
+            }
 
-                    // get the prev modal
-                    var prevModal = modalHistory.pop(),
-                        $prevModal = $(prevModal);
+            // nothing to restore close everything
+            else {
+                $('body').removeClass(opts.visibleClass).attr('data-activeModal', '');
+            }
 
-                    // stash the modified history for later
-                    $('body').attr('data-modalHistory', JSON.stringify(modalHistory));
+            return obj;
+        },
+        openModal: function(e, el) {
 
-                    // show the previous modal
-                    $('body').addClass('s-modal-visible').attr('data-activeModal', prevModal);
-                    $prevModal.removeClass(opts.hiddenClass).css('max-height', '100%').trigger('modal:open');
-                }
+            e.preventDefault();
 
-                // nothing to restore close everything
-                else {
-                    $('body').removeClass('s-modal-visible').attr('data-activeModal', '');
-                }
-            },
-            openModal = function(e, el) {
-                e.preventDefault();
+            // look for target
+            var target = $(el).attr('data-modal') || $(el).attr('href'),
+                $target = $(target),
+                opts = obj.getOpts();
 
-                // look for target
-                var target = $(el).attr('data-modal') || $(el).attr('href'),
-                    $target = $(target);
+            // ensure there's a modal overlay
+            if (!$('.' + opts.overlayClass).length) {
+                $('body').append('<div class="' + opts.overlayClass + '"></div>');
+            }
 
-                // ensure there's a modal overlay
-                if (!$('.m-modal-overlay').length && !$('.body-overlay').length && !$('.m-body-overlay').length) {
-                    $('body').append('<div class="m-modal-overlay"></div>');
-                }
+            // does the modal exist
+            if ($target.length) {
 
-                // does the modal exist
-                if ($target.length) {
+                // look to see if there is already an active modal
+                var activeModal = $('body').attr('data-activeModal'),
+                    $activeModal = $(activeModal);
 
-                    // look to see if there is already an active modal
-                    var activeModal = $('body').attr('data-activeModal'),
-                        $activeModal = $(activeModal);
+                // if the active modal exists
+                if ($activeModal.length) {
 
-                    // if the active modal exists
-                    if ($activeModal.length) {
+                    // don't push the modal we are displaying into the history
+                    if ($target[0] !== $activeModal[0]) {
 
-                        // don't push the modal we are displaying into the history
-                        if ($target[0] !== $activeModal[0]) {
+                        // get the modal history
+                        var rawModalHistory = $('body').attr('data-modalHistory') || null,
+                            modalHistory = rawModalHistory ? JSON.parse(rawModalHistory) : [];
 
-                            // get the modal history
-                            var rawModalHistory = $('body').attr('data-modalHistory') || null,
-                                modalHistory = rawModalHistory ? JSON.parse(rawModalHistory) : [];
+                        // push the active modal onto the stack
+                        modalHistory.push(activeModal);
 
-                            // push the active modal onto the stack
-                            modalHistory.push(activeModal);
-
-                            // stash it for later
-                            $('body').attr('data-modalHistory', JSON.stringify(modalHistory));
-                        }
-
-                        // hide it
-                        $activeModal.addClass(opts.hiddenClass);
+                        // stash it for later
+                        $('body').attr('data-modalHistory', JSON.stringify(modalHistory));
                     }
 
-                    $('body').addClass('s-modal-visible').attr('data-activeModal', target);
-                    $target.removeClass(opts.hiddenClass).css('max-height', '100%').trigger('m-modal:open');
+                    // hide it
+                    $activeModal.addClass(opts.hiddenClass);
                 }
-            };
 
-        $(function() {
+                $('body').addClass(opts.visibleClass).attr('data-activeModal', target);
+                $target.removeClass(opts.hiddenClass).css('max-height', '100%').trigger('modal:open');
+            }
 
-            $('.m-modal-link, .m-modal-trigger, .modal-link, .js-modal-link')
-                .off('click.m-modal')
-                .off('tap.m-modal')
-                .on('click.m-modal tap.m-modal', function(e) {
-                    openModal(e, this);
-                });
+            return obj;
+        },
+        bind: function() {
 
-            $(
-                '.m-modal-overlay, ' +
-                '.m-body-overlay, ' +
-                '.body-overlay, ' +
-                '.m-modal__close-trigger, ' +
-                '.m-modal__close__trigger, ' +
-                '.m-modal__close__trigger-one, ' +
-                '.modal-close, ' +
-                '.js-modal-close ' +
-                opts.extraCloseSelector
-            )
-                .off('click.m-modal')
-                .off('tap.m-modal')
-                .on('click.m-modal tap.m-modal', function(e) {
-                    var preventModalPropagation = !$(e.target).closest('.js-prevent-modal-propagation').length;
-                    if(preventModalPropagation){
-                        closeModal(e);
-                    }
-                });
+            var opts = obj.getOpts();
+                
+            $(function() {
 
-            $(opts.preventCloseSelector)
-                .off('click.m-modal-stop')
-                .off('tap.m-modal-stop')
-                .on('click.m-modal-stop tap.m-modal-stop', function(e) {
-                    var preventModalPropagation = !$(e.target).closest('.js-prevent-modal-propagation').length;
-                    if(preventModalPropagation){
-                        e.stopPropagation();
-                    }
-                });
+                $(opts.modalTrigger)
+                    .off('click.modal')
+                    .off('tap.modal')
+                    .on('click.modal tap.modal', function(e) {
+                        obj.openModal(e, this);
+                    });
 
-            $(document)
-                .off('keyup.m-modal')
-                .on('keyup.m-modal', function(e) {
-                    if (e.keyCode == 27) { // escape key maps to keycode `27`
-                       closeModal(e);
-                    }
-                });
+                $('.' + opts.overlayClass + ', ' + opts.closeSelector)
+                    .off('click.modal')
+                    .off('tap.modal')
+                    .on('click.modal tap.modal', function(e) {
+                        var preventModalPropagation = !$(e.target).closest('.js-prevent-modal-propagation').length;
+                        if (preventModalPropagation) obj.closeModal(e);
+                    });
 
-        });
+                $(opts.preventCloseSelector)
+                    .off('click.modal-stop')
+                    .off('tap.modal-stop')
+                    .on('click.modal-stop tap.modal-stop', function(e) {
+                        var preventModalPropagation = !$(e.target).closest('.js-prevent-modal-propagation').length;
+                        if (preventModalPropagation) e.stopPropagation();
+                    });
+
+                $(document)
+                    .off('keyup.modal')
+                    .on('keyup.modal', function(e) {
+                        // escape key maps to keycode `27`
+                        if (e.keyCode == 27) obj.closeModal(e);
+                    });
+            });
+
+            return obj;
+        }
     };
+
+    return obj;
 
 }));
