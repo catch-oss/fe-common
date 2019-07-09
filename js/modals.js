@@ -1,10 +1,21 @@
 ;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
-    if (typeof define === 'function' && define.amd) define(['jquery'], factory);
+    if (typeof define === 'function' && define.amd)
+        define(
+            [
+                'jquery',
+                'body-scroll-lock'
+            ],
+            factory
+        );
 
     // Node, CommonJS-like
-    else if (typeof exports === 'object') module.exports = factory(require('jquery'));
+    else if (typeof exports === 'object')
+        module.exports = factory(
+            require('jquery'),
+            require('body-scroll-lock')
+        );
 
     // Browser globals (root is window)
     else {
@@ -13,6 +24,9 @@
     }
 
 }(this, function ($, undefined) {
+
+    var disableBodyScroll = bodyScrollLock.disableBodyScroll;
+    var enableBodyScroll = bodyScrollLock.enableBodyScroll;
 
     var obj = {
         opts: {
@@ -34,7 +48,7 @@
         },
         closeModal: function(e) {
 
-            e.preventDefault();
+            if (e !== undefined) e.preventDefault();
             
             var $target = $($('body').attr('data-activeModal')),
                 opts = obj.getOpts();
@@ -45,6 +59,9 @@
 
             // hide the modal and trigger the close event
             $target.addClass(opts.hiddenClass).trigger('modal:close');
+
+            //enable body scroll
+            enableBodyScroll($target[0]);
 
             // check the history to see if we need to restore a previous modal
             if (modalHistory.length) {
@@ -59,6 +76,9 @@
                 // show the previous modal
                 $('body').addClass(opts.visibleClass).attr('data-activeModal', prevModal);
                 $prevModal.removeClass(opts.hiddenClass).css('max-height', '100%').trigger('modal:open');
+
+                // disable body scroll
+                disableBodyScroll($prevModal[0]);
             }
 
             // nothing to restore close everything
@@ -70,11 +90,19 @@
         },
         openModal: function(e, el) {
 
-            e.preventDefault();
+            // triggered by an event
+            if (e.preventDefault !== undefined) {
+                e.preventDefault();
+                var target = $(el).attr('data-modal') || $(el).attr('href');
+            }
+
+            // manual trigger
+            else {
+                var target = e;
+            }
 
             // look for target
-            var target = $(el).attr('data-modal') || $(el).attr('href'),
-                $target = $(target),
+            var $target = $(target),
                 opts = obj.getOpts();
 
             // ensure there's a modal overlay
@@ -110,8 +138,12 @@
                     $activeModal.addClass(opts.hiddenClass);
                 }
 
+                // show modal
                 $('body').addClass(opts.visibleClass).attr('data-activeModal', target);
                 $target.removeClass(opts.hiddenClass).css('max-height', '100%').trigger('modal:open');
+                
+                // disable body scroll
+                disableBodyScroll($target[0]);
             }
 
             return obj;

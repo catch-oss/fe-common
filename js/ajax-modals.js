@@ -1,15 +1,25 @@
 ;(function (root, factory) {
 
     // AMD. Register as an anonymous module depending on jQuery.
-    if (typeof define === 'function' && define.amd) define(['jquery', './modals', './popstate'], factory);
+    if (typeof define === 'function' && define.amd)
+        define(['jquery', './modals', './popstate'], factory);
 
     // Node, CommonJS-like
-    else if (typeof exports === 'object') module.exports = factory(require('jquery'), require('./modals'), require('./popstate'));
+    else if (typeof exports === 'object')
+        module.exports = factory(
+            require('jquery'),
+            require('./modals'),
+            require('./popstate')
+        );
 
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.ajaxModals = factory(root.jQuery, root.catch.modals, root.catch.popstate);
+        root.catch.ajaxModals = factory(
+            root.jQuery,
+            root.catch.modals,
+            root.catch.popstate
+        );
     }
 
 }(this, function ($, modals, popstate, undefined) {

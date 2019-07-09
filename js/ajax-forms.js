@@ -237,7 +237,7 @@
 
                                         if (msg != undefined) {
                                             $body.append($template);
-                                            modals();
+                                            modals.bind();
                                             $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
                                             $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap click',function(e) {
 
@@ -287,7 +287,7 @@
 
                                         if (msgFail != undefined) {
                                             $body.append($templateFail);
-                                            modals();
+                                            modals.bind();
                                             $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
                                             $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap click',function(e) {
 
@@ -392,7 +392,7 @@
 
                                             if (msg != undefined) {
                                                 $body.append($template);
-                                                modals();
+                                                modals.bind();
                                                 $('#ajax-form-modal-trigger').trigger('tap');
                                                 $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap',function(e) {
 
@@ -441,7 +441,7 @@
                                             // fail?
                                             if (msgFail != undefined) {
                                                 $body.append($templateFail);
-                                                modals();
+                                                modals.bind();
                                                 $('#ajax-form-modal-trigger').trigger('tap');
                                                 $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap',function(e) {
 
