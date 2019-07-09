@@ -20,10 +20,13 @@
     // Browser globals (root is window)
     else {
         root.catch = (root.catch || {});
-        root.catch.modals = factory(root.jQuery);
+        root.catch.modals = factory(
+            root.jQuery,
+            root.bodyScrollLock
+        );
     }
 
-}(this, function ($, undefined) {
+}(this, function ($, bodyScrollLock, undefined) {
 
     var disableBodyScroll = bodyScrollLock.disableBodyScroll;
     var enableBodyScroll = bodyScrollLock.enableBodyScroll;
@@ -33,7 +36,7 @@
             hiddenClass: 's-hidden',
             closeSelector: 'js-close-modal',
             preventCloseSelector: '.c-modal__body',
-            overlayClass: '.c-modal-overlay',
+            overlayClass: 'c-modal-overlay',
             visibleClass: 's-modal-visible',
             modalTrigger: 'js-modal-trigger'
         },
@@ -139,7 +142,7 @@
                 }
 
                 // show modal
-                $('body').addClass(opts.visibleClass).attr('data-activeModal', target);
+                $('body').addClass(opts.visibleClass).attr('data-activeModal', '#' + $(target).attr('id'));
                 $target.removeClass(opts.hiddenClass).css('max-height', '100%').trigger('modal:open');
                 
                 // disable body scroll
