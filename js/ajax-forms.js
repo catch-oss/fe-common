@@ -57,6 +57,8 @@
 
             var namespace = conf.namespace || 'ajax-form',
                 selector = conf.selector || '.js-ajax-form',
+                modalTriggerClass = conf.modalTriggerClass || 'js-modal-trigger',
+                modalCloseSelector = conf.modalCloseSelector || '.js-close-modal',
                 actionSelector = conf.actionSelector || '.js-ajax-form-action',
                 successTestCb = conf.successTestCb || function(data, textStatus, jqXHR) { return true; },
                 onBeforeRequest = conf.onBeforeRequest || null,
@@ -106,8 +108,6 @@
                 },
                 ajaxProxy = conf.ajaxProxy || function(action, method, $form, onAfterRequest) {
 
-                    console.log(arguments);
-
                     // default
                     action = action || window.location.href;
 
@@ -126,7 +126,8 @@
 
                         // override listener
                         $target[0].onload = function() {
-                            onAfterRequest($target.contents().find('body').html(), 'success');
+                            if (typeof onAfterRequest == 'function')
+                                onAfterRequest($target.contents().find('body').html(), 'success');
                         };
 
                     }
@@ -134,11 +135,11 @@
                 };
 
 
-            var trigger = '<a class="m-modal-trigger" id="ajax-form-modal-trigger" data-modal="#ajax-form-modal"></a>',
+            var trigger = '<a class="' + modalTriggerClass + '" id="ajax-form-modal-trigger" data-modal="#ajax-form-modal"></a>',
                 template =  $(modalTemplate).attr('id', 'ajax-form-modal')[0].outerHTML,
                 uid = util.elemId;
 
-            $(selector).each(function(idx){
+            $(selector).each(function(idx) {
 
                 // vars
                 var $form = $(this),
@@ -239,7 +240,7 @@
                                             $body.append($template);
                                             modals.bind();
                                             $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
-                                            $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap click',function(e) {
+                                            $(modalCloseSelector).on('tap click',function(e) {
 
                                                 // was it the ajax modal?
                                                 if ($('body').find('#ajax-form-modal').length > 0) {
@@ -289,7 +290,7 @@
                                             $body.append($templateFail);
                                             modals.bind();
                                             $('#ajax-form-modal-trigger').trigger('tap').trigger('click');
-                                            $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap click',function(e) {
+                                            $(modalCloseSelector).on('tap click',function(e) {
 
                                                 // was it the ajax modal
                                                 if ($('body').find('#ajax-form-modal').length > 0) {
@@ -394,7 +395,7 @@
                                                 $body.append($template);
                                                 modals.bind();
                                                 $('#ajax-form-modal-trigger').trigger('tap');
-                                                $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap',function(e) {
+                                                $(modalCloseSelector).on('tap',function(e) {
 
                                                     // was it the ajax modal
                                                     if ($('body').find('#ajax-form-modal').length > 0) {
@@ -443,7 +444,7 @@
                                                 $body.append($templateFail);
                                                 modals.bind();
                                                 $('#ajax-form-modal-trigger').trigger('tap');
-                                                $('.m-modal__close__trigger, .m-modal__close-trigger, .body-overlay').on('tap',function(e) {
+                                                $(modalCloseSelector).on('tap',function(e) {
 
                                                     // was it the ajax modal
                                                     if ($('body').find('#ajax-form-modal').length > 0) {

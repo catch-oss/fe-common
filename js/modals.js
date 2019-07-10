@@ -34,11 +34,11 @@
     var obj = {
         opts: {
             hiddenClass: 's-hidden',
-            closeSelector: 'js-close-modal',
+            closeSelector: '.js-close-modal',
             preventCloseSelector: '.c-modal__body',
             overlayClass: 'c-modal-overlay',
             visibleClass: 's-modal-visible',
-            modalTrigger: 'js-modal-trigger'
+            modalTrigger: '.js-modal-trigger'
         },
         setOpts: function(opts) {
             for (i in opts) {
