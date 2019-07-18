@@ -194,6 +194,18 @@
                     // Validates that the value is a past date
                     'pastdate'              : {attrName: ns + '-pastdate',               attrVal: undefined,     extraAttrs: []},
 
+                    // Validates that the value is a before a comparison date
+                    'datebefore'            : {attrName: ns + '-datebefore',             attrVal: undefined,     extraAttrs: []},
+
+                    // Validates that the value is a after a comparison date
+                    'dateafter'             : {attrName: ns + '-dateafter',              attrVal: undefined,     extraAttrs: []},
+
+                    // Validates that the value is the same or before a comparison date
+                    'datesameorbefore'      : {attrName: ns + '-datesameorbefore',       attrVal: undefined,     extraAttrs: []},
+
+                    // Validates that the value is the same or after a comparison date
+                    'datesameorafter'       : {attrName: ns + '-datesameorafter',        attrVal: undefined,     extraAttrs: []},
+
                     // Validates that a multiple input date is in the future
                     'futuredatecomponent'   : {attrName: ns + '-futuredatecomponent',    attrVal: undefined,     extraAttrs: []},
 
@@ -263,7 +275,7 @@
                 .addValidator('pastdate', vLib.pastdate, 32)
                 .addMessage('en', 'pastdate', 'This date is in the future.');
 
-            // pastdate
+            // validdate
             // e.g.
             // data-validate-pastdate="YYYY-MM-DD"
             window.ParsleyValidator
@@ -276,6 +288,34 @@
             window.ParsleyValidator
                 .addValidator('futuredate', vLib.futuredate, 32)
                 .addMessage('en', 'futuredate', 'This date is in the past.');
+
+            // datebefore
+            // e.g.
+            // data-validate-datebefore="{compare_date},{optional_date_format},{optional_compare_date_format}"
+            window.ParsleyValidator
+                .addValidator('datebefore', vLib.datebefore, 32)
+                .addMessage('en', 'datebefore', 'This date is not in the valid range.');
+
+            // dateafter
+            // e.g.
+            // data-validate-dateafter="{compare_date},{optional_date_format},{optional_compare_date_format}"
+            window.ParsleyValidator
+                .addValidator('dateafter', vLib.dateafter, 32)
+                .addMessage('en', 'dateafter', 'This date is not in the valid range.');
+
+            // datesameorbefore
+            // e.g.
+            // data-validate-datesameorbefore="{compare_date},{optional_date_format},{optional_compare_date_format}"
+            window.ParsleyValidator
+                .addValidator('datesameorbefore', vLib.datesameorbefore, 32)
+                .addMessage('en', 'datesameorbefore', 'This date is not in the valid range.');
+
+            // datesameorafter
+            // e.g.
+            // data-validate-datesameorafter="{compare_date},{optional_date_format},{optional_compare_date_format}"
+            window.ParsleyValidator
+                .addValidator('datesameorafter', vLib.datesameorafter, 32)
+                .addMessage('en', 'datesameorafter', 'This date is not in the valid range.');
 
             // Required If
             // attr val should follow this syntax {selector},{comparison operator},{value to compare}

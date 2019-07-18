@@ -317,6 +317,82 @@
             return date.isAfter(moment());
         },
 
+        // datebefore
+        // data-validate-datebefore="{compare_date},{optional_date_format},{optional_compare_date_format}"
+        // e.g.
+        // data-validate-datebefore="1980-12-30,DD-MM-YYYY,YYYY-MM-DD"
+        datebefore: function(value, requirement) {
+
+            var a = parseCSV(requirement),
+                compareDateStr = a[0],
+                format = a[1] || 'YYYY-MM-DD',
+                compareDateFormat = a[2] || 'YYYY-MM-DD';
+
+            // make date
+            var date = moment(value, format),
+                compareDate = moment(compareDateStr, compareDateFormat);
+
+            // compare to now
+            return date.isBefore(compareDate);
+        },
+
+        // dateafter
+        // data-validate-dateafter="{compare_date},{optional_date_format},{optional_compare_date_format}"
+        // e.g.
+        // data-validate-dateafter="1980-12-30,DD-MM-YYYY,YYYY-MM-DD"
+        dateafter: function(value, requirement) {
+
+            var a = parseCSV(requirement),
+                compareDateStr = a[0],
+                format = a[1] || 'YYYY-MM-DD',
+                compareDateFormat = a[2] || 'YYYY-MM-DD';
+
+            // make date
+            var date = moment(value, format),
+                compareDate = moment(compareDateStr, compareDateFormat);
+
+            // compare to now
+            return date.isAfter(compareDate);
+        },
+
+        // datesameorbefore
+        // data-validate-datesameorbefore="{compare_date},{optional_date_format},{optional_compare_date_format}"
+        // e.g.
+        // data-validate-datesameorbefore="1980-12-30,DD-MM-YYYY,YYYY-MM-DD"
+        datesameorbefore: function(value, requirement) {
+
+            var a = parseCSV(requirement),
+                compareDateStr = a[0],
+                format = a[1] || 'YYYY-MM-DD',
+                compareDateFormat = a[2] || 'YYYY-MM-DD';
+
+            // make date
+            var date = moment(value, format),
+                compareDate = moment(compareDateStr, compareDateFormat);
+
+            // compare to now
+            return date.isSameOrBefore(compareDate);
+        },
+
+        // datesameorafter
+        // data-validate-datesameorafter="{compare_date},{optional_date_format},{optional_compare_date_format}"
+        // e.g.
+        // data-validate-datesameorafter="1980-12-30,DD-MM-YYYY,YYYY-MM-DD"
+        datesameorafter: function(value, requirement) {
+
+            var a = parseCSV(requirement),
+                compareDateStr = a[0],
+                format = a[1] || 'YYYY-MM-DD',
+                compareDateFormat = a[2] || 'YYYY-MM-DD';
+
+            // make date
+            var date = moment(value, format),
+                compareDate = moment(compareDateStr, compareDateFormat);
+
+            // compare to now
+            return date.isSameOrAfter(compareDate);
+        },
+
         // Required If
         // attr val should follow this syntax {selector},{comparison operator},{value to compare}
         requiredif: function(value, requirement) {
