@@ -50,7 +50,7 @@
                 modalTemplate: arguments[4],
                 onBeforeRequest: arguments[5],
                 onAfterCloseResultModal: arguments[6]
-            }
+            };
         }
 
         $(function() {
@@ -64,6 +64,7 @@
                 onBeforeRequest = conf.onBeforeRequest || null,
                 onAfterRequest = conf.onAfterRequest || null,
                 onAfterCloseResultModal = conf.onAfterCloseResultModal || null,
+                loadingClass = conf.loadingClass || 's-loading',
                 customValidator = conf.customValidator || function($form) { return true; },
                 showModalDefault = conf.showModal || true,
                 modalTemplate = conf.modalTemplate ||
@@ -86,7 +87,6 @@
 
                     var data = $form.serialize(),
                         method = $form.attr('method') ? $form.attr('method') : 'get';
-
 
                     // if we are doing a get then jQuery is a bit of retard in terms of building the URL
                     if (method == 'get' && action.split('?').length > 1) {
@@ -134,7 +134,6 @@
                     else $[method](action, data, onAfterRequest);
                 };
 
-
             var trigger = '<a class="' + modalTriggerClass + '" id="ajax-form-modal-trigger" data-modal="#ajax-form-modal"></a>',
                 template =  $(modalTemplate).attr('id', 'ajax-form-modal')[0].outerHTML,
                 uid = util.elemId;
@@ -157,7 +156,7 @@
 
                     // update form
                     $form.attr('target', id)
-                         .attr('data-allow-default', 1);
+                        .attr('data-allow-default', 1);
                 }
 
                 // attach submit handlers
@@ -192,7 +191,7 @@
                             validateOnly = $this.attr('data-ajax-validate-only') || null;
 
                         if (
-                            !$('html').is('.s-loading') &&
+                            !$('html').is('.' + loadingClass) &&
                             !disabled &&
                             (maxSubmissions == undefined || parseInt(submissionCount) < parseInt(maxSubmissions)) &&
                             (!validate || (validate && $this.validator('validate', validateOnly))) &&
@@ -200,7 +199,7 @@
                         ) {
 
                             // We are loading
-                            $('html').addClass('s-loading');
+                            $('html').addClass(loadingClass);
 
                             // lifecycle call back
                             if (typeof onBeforeRequest == 'function') onBeforeRequest($this);
@@ -219,7 +218,7 @@
 
                                 $this.attr('data-submission-count', parseInt(submissionCount || 0) + 1);
                                 if (maxSubmissions != undefined && submissionCount + 1 >= maxSubmissions) $this.addClass(disabledClass);
-                                $('html').removeClass('s-loading');
+                                $('html').removeClass(loadingClass);
 
                                 if (scrollTo != undefined)
                                     $('html, body, .body').animate({
@@ -250,7 +249,7 @@
 
                                                     // lifecycle callback
                                                     if (typeof onAfterCloseResultModal == 'function')
-                                                        onAfterCloseResultModal($this, {success: true, message: 'success'});
+                                                        onAfterCloseResultModal($this, { success: true, message: 'success' });
                                                 }
                                             });
                                         }
@@ -300,7 +299,7 @@
 
                                                     // lifecycle callback
                                                     if (typeof onAfterCloseResultModal == 'function')
-                                                        onAfterCloseResultModal($this, {success: false, message: 'fail'});
+                                                        onAfterCloseResultModal($this, { success: false, message: 'fail' });
                                                 }
                                             });
                                         }
@@ -313,161 +312,161 @@
                         }
                     })
                     .find(actionSelector)
-                        .off('tap.' + namespace)
-                        .off('click.' + namespace)
-                        .off('change.' + namespace)
-                        .on('click.' + namespace + ' tap.' + namespace + ' change.' + namespace, function(e) {
+                    .off('tap.' + namespace)
+                    .off('click.' + namespace)
+                    .off('change.' + namespace)
+                    .on('click.' + namespace + ' tap.' + namespace + ' change.' + namespace, function(e) {
 
-                            if (!$(this).attr('data-allow-default')) e.preventDefault();
+                        if (!$(this).attr('data-allow-default')) e.preventDefault();
 
-                            // look for most of the info locally or fall back to the form for params
-                            var $this = $(this),
-                                $form = $this.closest('form'),
-                                $body = $('.body').length ? $('.body') : $('body'),
-                                replace = $this.attr('data-replace') || $form.attr('data-replace'),
-                                showModal = $this.attr('data-show-modal') || $form.attr('data-show-modal') || showModalDefault,
-                                scrollTo = $this.attr('data-scroll-to') || $form.attr('data-scroll-to'),
-                                embedTracking = $this.attr('data-success-tracking-embed') || $form.attr('data-success-tracking-embed'),
-                                gaTracking = $this.attr('data-success-tracking-ga') || $form.attr('data-success-tracking-ga'),
-                                gtmTracking = $this.attr('data-success-tracking-gtm') || $form.attr('data-success-tracking-gtm'),
-                                gtmDataLayer = $this.attr('data-gtm-data-layer') || $form.attr('data-gtm-data-layer'),
-                                msg = $this.attr('data-success-message') || $form.attr('data-success-message'),
-                                title = $this.attr('data-success-title') || $form.attr('data-success-title'),
-                                msgFail = $this.attr('data-fail-message') || $form.attr('data-fail-message'),
-                                titleFail = $this.attr('data-fail-title') || $form.attr('data-fail-title'),
-                                $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg)),
-                                $templateFail = $(trigger + template.replace(/\{\{title\}\}/, titleFail).replace(/\{\{content\}\}/, msgFail)),
-                                action = $this.attr('data-action') || $form.attr('action'),
-                                disabledClass = $this.attr('data-disabled-class') || $form.attr('data-disabled-class') || 'disabled',
-                                maxSubmissions = $this.attr('data-max-submissions') || $form.attr('data-max-submissions'),
-                                disabled =  $this.is('.' + disabledClass),
-                                submissionCount = $this.attr('data-submission-count') || $form.attr('data-submission-count') || 0,
-                                method = $this.attr('data-method') || $form.attr('method') || 'get',
-                                validate = $this.is('[data-validate]'),
-                                validateOnly = $this.attr('data-ajax-validate-only') || $form.attr('data-ajax-validate-only');
+                        // look for most of the info locally or fall back to the form for params
+                        var $this = $(this),
+                            $form = $this.closest('form'),
+                            $body = $('.body').length ? $('.body') : $('body'),
+                            replace = $this.attr('data-replace') || $form.attr('data-replace'),
+                            showModal = $this.attr('data-show-modal') || $form.attr('data-show-modal') || showModalDefault,
+                            scrollTo = $this.attr('data-scroll-to') || $form.attr('data-scroll-to'),
+                            embedTracking = $this.attr('data-success-tracking-embed') || $form.attr('data-success-tracking-embed'),
+                            gaTracking = $this.attr('data-success-tracking-ga') || $form.attr('data-success-tracking-ga'),
+                            gtmTracking = $this.attr('data-success-tracking-gtm') || $form.attr('data-success-tracking-gtm'),
+                            gtmDataLayer = $this.attr('data-gtm-data-layer') || $form.attr('data-gtm-data-layer'),
+                            msg = $this.attr('data-success-message') || $form.attr('data-success-message'),
+                            title = $this.attr('data-success-title') || $form.attr('data-success-title'),
+                            msgFail = $this.attr('data-fail-message') || $form.attr('data-fail-message'),
+                            titleFail = $this.attr('data-fail-title') || $form.attr('data-fail-title'),
+                            $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg)),
+                            $templateFail = $(trigger + template.replace(/\{\{title\}\}/, titleFail).replace(/\{\{content\}\}/, msgFail)),
+                            action = $this.attr('data-action') || $form.attr('action'),
+                            disabledClass = $this.attr('data-disabled-class') || $form.attr('data-disabled-class') || 'disabled',
+                            maxSubmissions = $this.attr('data-max-submissions') || $form.attr('data-max-submissions'),
+                            disabled =  $this.is('.' + disabledClass),
+                            submissionCount = $this.attr('data-submission-count') || $form.attr('data-submission-count') || 0,
+                            method = $this.attr('data-method') || $form.attr('method') || 'get',
+                            validate = $this.is('[data-validate]'),
+                            validateOnly = $this.attr('data-ajax-validate-only') || $form.attr('data-ajax-validate-only');
 
-                            if (
-                                !$('html').is('.s-loading') &&
+                        if (
+                            !$('html').is('.' + loadingClass) &&
                                 !disabled &&
                                 (maxSubmissions == undefined || parseInt(submissionCount) < parseInt(maxSubmissions)) &&
                                 (!validate || (validate && $this.closest('form').validator('validate', validateOnly))) &&
                                 customValidator($form)
-                            ) {
+                        ) {
 
-                                // We are loading
-                                $('html').addClass('s-loading');
+                            // We are loading
+                            $('html').addClass(loadingClass);
+
+                            // lifecycle call back
+                            if (typeof onBeforeRequest == 'function') onBeforeRequest($this);
+
+                            // make the request
+                            ajaxProxy(action, method, $form, function(data, textStatus, jqXHR) {
+
+                                if (replace != '0' || replace != 'false') {
+                                    if (replace == undefined) $form.html($($(data).find(selector)[idx]).html());
+                                    else $(replace).html($(data).find(replace).html());
+                                }
+
+                                ajaxForms(conf);
+
+                                if (typeof picturefill == 'function') picturefill();
+
+                                $this.attr('data-submission-count', parseInt(submissionCount || 0) + 1);
+                                if (maxSubmissions != undefined && submissionCount + 1 >= maxSubmissions) $this.addClass(disabledClass);
+                                $('html').removeClass(loadingClass);
+
+                                if (scrollTo != undefined)
+                                    $('html, body. .body').animate({
+                                        scrollTop: $(scrollTo).offset().top
+                                    }, 600);
+
+                                // success
+                                if (textStatus == 'success' && successTestCb(data, textStatus, jqXHR)) {
+
+                                    if (showModal) {
+
+                                        // make sure the dats are there if they changed
+                                        msg = $this.attr('data-success-message') || $form.attr('data-success-message');
+                                        title = $this.attr('data-success-title') || $form.attr('data-success-title');
+                                        $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg));
+
+                                        if (msg != undefined) {
+                                            $body.append($template);
+                                            modals.bind();
+                                            $('#ajax-form-modal-trigger').trigger('tap');
+                                            $(modalCloseSelector).on('tap',function(e) {
+
+                                                // was it the ajax modal
+                                                if ($('body').find('#ajax-form-modal').length > 0) {
+
+                                                    // remove the modal
+                                                    $template.remove();
+
+                                                    // lifecycle callback
+                                                    if (typeof onAfterCloseResultModal == 'function')
+                                                        onAfterCloseResultModal($form, { success: true, message: 'success' });
+                                                }
+                                            });
+                                        }
+                                    }
+
+                                    // just chuck in the embed code
+                                    if (embedTracking) {
+                                        $('body').append(embedTracking);
+                                    }
+                                    // expects gtmTracking to be {key: value, key2: value2}
+                                    // see https://developers.google.com/tag-manager/devguide?hl=en for more info
+                                    if (gtmTracking) {
+                                        gtmTracking = JSON.parse(gtmTracking);
+                                        window[gtmDataLayer].push(gtmTracking);
+                                    }
+                                    // expects gaTracking to be {action: 'send', data {hitType: 'pageview'}}
+                                    // see https://developers.google.com/analytics/devguides/collection/analyticsjs/how-analyticsjs-works for more info
+                                    if (gaTracking) {
+                                        gaTracking = JSON.parse(gaTracking);
+                                        window.ga(gaTracking.action, gaTracking.data);
+                                    }
+                                }
+
+                                // fail
+                                else {
+
+                                    if (showModal) {
+
+                                        // re grab the datas
+                                        msgFail = $this.attr('data-fail-message') || $form.attr('data-fail-message');
+                                        titleFail = $this.attr('data-fail-title') || $form.attr('data-fail-title');
+                                        $templateFail = $(trigger + template.replace(/\{\{title\}\}/, titleFail).replace(/\{\{content\}\}/, msgFail));
+
+                                        // fail?
+                                        if (msgFail != undefined) {
+                                            $body.append($templateFail);
+                                            modals.bind();
+                                            $('#ajax-form-modal-trigger').trigger('tap');
+                                            $(modalCloseSelector).on('tap',function(e) {
+
+                                                // was it the ajax modal
+                                                if ($('body').find('#ajax-form-modal').length > 0) {
+
+                                                    // remove the modal
+                                                    $templateFail.remove();
+
+                                                    // lifecycle callback
+                                                    if (typeof onAfterCloseResultModal == 'function')
+                                                        onAfterCloseResultModal($form, { success: false, message: 'fail' });
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
 
                                 // lifecycle call back
-                                if (typeof onBeforeRequest == 'function') onBeforeRequest($this);
+                                if (typeof onAfterRequest == 'function') onAfterRequest($this, data);
 
-                                // make the request
-                                ajaxProxy(action, method, $form, function(data, textStatus, jqXHR) {
-
-                                    if (replace != '0' || replace != 'false') {
-                                        if (replace == undefined) $form.html($($(data).find(selector)[idx]).html());
-                                        else $(replace).html($(data).find(replace).html());
-                                    }
-
-                                    ajaxForms(conf);
-
-                                    if (typeof picturefill == 'function') picturefill();
-
-                                    $this.attr('data-submission-count', parseInt(submissionCount || 0) + 1);
-                                    if (maxSubmissions != undefined && submissionCount + 1 >= maxSubmissions) $this.addClass(disabledClass);
-                                    $('html').removeClass('s-loading');
-
-                                    if (scrollTo != undefined)
-                                        $('html, body. .body').animate({
-                                            scrollTop: $(scrollTo).offset().top
-                                        }, 600);
-
-                                    // success
-                                    if (textStatus == 'success' && successTestCb(data, textStatus, jqXHR)) {
-                                        
-                                        if (showModal) {
-                                        
-                                            // make sure the dats are there if they changed
-                                            msg = $this.attr('data-success-message') || $form.attr('data-success-message');
-                                            title = $this.attr('data-success-title') || $form.attr('data-success-title');
-                                            $template = $(trigger + template.replace(/\{\{title\}\}/, title).replace(/\{\{content\}\}/, msg));
-
-                                            if (msg != undefined) {
-                                                $body.append($template);
-                                                modals.bind();
-                                                $('#ajax-form-modal-trigger').trigger('tap');
-                                                $(modalCloseSelector).on('tap',function(e) {
-
-                                                    // was it the ajax modal
-                                                    if ($('body').find('#ajax-form-modal').length > 0) {
-
-                                                        // remove the modal
-                                                        $template.remove();
-
-                                                        // lifecycle callback
-                                                        if (typeof onAfterCloseResultModal == 'function')
-                                                            onAfterCloseResultModal($form, {success: true, message: 'success'});
-                                                    }
-                                                });
-                                            }
-                                        }
-
-                                        // just chuck in the embed code
-                                        if (embedTracking) {
-                                            $('body').append(embedTracking);
-                                        }
-                                        // expects gtmTracking to be {key: value, key2: value2}
-                                        // see https://developers.google.com/tag-manager/devguide?hl=en for more info
-                                        if (gtmTracking) {
-                                             gtmTracking = JSON.parse(gtmTracking);
-                                            window[gtmDataLayer].push(gtmTracking);
-                                        }
-                                        // expects gaTracking to be {action: 'send', data {hitType: 'pageview'}}
-                                        // see https://developers.google.com/analytics/devguides/collection/analyticsjs/how-analyticsjs-works for more info
-                                        if (gaTracking) {
-                                            gaTracking = JSON.parse(gaTracking);
-                                            window.ga(gaTracking.action, gaTracking.data);
-                                        }
-                                    }
-
-                                    // fail
-                                    else {
-
-                                        if (showModal) {
-                                            
-                                            // re grab the datas
-                                            msgFail = $this.attr('data-fail-message') || $form.attr('data-fail-message');
-                                            titleFail = $this.attr('data-fail-title') || $form.attr('data-fail-title');
-                                            $templateFail = $(trigger + template.replace(/\{\{title\}\}/, titleFail).replace(/\{\{content\}\}/, msgFail));
-
-                                            // fail?
-                                            if (msgFail != undefined) {
-                                                $body.append($templateFail);
-                                                modals.bind();
-                                                $('#ajax-form-modal-trigger').trigger('tap');
-                                                $(modalCloseSelector).on('tap',function(e) {
-
-                                                    // was it the ajax modal
-                                                    if ($('body').find('#ajax-form-modal').length > 0) {
-
-                                                        // remove the modal
-                                                        $templateFail.remove();
-
-                                                        // lifecycle callback
-                                                        if (typeof onAfterCloseResultModal == 'function')
-                                                            onAfterCloseResultModal($form, {success: false, message: 'fail'});
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    }
-
-                                    // lifecycle call back
-                                    if (typeof onAfterRequest == 'function') onAfterRequest($this, data);
-
-                                });
-                            }
-                        });
-            })
+                            });
+                        }
+                    });
+            });
         });
     };
 
