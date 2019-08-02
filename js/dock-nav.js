@@ -20,6 +20,7 @@
 
         var dock = options.dockSelector || '.dockable-nav-container',
             activeClass = options.activeClass || 'docked',
+            displayOnUp = options.displayOnUp || false,
             $nav = $(dock),
             $scrollElemPos = $.scrollElem();
 
@@ -39,6 +40,7 @@
                     .off('scroll.dockNav')
                     .on('scroll.dockNav',function() {
                         $nav.toggleClass(activeClass, $(this).scrollTop() > dockPoint);
+                        if (displayOnUp) dockPoint = $(this).scrollTop();
                     });
 
                 // on resize...
