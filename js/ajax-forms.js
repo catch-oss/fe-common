@@ -350,7 +350,7 @@
                                 !disabled &&
                                 (maxSubmissions == undefined || parseInt(submissionCount) < parseInt(maxSubmissions)) &&
                                 (!validate || (validate && $this.closest('form').validator('validate', validateOnly))) &&
-                                customValidator($form)
+                                customValidator($form, e)
                         ) {
 
                             // We are loading
