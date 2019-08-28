@@ -65,7 +65,7 @@
                 onAfterRequest = conf.onAfterRequest || null,
                 onAfterCloseResultModal = conf.onAfterCloseResultModal || null,
                 loadingClass = conf.loadingClass || 's-loading',
-                customValidator = conf.customValidator || function($form) { return true; },
+                customValidator = conf.customValidator || function($form, e) { return true; },
                 showModalDefault = conf.showModal || true,
                 modalTemplate = conf.modalTemplate ||
                     '<div class="m-modal m-modal--form s-hidden" id="ajax-form-modal">' +
@@ -195,7 +195,7 @@
                             !disabled &&
                             (maxSubmissions == undefined || parseInt(submissionCount) < parseInt(maxSubmissions)) &&
                             (!validate || (validate && $this.validator('validate', validateOnly))) &&
-                            customValidator($form)
+                            customValidator($form, e)
                         ) {
 
                             // We are loading
