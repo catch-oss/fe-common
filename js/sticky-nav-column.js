@@ -109,7 +109,7 @@
                         menuHeight = $menu.height(),
                         menuOHeight = $menu.height();
 
-                    // something odd happened
+                    // something odd happened like the nav got removed from the flow
                     if (menuOHeight > colOHeight) {
                         
                         // update heights
@@ -138,10 +138,6 @@
 
                     // set flag
                     normalisingHeight = false;
-                    
-                    // // this is super dumb
-                    // if (doScrollReset && sPos != $scrollElem.scrollTop())
-                    //     $scrollElem.scrollTop(sPos);
 
                     // console.log('normalising height post all ', $main.height(), $column.height(), $scrollElem.scrollTop());
 
