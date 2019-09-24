@@ -241,39 +241,41 @@
 
                         // docked top
                         if (!$menu.is('.col-docked') && (menuTop - scrollPos < 0)) {
-
                             // console.log('adding docked', normalisingHeight, $main.height(), $column.height(), menuTop, scrollPos, menuTop - scrollPos, (menuTop - scrollPos < 0));
-
-                            $menu.addClass('col-docked')
+                            $menu
+                                .addClass('col-docked')
                                 .css(reset)
                                 .css(docked);
-
-                        } else if ($menu.is('.col-docked') && (menuTop - scrollPos >= 0)) {
-
+                        }
+                        
+                        // un dock from top
+                        else if ($menu.is('.col-docked') && (menuTop - scrollPos >= 0)) {
                             // console.log('removing docked', normalisingHeight, $main.height(), $column.height(), menuTop, scrollPos, menuTop - scrollPos, (menuTop - scrollPos >= 0));
-
-                            $menu.removeClass('col-docked')
+                            $menu
+                                .removeClass('col-docked')
                                 .css(reset);
+                        }
 
+                        // weird sceanrio where undocking from top failed
+                        else if (menuTop - scrollPos >= 0) {
+                            // console.log('weird scenario', menuTop, scrollPos, menuTop - scrollPos, (menuTop - scrollPos < 0));
+                            $menu.css(reset)
                         }
 
                         // docked base
                         if ($menu.is('.col-docked') && !$menu.is('.col-docked-base') && scrollPos >= scrollThreshBase) {
-
                             // console.log('adding docked-base', scrollPos, scrollThreshBase, scrollPos >= scrollThreshBase);
-
-                            $menu.addClass('col-docked-base')
+                            $menu
+                                .addClass('col-docked-base')
                                 .css(reset)
                                 .css(dockedBase);
-
-                        } else if ($menu.is('.col-docked-base') && scrollPos < scrollThreshBase) {
-
+                        } 
+                        else if ($menu.is('.col-docked-base') && scrollPos < scrollThreshBase) {
                             // console.log('removing docked-base', scrollPos, scrollThreshBase, scrollPos < scrollThreshBase);
-
-                            $menu.removeClass('col-docked-base').css(reset);
-
+                            $menu
+                                .removeClass('col-docked-base')
+                                .css(reset);
                             if ($menu.is('.col-docked')) $menu.css(docked);
-
                         }
                     }
                 };
