@@ -18,17 +18,33 @@
 
     var t = null,
         throttle = function(func, limit) {
-            var inThrottle
-            return function() {
-                var args = arguments;
-                var context = this;
-                if (!inThrottle) {
-                    func.apply(context, args);
-                    inThrottle = true;
-                    setTimeout(function() {inThrottle = false;}, limit);
-                }
-            }
-        }
+            var inThrottle,
+                finalFlag,
+                finalArgs,
+                finalContext,
+                actionFunction = function() {
+                    var args = arguments;
+                    var context = this;
+                    if (!inThrottle) {
+                        finalFlag = false;
+                        func.apply(context, args);
+                        inThrottle = true;
+                        setTimeout(function() {
+                            inThrottle = false;
+                            // run the final action as the final action may be drastic
+                            if (finalFlag) {
+                                // woo weird recursion!
+                                actionFunction.apply(finalContext, finalArgs);
+                            }
+                        }, limit);
+                    } else {
+                        finalFlag = true;
+                        finalArgs = arguments;
+                        finalContext = this;
+                    }
+                };
+            return actionFunction;
+        };
 
     return function(menu, main, column, disableBP) {
 
@@ -51,33 +67,33 @@
                     dontStick           = false,
                     normalisingHeight   = false,
                     clearHeight         = dockNav('height') == undefined ? 0 : dockNav('height'),
-                    $menu               = $(menu).css({width: $(menu).width(), height: $(menu).height()}),
+                    $menu               = $(menu).css({ width: $(menu).width(), height: $(menu).height() }),
                     $menuParent         = $menu.parent(),
                     $main               = $(main),
-                    $column             = $(column).css({position: 'relative'}),
+                    $column             = $(column).css({ position: 'relative' }),
                     tallestElem         = false,
                     menuTop             = $menuParent.offsetTop() + parseInt($menuParent.css('padding-top')),
                     menuBottom          = menuTop + $menu.innerHeight(),
                     reset               = {
-                                            position: '',
-                                            top: '',
-                                            bottom: ''
-                                        },
+                        position: '',
+                        top: '',
+                        bottom: ''
+                    },
                     docked              = {
-                                            position: 'fixed',
-                                            top: clearHeight,
-                                            bottom: ''
-                                        },
+                        position: 'fixed',
+                        top: clearHeight,
+                        bottom: ''
+                    },
                     dockedBase          = {
-                                            position: 'absolute',
-                                            bottom: 0,
-                                            top: 'auto'
-                                        },
+                        position: 'absolute',
+                        bottom: 0,
+                        top: 'auto'
+                    },
                     dockedScreenBottom  = {
-                                            position: 'fixed',
-                                            bottom: 0,
-                                            top: 'auto'
-                                        };
+                        position: 'fixed',
+                        bottom: 0,
+                        top: 'auto'
+                    };
 
                 if ($menu.outerHeight(true) > $column.outerHeight(true)) {
                     tallestElem = true;
@@ -111,7 +127,7 @@
 
                     // something odd happened like the nav got removed from the flow
                     if (menuOHeight > colOHeight) {
-                        
+
                         // update heights
                         colHeight += menuHeight;
                         colOHeight += menuOHeight;
@@ -207,9 +223,9 @@
                     scrollToBase        = winH - menuH < 0;
                     scrollPos           = $scrollElem.scrollTop();
                     scrollThreshBase    = winH > menuH
-                                            ? ($main.offsetTop() + $main.outerHeight()) - menuH - clearHeight - (pad * 2)
-                                            : ($main.offsetTop() + $main.outerHeight()) - winH - (pad * 2);
-                    
+                        ? ($main.offsetTop() + $main.outerHeight()) - menuH - clearHeight - (pad * 2)
+                        : ($main.offsetTop() + $main.outerHeight()) - winH - (pad * 2);
+
                     // console.log($scrollElem.scrollTop());
 
                     if (scrollToBase && (scrollPos > menuTop && scrollPos < scrollThreshScreen)) {
@@ -247,7 +263,7 @@
                                 .css(reset)
                                 .css(docked);
                         }
-                        
+
                         // un dock from top
                         else if ($menu.is('.col-docked') && (menuTop - scrollPos >= 0)) {
                             // console.log('removing docked', normalisingHeight, $main.height(), $column.height(), menuTop, scrollPos, menuTop - scrollPos, (menuTop - scrollPos >= 0));
@@ -259,7 +275,7 @@
                         // weird sceanrio where undocking from top failed
                         else if (menuTop - scrollPos >= 0) {
                             // console.log('weird scenario', menuTop, scrollPos, menuTop - scrollPos, (menuTop - scrollPos < 0));
-                            $menu.css(reset)
+                            $menu.css(reset);
                         }
 
                         // docked base
@@ -269,7 +285,7 @@
                                 .addClass('col-docked-base')
                                 .css(reset)
                                 .css(dockedBase);
-                        } 
+                        }
                         else if ($menu.is('.col-docked-base') && scrollPos < scrollThreshBase) {
                             // console.log('removing docked-base', scrollPos, scrollThreshBase, scrollPos < scrollThreshBase);
                             $menu
@@ -281,7 +297,7 @@
                 };
                 var throttledScroller = throttle(function() {
                     if ($(window).dim('w') > (disableBP - 1)) {
-                        
+
                         // console.log('scroll inner', $scrollElem.scrollTop());
 
                         clearHeight = dockNav('height') == undefined ? 0 : dockNav('height');
@@ -289,6 +305,8 @@
                             positionNav();
                         });
                     } else {
+
+                        // console.log('scroll inner', $scrollElem.scrollTop());
                         unPositionNav();
                         removeWidth();
                         removeHeight();
