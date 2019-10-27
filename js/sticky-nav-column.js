@@ -136,21 +136,21 @@
                     // just bail here if we dont need to do any sticking
                     if (mainOHeight < colOHeight) {
                         dontStick = true;
-                        return;
+                    } else {
+
+                        // carry on as you were...
+                        dontStick = false;
+
+                        // define target height
+                        var targetHeight = colHeight;
+                        if (mainOHeight > colOHeight) {
+                            var targetHeight = mainHeight;
+                        }
+
+                        // set target heights
+                        if (mainOHeight > colOHeight) $column.height(targetHeight);
+                        else $main.height(targetHeight);
                     }
-
-                    // carry on as you were...
-                    else dontStick = false;
-
-                    // define target height
-                    var targetHeight = colHeight;
-                    if (mainOHeight > colOHeight) {
-                        var targetHeight = mainHeight;
-                    }
-
-                    // set target heights
-                    if (mainOHeight > colOHeight) $column.height(targetHeight);
-                    else $main.height(targetHeight);
 
                     // set flag
                     normalisingHeight = false;

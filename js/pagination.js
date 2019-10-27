@@ -35,7 +35,7 @@
         if (typeof conf != 'object') {
             conf = {
                 onUpdate: arguments[0],
-            }
+            };
         }
 
         conf.sortSelector = conf.sortSelector ||  '.js-pagination-sort a';
@@ -111,7 +111,7 @@
                         $uEl.trigger('urlchange');
                     }
 
-                    if (conf.useHistory)
+                    if (conf.useHistory) {
                         popstate.pushState(
                             {
                                 url: requestUrl,
@@ -121,6 +121,9 @@
                             '',
                             requestUrl
                         );
+                    } else {
+                        $el.trigger('requestUpdate', requestUrl);
+                    }
 
                 },
                 onBeforePage: function(pagr, e) {
