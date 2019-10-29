@@ -11,10 +11,10 @@
 // When this is reintegrated to the 2d masterlib we need to init it with:
 // window.catch.formValidation(function(){ return twoDegrees.dockNav('height'); });
 
- ;(function (root, factory) {
+; (function (root, factory) {
 
-     // AMD. Register as an anonymous module depending on jQuery.
-     if (typeof define === 'function' && define.amd)
+    // AMD. Register as an anonymous module depending on jQuery.
+    if (typeof define === 'function' && define.amd)
         define(
             [
                 'jquery',
@@ -27,8 +27,8 @@
             factory
         );
 
-     // Node, CommonJS-like
-     else if (typeof exports === 'object')
+    // Node, CommonJS-like
+    else if (typeof exports === 'object')
         module.exports = factory(
             require('jquery'),
             require('./../../moment/moment'),
@@ -38,8 +38,8 @@
             require('./../../body-toucher/body-toucher')
         );
 
-     // Browser globals (root is window)
-     else {
+    // Browser globals (root is window)
+    else {
         root.catch = (root.catch || {});
         root.catch.formValidation = factory(
             root.jQuery,
@@ -47,11 +47,11 @@
             root.catch.validators,
             root.catch.dockNav
         );
-     }
+    }
 
 }(this, function ($, moment, vLib, dockNav, parsley, bodyToucher, undefined) {
 
-    return function(conf) {
+    return function (conf) {
 
         // opts
         var opts = typeof conf == 'object' ? conf : {};
@@ -69,7 +69,7 @@
         opts.fieldErrorWrapperClass = opts.fieldErrorWrapperClass || 'error';
         opts.floatLabelWrapper = opts.floatLabelWrapper || '.floatlabel-wrapper';
 
-        $(function() {
+        $(function () {
 
             // define global options
             var globalOpts = {
@@ -82,7 +82,7 @@
             window.Parsley.options = $.extend({}, window.Parsley.options, globalOpts);
 
             // create the validator plugin interface
-            $.fn.validator = function(options, args) {
+            $.fn.validator = function (options, args) {
                 var $this = this.length === undefined ? $(this) : this;
                 if ($this.length) {
                     if (options == 'validate') return $this.parsley().validate(args);
@@ -99,163 +99,163 @@
                 validators = {
 
                     // validates passowrd strength
-                    'passwordstrength'      : {attrName: ns + '-passwordstrength',       attrVal: null,          extraAttrs: []},
+                    'passwordstrength': { attrName: ns + '-passwordstrength', attrVal: null, extraAttrs: [] },
 
                     // Validate that a required field has been filled with a non blank value. - if set to false it will deactivate
-                    'required'              : {attrName: ns + '-required',               attrVal: undefined,     extraAttrs: []},
+                    'required': { attrName: ns + '-required', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that a value is a valid email address.
-                    'email'                 : {attrName: ns + '-type',                   attrVal: 'email',       extraAttrs: []},
+                    'email': { attrName: ns + '-type', attrVal: 'email', extraAttrs: [] },
 
                     // Validates that a value is a valid number
-                    'number'                : {attrName: ns + '-type',                   attrVal: 'number',      extraAttrs: []},
+                    'number': { attrName: ns + '-type', attrVal: 'number', extraAttrs: [] },
 
                     // Validates that a value is a valid integer.
-                    'integer'               : {attrName: ns + '-type',                   attrVal: 'integer',     extraAttrs: []},
+                    'integer': { attrName: ns + '-type', attrVal: 'integer', extraAttrs: [] },
 
                     // Validates that a value is only digits.
-                    'digits'                : {attrName: ns + '-type',                   attrVal: 'digits',      extraAttrs: []},
+                    'digits': { attrName: ns + '-type', attrVal: 'digits', extraAttrs: [] },
 
                     // Validates that a value is a valid alphanumeric string
-                    'alphanum'              : {attrName: ns + '-type',                   attrVal: 'alphanum',    extraAttrs: []},
+                    'alphanum': { attrName: ns + '-type', attrVal: 'alphanum', extraAttrs: [] },
 
                     // Validates that a value is a valid url.
-                    'url'                   : {attrName: ns + '-type',                   attrVal: 'url',         extraAttrs: []},
+                    'url': { attrName: ns + '-type', attrVal: 'url', extraAttrs: [] },
 
                     // Validates that the length of a string is at least as long as the given limit.
-                    'minlength'             : {attrName: ns + '-minlength',              attrVal: undefined,     extraAttrs: []},
+                    'minlength': { attrName: ns + '-minlength', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the length of a string is not larger than the given limit.
-                    'maxlength'             : {attrName: ns + '-maxlength',              attrVal: undefined,     extraAttrs: []},
+                    'maxlength': { attrName: ns + '-maxlength', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that a given string length is between some minimum and maximum value. e.g. [6, 10]
-                    'length'                : {attrName: ns + '-length',                 attrVal: undefined,     extraAttrs: []},
+                    'length': { attrName: ns + '-length', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that a given number is greater than some minimum number.
-                    'min'                   : {attrName: ns + '-min',                    attrVal: undefined,     extraAttrs: []},
+                    'min': { attrName: ns + '-min', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that a given number is between some minimum and maximum number.
-                    'max'                   : {attrName: ns + '-max',                    attrVal: undefined,     extraAttrs: []},
+                    'max': { attrName: ns + '-max', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that a given number is between some minimum and maximum number. e.g. [6,10]
-                    'range'                 : {attrName: ns + '-range',                  attrVal: undefined,     extraAttrs: []},
+                    'range': { attrName: ns + '-range', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that a value matches a specific regular expression (regex).
-                    'pattern'               : {attrName: ns + '-pattern',                attrVal: undefined,     extraAttrs: []},
+                    'pattern': { attrName: ns + '-pattern', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that a certain minimum number of checkboxes in a group are checked.
-                    'mincheck'              : {attrName: ns + '-mincheck',               attrVal: undefined,     extraAttrs: []},
+                    'mincheck': { attrName: ns + '-mincheck', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that a certain maximum number of checkboxes in a group are checked.
-                    'maxcheck'              : {attrName: ns + '-maxcheck',               attrVal: undefined,     extraAttrs: []},
+                    'maxcheck': { attrName: ns + '-maxcheck', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the number of checked checkboxes in a group is within a certain range. e.g. [1, 3]
-                    'check'                 : {attrName: ns + '-check',                  attrVal: undefined,     extraAttrs: []},
+                    'check': { attrName: ns + '-check', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is identical to another field value (useful for password confirmation check).
-                    'equalto'               : {attrName: ns + '-equalto',                attrVal: undefined,     extraAttrs: []},
+                    'equalto': { attrName: ns + '-equalto', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is identical to another field value (useful for password confirmation check).
-                    'requiredif'            : {attrName: ns + '-requiredif',             attrVal: undefined,     extraAttrs: [[ns + '-validate-if-empty', true]]},
+                    'requiredif': { attrName: ns + '-requiredif', attrVal: undefined, extraAttrs: [[ns + '-validate-if-empty', true]] },
 
                     // Validates that the value is identical to a supplied value (useful for validating acceptance).
-                    'equals'                : {attrName: ns + '-equals',                 attrVal: undefined,     extraAttrs: []},
+                    'equals': { attrName: ns + '-equals', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that another field's value is identical to a supplied value (useful for using hidden input values in validation logic and displaying them in context with an assciated field).
-                    'otherfieldequals'      : {attrName: ns + '-otherfieldequals',       attrVal: undefined,     extraAttrs: []},
+                    'otherfieldequals': { attrName: ns + '-otherfieldequals', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that another field's value is identical to a supplied value conditionally (useful for using hidden input values in validation logic and displaying them in context with an assciated field).
-                    'otherfieldequalsif'    : {attrName: ns + '-otherfieldequalsif',     attrVal: undefined,     extraAttrs: []},
+                    'otherfieldequalsif': { attrName: ns + '-otherfieldequalsif', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is identical to a supplied value (useful for validating acceptance).
-                    'equalsif'              : {attrName: ns + '-equalsif',               attrVal: undefined,     extraAttrs: []},
+                    'equalsif': { attrName: ns + '-equalsif', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that a given number is greater than some minimum number.
-                    'minif'                 : {attrName: ns + '-minif',                  attrVal: undefined,     extraAttrs: []},
+                    'minif': { attrName: ns + '-minif', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that a given number is smaller than some maximum number.
-                    'maxif'                 : {attrName: ns + '-maxif',                  attrVal: undefined,     extraAttrs: []},
+                    'maxif': { attrName: ns + '-maxif', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is identical to a supplied value (useful for validating acceptance).
-                    'patternif'             : {attrName: ns + '-patternif',              attrVal: undefined,     extraAttrs: []},
+                    'patternif': { attrName: ns + '-patternif', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is identical to a supplied value (useful for validating acceptance).
-                    'bankaccount'           : {attrName: ns + '-bankaccount',            attrVal: undefined,     extraAttrs: []},
+                    'bankaccount': { attrName: ns + '-bankaccount', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is identical to a supplied value (useful for validating acceptance).
-                    'creditcard'            : {attrName: ns + '-creditcard',             attrVal: undefined,     extraAttrs: []},
+                    'creditcard': { attrName: ns + '-creditcard', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is a date
-                    'validdate'             : {attrName: ns + '-validdate',              attrVal: undefined,     extraAttrs: []},
+                    'validdate': { attrName: ns + '-validdate', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is a future date
-                    'futuredate'            : {attrName: ns + '-futuredate',             attrVal: undefined,     extraAttrs: []},
+                    'futuredate': { attrName: ns + '-futuredate', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is a past date
-                    'pastdate'              : {attrName: ns + '-pastdate',               attrVal: undefined,     extraAttrs: []},
+                    'pastdate': { attrName: ns + '-pastdate', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is a before a comparison date
-                    'datebefore'            : {attrName: ns + '-datebefore',             attrVal: undefined,     extraAttrs: []},
+                    'datebefore': { attrName: ns + '-datebefore', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is a after a comparison date
-                    'dateafter'             : {attrName: ns + '-dateafter',              attrVal: undefined,     extraAttrs: []},
+                    'dateafter': { attrName: ns + '-dateafter', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is the same or before a comparison date
-                    'datesameorbefore'      : {attrName: ns + '-datesameorbefore',       attrVal: undefined,     extraAttrs: []},
+                    'datesameorbefore': { attrName: ns + '-datesameorbefore', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is the same or after a comparison date
-                    'datesameorafter'       : {attrName: ns + '-datesameorafter',        attrVal: undefined,     extraAttrs: []},
+                    'datesameorafter': { attrName: ns + '-datesameorafter', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that a multiple input date is in the future
-                    'futuredatecomponent'   : {attrName: ns + '-futuredatecomponent',    attrVal: undefined,     extraAttrs: []},
+                    'futuredatecomponent': { attrName: ns + '-futuredatecomponent', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is identical to a supplied value (useful for validating acceptance).
-                    'creditcardif'          : {attrName: ns + '-creditcardif',           attrVal: undefined,     extraAttrs: []},
+                    'creditcardif': { attrName: ns + '-creditcardif', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is identical to a supplied value (useful for validating acceptance).
-                    'cvc'                   : {attrName: ns + '-cvc',                    attrVal: undefined,     extraAttrs: []},
+                    'cvc': { attrName: ns + '-cvc', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that the value is identical to a supplied value (useful for validating acceptance).
-                    'cvcif'                 : {attrName: ns + '-cvcif',                  attrVal: undefined,     extraAttrs: []},
+                    'cvcif': { attrName: ns + '-cvcif', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that a remote url returns a 2XX response code
-                    'remote'                : {attrName: ns + '-remote',                 attrVal: undefined,     extraAttrs: []},
+                    'remote': { attrName: ns + '-remote', attrVal: undefined, extraAttrs: [] },
 
                     // Validates that a remote url returns a 4xx response code
-                    'remote-reverse'        : {attrName: ns + '-remote-reverse',         attrVal: undefined,     extraAttrs: []}
+                    'remote-reverse': { attrName: ns + '-remote-reverse', attrVal: undefined, extraAttrs: [] }
 
                 },
                 modifiers = {
 
                     // defines a way of grouping validators
-                    'group'                 : {attrName: ns + '-group',                  attrVal: undefined},
+                    'group': { attrName: ns + '-group', attrVal: undefined },
 
                     // json object to be used by the remote
-                    'remote-options'        : {attrName: ns + '-remote-options',         attrVal: undefined},
+                    'remote-options': { attrName: ns + '-remote-options', attrVal: undefined },
 
                     // a boolean to indicate if the validation should be triggered even with an empty value
-                    'if-empty'              : {attrName: ns + '-validate-if-empty',      attrVal: undefined},
+                    'if-empty': { attrName: ns + '-validate-if-empty', attrVal: undefined },
 
                     // Specify one or many javascript events that will trigger item validation. To set multiple events, separate them by a space data-validate-trigger="focusin focusout". See the various events supported by jQuery.
-                    'trigger'               : {attrName: ns + '-trigger',                attrVal: undefined},
+                    'trigger': { attrName: ns + '-trigger', attrVal: undefined },
 
                     // If this field fails, do not focus on it (if first focus strategy is on, next field would be focused, if last strategy is on, previous field would be focused)
-                    'no-focus'              : {attrName: ns + '-no-focus',               attrVal: undefined},
+                    'no-focus': { attrName: ns + '-no-focus', attrVal: undefined },
 
                     // Used with trigger option above, for all key- events, do not validate until field have a certain number of characters. Default is 3
-                    'validation-threshold'  : {attrName: ns + '-validation-threshold',   attrVal: undefined},
+                    'validation-threshold': { attrName: ns + '-validation-threshold', attrVal: undefined },
 
                     // Specify the existing DOM container where ParsleyUI should add error and success classes. It is also possible to configure it with a callback function from javascript, see the annotated source.
-                    'class-handler'         : {attrName: ns + '-class-handler',          attrVal: undefined},
+                    'class-handler': { attrName: ns + '-class-handler', attrVal: undefined },
 
                     // Specify the existing DOM container where ParsleyUI should put the errors. It is also possible to configure it with a callback function from javascript, see the annotated source.
-                    'errors-container'      : {attrName: ns + '-errors-container',       attrVal: undefined},
+                    'errors-container': { attrName: ns + '-errors-container', attrVal: undefined },
 
                     // Customize a unique global message for the field.
-                    'error-message'         : {attrName: ns + '-error-message',          attrVal: undefined},
+                    'error-message': { attrName: ns + '-error-message', attrVal: undefined },
 
                     // constraint specific message
-                    '*-message'             : {attrName: ns + '-*-message',              attrVal: undefined}
+                    '*-message': { attrName: ns + '-*-message', attrVal: undefined }
                 };
 
             // Custom validators
@@ -408,15 +408,13 @@
                 megaSelector += '[data-validate-' + i + ']';
             }
 
-            $('form').each(function(idx) {
+            $('form').each(function (idx) {
 
                 var $form = $(this);
-
                 // if we want to validate this form then....
                 if ($form.is('form[data-validate]')) {
-
                     // find all the elements and fuck with them
-                    $form.find(megaSelector).each(function(eIdx) {
+                    $form.find(megaSelector).each(function (eIdx) {
 
                         var $elem = $(this),
                             validator,
@@ -438,7 +436,7 @@
                                 $elem.attr(validator.attrName, attrVal);
 
                                 // apply extra attrs
-                                for (ia=0; ia < validator.extraAttrs.length; ia++) {
+                                for (ia = 0; ia < validator.extraAttrs.length; ia++) {
                                     $elem.attr(validator.extraAttrs[ia][0], validator.extraAttrs[ia][1]);
                                 }
                             }
@@ -447,7 +445,7 @@
                             for (im in modifiers) {
                                 if (im.indexOf('*') != -1) {
                                     modifier = modifiers[im];
-                                    modifiers[im.replace(/\*/, i)] = {attrName: modifier.attrName.replace(/\*/, i), attrVal: modifier.attrVal}
+                                    modifiers[im.replace(/\*/, i)] = { attrName: modifier.attrName.replace(/\*/, i), attrVal: modifier.attrVal }
                                 }
                             }
                         }
@@ -468,11 +466,11 @@
                     // init
                     if ($form.parsley != undefined) {
 
-                        $form.parsley({namespace: ns + '-'});
+                        $form.parsley({ namespace: ns + '-' });
 
                         // we need to re map some stuff so as to allow for server errors to be passed through synchronously
                         // this should really be replaced with remote validators
-                        $($form[0].elements).each(function() {
+                        $($form[0].elements).each(function () {
 
                             var $elem = $(this),
                                 $parsley = $elem.parsley(),
@@ -482,21 +480,21 @@
                             if ($parsley.off !== undefined)
                                 $parsley
                                     .off('field:error')
-                                    .on('field:error', function(el) {
+                                    .on('field:error', function (el) {
 
                                         // ensure the elem has an error
                                         el.$element
                                             .addClass(opts.errorClass)
                                             .closest(opts.floatLabelWrapper)
-                                                .addClass(opts.errorClass)
-                                                .end()
-                                                .closest(opts.fieldWrapper)
-                                                    .addClass(opts.fieldErrorWrapperClass);
+                                            .addClass(opts.errorClass)
+                                            .end()
+                                            .closest(opts.fieldWrapper)
+                                            .addClass(opts.fieldErrorWrapperClass);
 
                                         // handle server supplied errors
                                         if ($elem.is('[data-validate-errors-container]'))
-                                            setTimeout(function() {
-                                                $correctContainer.find('li').each(function(idx) {
+                                            setTimeout(function () {
+                                                $correctContainer.find('li').each(function (idx) {
 
                                                     // pre vars
                                                     var cls = $(this).attr('class'),
@@ -516,16 +514,16 @@
 
                                     })
                                     .off('field:success')
-                                    .on('field:success', function(el) {
+                                    .on('field:success', function (el) {
 
                                         // remove error classes
                                         el.$element
                                             .removeClass(opts.errorClass)
                                             .closest(opts.floatLabelWrapper)
-                                                .removeClass(opts.errorClass)
-                                                .end()
-                                                .closest(opts.fieldWrapper)
-                                                    .removeClass(opts.fieldErrorWrapperClass);
+                                            .removeClass(opts.errorClass)
+                                            .end()
+                                            .closest(opts.fieldWrapper)
+                                            .removeClass(opts.fieldErrorWrapperClass);
 
                                         // handle server supplied errors
                                         if ($elem.is('[data-validate-errors-container]'))
@@ -536,7 +534,7 @@
 
                         // we need to re map some stuff so as to allow for server errors to be passed through synchronously
                         // this should really be replaced with remote validators
-                        $form.find('[data-validate-errors-container]').each(function(){
+                        $form.find('[data-validate-errors-container]').each(function () {
 
                             var $elem = $(this),
                                 $container = $($elem.attr('data-validate-errors-container')),
@@ -553,7 +551,7 @@
                                 $correctContainer.addClass('filled');
 
                                 // remove bad stuff
-                                $container.find('.error-list').each(function(){
+                                $container.find('.error-list').each(function () {
                                     if (!$(this).is($correctContainer)) $(this).remove();
                                 });
 
@@ -561,36 +559,36 @@
                                 $elem
                                     .addClass(opts.errorClass)
                                     .closest(opts.floatLabelWrapper)
-                                        .addClass(opts.errorClass)
-                                        .end()
-                                        .closest(opts.fieldWrapper)
-                                            .addClass(opts.fieldErrorWrapperClass);
+                                    .addClass(opts.errorClass)
+                                    .end()
+                                    .closest(opts.fieldWrapper)
+                                    .addClass(opts.fieldErrorWrapperClass);
                             }
                         });
 
                         // add classes to form once it's validated
                         $form.parsley()
                             .off('form:validated')
-                            .on('form:validated', function(){
+                            .on('form:validated', function () {
                                 $form.addClass('validator-validated');
                             });
 
                         // handle conflict with sticky nav
                         $form.parsley()
                             .off('form:error')
-                            .on('form:error', function() {
-
+                            .on('form:error', function () {
                                 // don't scroll on error
                                 if (!$form.is('.m-form--no-scroll-on-error, .m-form_no-scroll-on-error, .js-no-scroll-on-error')) {
 
                                     var $el = $('input.error, select:not(.catch-dropdown).error, select.catch-dropdown.error + label, textarea.error').first(),
                                         $scrollElem = $.scrollElem(true),
-                                        clearHeight = dockNav('height');
+                                        clearHeight = dockNav('height') || 0;
 
+                                    // console.log('dockNav', dockNav('height'));
                                     // console.log($el.offsetTop() - clearHeight);
                                     // console.log($scrollElem);
 
-                                    setTimeout(function() {
+                                    setTimeout(function () {
                                         if ($el.length) {
                                             $scrollElem.animate({ scrollTop: $el.offsetTop() - clearHeight }, 400);
                                             $el.focus();
