@@ -2,22 +2,22 @@
 
     // AMD. Register as an anonymous module depending on jQuery.
     if (typeof define === 'function' && define.amd)
-       define(
-           [
-               'jquery',
-               './../../moment/moment',
-               './util'
-           ],
-           factory
-       );
+        define(
+            [
+                'jquery',
+                './../../moment/moment',
+                './util'
+            ],
+            factory
+        );
 
     // Node, CommonJS-like
     else if (typeof exports === 'object')
-       module.exports = factory(
-           require('jquery'),
-           require('./../../moment/moment'),
-           require('./util')
-       );
+        module.exports = factory(
+            require('jquery'),
+            require('./../../moment/moment'),
+            require('./util')
+        );
 
     // Browser globals (root is window)
     else {
@@ -173,7 +173,7 @@
 
                 // luhns
                 for (i=0; i < numdigits; i++) {
-                    digit = parseInt(value.charAt(i))
+                    digit = parseInt(value.charAt(i));
                     if (i % 2 == parity) digit *= 2;
                     if(digit > 9) digit -= 9;
                     sum += digit;
@@ -413,6 +413,18 @@
 
         },
 
+        // min if
+        minlength: function(value, requirement) {
+
+            return value.length >= requirement;
+        },
+
+        // max if
+        maxlength: function(value, requirement) {
+
+            return value.length <= requirement;
+        },
+
         // max if
         maxif: function(value, requirement) {
 
@@ -491,7 +503,7 @@
             if (!$ccInput.length) return false;
 
             // cc val
-            if (!$ccInput.val()) return false
+            if (!$ccInput.val()) return false;
 
             // compare to now
             return validatorHelpers.validateCVC(value, $ccInput.val());
@@ -516,7 +528,7 @@
             if (!$ccInput.length) return false;
 
             // cc val
-            if (!$ccInput.val()) return false
+            if (!$ccInput.val()) return false;
 
             // validate CVC
             return validatorHelpers.validateCVC(value, $ccInput.val());
