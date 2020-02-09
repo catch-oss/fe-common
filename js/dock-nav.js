@@ -17,14 +17,15 @@
     return function(opts) {
 
         opts = opts || {};
+        //cant add properties to a string as its not an object
+        opts = typeof opts == 'string' ? { attr : opts } : opts;
+        opts.selector = opts.selector || '.dockable-nav-container';
+        opts.dockedClass = opts.dockedClass || 'docked';
 
-        var selector = opts.selector || '.dockable-nav-container';
-        var dockedClass = opts.dockedClass || 'docked';
-
-        var $nav = $(selector),
+        var $nav = $(opts.selector),
             $scrollElemPos = $.scrollElem();
 
-        if (opts == 'height') {
+        if (opts.attr == 'height') {
             return $nav.outerHeight(true);
         }
         else {
@@ -39,7 +40,7 @@
                 $scrollElemPos
                     .off('scroll.dockNav')
                     .on('scroll.dockNav',function() {
-                        $nav.toggleClass(dockedClass, $(this).scrollTop() > dockPoint);
+                        $nav.toggleClass(opts.dockedClass, $(this).scrollTop() > dockPoint);
                     });
 
                 // on resize...
@@ -48,14 +49,14 @@
                     .on('resize.dockNav', function() {
 
                         // is it currently docked
-                        var isDocked = $nav.is('.' + dockedClass);
+                        var isDocked = $nav.is('.' + opts.dockedClass);
 
                         // undock and reset the scroll point
-                        $nav.removeClass(dockedClass);
+                        $nav.removeClass(opts.dockedClass);
                         dockPoint = $nav.offsetTop();
 
                         // conditionally redock
-                        $nav.toggleClass(dockedClass, isDocked);
+                        $nav.toggleClass(opts.dockedClass, isDocked);
 
                         // trigger scroll
                         $scrollElemPos.trigger('scroll.dockNav');
