@@ -17,15 +17,13 @@
     return function(opts) {
 
         opts = opts || {};
-        if (typeof opts == 'object') {
-            opts.selector = opts.selector || '.dockable-nav-container';
-            opts.dockedClass = opts.dockedClass || 'docked';
-        }
 
-        var $nav = $(opts.selector),
+        var selector = opts.selector || '.dockable-nav-container',
+            dockedClass = opts.dockedClass || 'docked',
+            $nav = $(selector),
             $scrollElemPos = $.scrollElem();
 
-        if (opts == 'height') {
+        if (opts == 'height' || opts.operation == 'height') {
             return $nav.outerHeight(true);
         }
         else {
@@ -40,7 +38,7 @@
                 $scrollElemPos
                     .off('scroll.dockNav')
                     .on('scroll.dockNav',function() {
-                        $nav.toggleClass(opts.dockedClass, $(this).scrollTop() > dockPoint);
+                        $nav.toggleClass(dockedClass, $(this).scrollTop() > dockPoint);
                     });
 
                 // on resize...
@@ -49,14 +47,14 @@
                     .on('resize.dockNav', function() {
 
                         // is it currently docked
-                        var isDocked = $nav.is('.' + opts.dockedClass);
+                        var isDocked = $nav.is('.' + dockedClass);
 
                         // undock and reset the scroll point
-                        $nav.removeClass(opts.dockedClass);
+                        $nav.removeClass(dockedClass);
                         dockPoint = $nav.offsetTop();
 
                         // conditionally redock
-                        $nav.toggleClass(opts.dockedClass, isDocked);
+                        $nav.toggleClass(dockedClass, isDocked);
 
                         // trigger scroll
                         $scrollElemPos.trigger('scroll.dockNav');
