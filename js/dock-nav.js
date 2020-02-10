@@ -17,8 +17,10 @@
     return function(opts) {
 
         opts = opts || {};
-        opts.selector = opts.selector || '.dockable-nav-container';
-        opts.dockedClass = opts.dockedClass || 'docked';
+        if (typeof opts == 'object') {
+            opts.selector = opts.selector || '.dockable-nav-container';
+            opts.dockedClass = opts.dockedClass || 'docked';
+        }
 
         var $nav = $(opts.selector),
             $scrollElemPos = $.scrollElem();
