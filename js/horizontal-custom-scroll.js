@@ -50,7 +50,7 @@ define([
             var selectedElementSelector = _this.$scrollBar.attr(Scroller.selectors.scrollViewFocus);
             var $selected = _this.$scrollViewInner.find(selectedElementSelector);
             if($selected.length){
-                var relX = ($selected.offset().left + $selected.width() / 2) + _this.$scrollView.scrollLeft();
+                var relX = ($selected.offset().left - _this.$scrollViewInner.offset().left + $selected.width() / 2) + _this.$scrollView.scrollLeft();
 
                 var percentageX = (relX / _this.$scrollViewInner.outerWidth() * 100);
                 _this.percent = _this.fixPosition(percentageX);
