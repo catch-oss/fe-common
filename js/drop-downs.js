@@ -35,7 +35,6 @@
 
     return {
         formSelect: function(selector, options, params) {
-            console.log(arguments);
 
             options = options || {};
             options.baseClass = options.baseClass || 'm-dropdown';
@@ -43,7 +42,7 @@
             $(function(){
 
                 // default selectors
-                if (typeof selector == 'undefined')
+                if (typeof selector == 'undefined' || !selector)
                     selector = 'select.catch-dropdown, .' + options.baseClass + '__select';
 
                 // are we going to use droposarus on mobile?
