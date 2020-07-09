@@ -74,7 +74,7 @@
                 }
 
                 if ($scrollElem[0] == window) $scrollElem = $('html, body');
-                
+
                 $scrollElem.animate({ scrollTop: $el.offsetTop() - clearHeight }, 400);
             }
         };
@@ -98,9 +98,11 @@
                     var link = $(this).attr('href'),
                         hash = link.substr(link.indexOf('#'));
 
-                    if ($(hash).length) {
-                        e.preventDefault();
-                        hashHandler(hash);
+                    if (hash.length > 1 && hash.indexOf('/') === -1) {
+                        if ($(hash).length) {
+                            e.preventDefault();
+                            hashHandler(hash);
+                        }
                     }
                 });
         });
