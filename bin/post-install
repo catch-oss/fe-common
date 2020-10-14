@@ -1,11 +1,21 @@
 #!/bin/bash
 
+verlte() {
+    [  "$1" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]
+}
+
+verlt() {
+    [ "$1" = "$2" ] && return 1 || verlte $1 $2
+}
+
 # set current dir
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+NPM_VER="$(npm -v)"
 
 # go to the modernizr dir
 cd "$DIR/../../modernizr"
 
 # build modernizr
+verlt $NPM_VER 4.0.0 && cp "$DIR/../conf/modernizer-npm-shrinkwrap.json" "$DIR/../../modernizr/npm-shrinkwrap.json"
 npm install
 ./bin/modernizr -c "$DIR/../conf/modernizr-build.json"

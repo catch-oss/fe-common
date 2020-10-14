@@ -35,19 +35,24 @@
 
     return {
         formSelect: function(selector, options, params) {
+
+            options = options || {};
+            options.baseClass = options.baseClass || 'm-dropdown';
+
             $(function(){
 
                 // default selectors
-                if (typeof selector == 'undefined')
-                    selector = 'select.catch-dropdown, .m-dropdown__select';
+                if (typeof selector == 'undefined' || !selector)
+                    selector = 'select.catch-dropdown, .' + options.baseClass + '__select';
 
                 // are we going to use droposarus on mobile?
                 if (options !== undefined && options.useBrowserSelectOnTouch && hasTouch()) {
+
                     $(selector).each(function() {
                         if (!$(this).hasClass('s-has-touch')) {
                             $(this).addClass('s-has-touch')
-                                .wrap('<span class="s-has-touch m-dropdown__inner" />')
-                                .closest('.m-dropdown')
+                                .wrap('<span class="s-has-touch ' + options.baseClass + '__inner" />')
+                                .closest('.' + options.baseClass + '')
                                     .addClass('s-has-touch');
                         }
                     });
