@@ -44,6 +44,7 @@
             var selector = conf.selector || '.m-modal-link--ajax',
                 namespace = conf.namespace || 'ajax-modal',
                 modalTemplate = conf.modalTemplate || defaultTemplate,
+                linkAttr = conf.linkAttr || 'href',
                 onBeforeRequest = conf.onBeforeRequest || null,
                 onBeforeShow = conf.onBeforeShow || null,
                 onAfterRequest = conf.onAfterRequest || null,
@@ -88,7 +89,7 @@
                     // vars (these might)
                     var $el = $(this),
                         elId = uid($el),
-                        url = $el.attr('href'),
+                        url = $el.attr(linkAttr),
                         contentSelector = $el.attr('data-content-selector') || defaultContentSelector,
                         elBypassPushState = $el.attr('data-no-pop-state') === undefined ? 0 : parseInt($el.attr('data-no-pop-state') || 0);
 
