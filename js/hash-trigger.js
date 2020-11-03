@@ -101,6 +101,7 @@
                     if (hash.length > 1 && hash.indexOf('/') === -1) {
                         if ($(hash).length) {
                             e.preventDefault();
+                            $(this).blur();
                             hashHandler(hash);
                         }
                     }
