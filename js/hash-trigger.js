@@ -76,6 +76,8 @@
                 if ($scrollElem[0] == window) $scrollElem = $('html, body');
 
                 $scrollElem.animate({ scrollTop: $el.offsetTop() - clearHeight }, 400);
+                $el.attr('tabindex', '0');
+                $el[0].focus();
             }
         };
 
