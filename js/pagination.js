@@ -38,7 +38,7 @@
             };
         }
 
-        conf.sortSelector = conf.sortSelector ||  '.js-pagination-sort a';
+        conf.sortSelector = conf.sortSelector ||  '.js-pagination-sort a, .js-pagination-sort select, .js-pagination-sort input';
         conf.sortSelectedClass = conf.sortSelectedClass ||  's-selected';
         conf.showMoreSelector = conf.showMoreSelector || '.js-paginated-more';
         conf.pageLinkSelector = conf.pageLinkSelector || '.js-page-link';
@@ -53,12 +53,35 @@
 
             // ensure that when you click on a sort link it is selected
             // we also flush the table contents here as pagr will reload the data
-            $(conf.sortSelector).on('tap, click', function(e) {
-                e.preventDefault();
-                $(conf.sortSelector).removeClass(conf.sortSelectedClass);
-                $(this).addClass(conf.sortSelectedClass);
-                $(conf.showMoreSelector).html('');
-            });
+            $(conf.sortSelector)
+                .each(function() {
+                    var $this = $(this);
+                    var isSelect = $this.is('select');
+                    var bindTo = isSelect ? 'change.pagination' : 'click.pagination';
+                    $this
+                        .off(bindTo)
+                        .on(bindTo, function(e) {
+
+                            // mark the current sort as active
+                            $(conf.sortSelector).removeClass(conf.sortSelectedClass);
+                            $this.addClass(conf.sortSelectedClass);
+                            $(conf.showMoreSelector).html('');
+
+                            // populate data-sort attr
+                            if (isSelect) {
+                                var $opt = $this.find('option:selected');
+                                var sortBy = $opt.attr('data-sort-by') || $this.val();
+                                var sortDirection = $opt.attr('data-sort-direction');
+
+                                $this.attr('data-sort', sortBy);
+                                $this.attr('data-sort-direction', sortDirection);
+                            }
+                            else {
+                                // this was previously called all the time which seems wrong
+                                e.preventDefault();
+                            }
+                        });
+                });
 
             // init load more containers with pagr
             $(conf.showMoreSelector).pagr({
@@ -137,12 +160,18 @@
                     }
 
                     // sort links
-                    if ($(conf.sortSelector).length)
-                        pagr.$element
-                            .attr(
-                                'data-sort-by',
-                                $(conf.sortSelector + '.' + conf.sortSelectedClass).attr('data-sort')
-                            );
+                    if ($(conf.sortSelector).length) {
+
+                        var sort = $(conf.sortSelector + '.' + conf.sortSelectedClass).attr('data-sort') || null;
+                        if (sort) {
+                            pagr.$element.attr('data-sort-by', sort);
+                        }
+
+                        var sortDirection = $(conf.sortSelector + '.' + conf.sortSelectedClass).attr('data-sort-direction') || null;
+                        if (sortDirection) {
+                            pagr.$element.attr('data-sort-direction', sortDirection);
+                        }
+                    }
 
                     // on before page
                     if (typeof conf.onBeforePage === 'function')
