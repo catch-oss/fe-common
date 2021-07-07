@@ -87,113 +87,123 @@
                // unbind the custom handlers:
                $(document).off('click.multi');
 
-               // mobile mask
-               $(sel).each(function(i) {
+                // unbind the doc touchstart event introduced by jq mobile...
+                // re order to run our handler first
+                $(document).on('touchstart.multi', function(e) {
+                    if ($(e.target).is('.multi-select-input-label, .multi-select *')) {
+                        e.stopImmediatePropagation();
+                    }
+                });
+                var eventList = $._data(document, 'events');
+                eventList.touchstart.unshift(eventList.touchstart.pop());
 
-                   // set the value of $this
-                   var $this = $(this),
-                       // clone the conf into a local context
-                       localConf = $.extend({}, tokenizeConf);
+                // mobile mask
+                $(sel).each(function(i) {
 
-                   if ($this.attr('data-base-url') !== undefined) {
-                       localConf.datas = $this.attr('data-base-url');
-                   }
+                    // set the value of $this
+                    var $this = $(this),
+                        // clone the conf into a local context
+                        localConf = $.extend({}, tokenizeConf);
 
-                   // scope the locals
-                   var inst = $(this).tokenize(localConf),
-                       $sel = $(inst.select),
-                       $input = $(inst.searchInput),
-                       $cont = $(inst.tokensContainer),
-                       closing = false,
-                       id = $(this).attr('id');
+                    if ($this.attr('data-base-url') !== undefined) {
+                        localConf.datas = $this.attr('data-base-url');
+                    }
 
-                   // modify the click handler on the container
-                   $cont.off('click').on('click', function(e) {
+                    // scope the locals
+                    var inst = $(this).tokenize(localConf),
+                        $sel = $(inst.select),
+                        $input = $(inst.searchInput),
+                        $cont = $(inst.tokensContainer),
+                        closing = false,
+                        id = $(this).attr('id');
 
-                       // block refocus
-                       if (closing) {
-                           // console.log('blocking cont click handler');
-                           closing = false;
-                       }
+                    // modify the click handler on the container
+                    $cont.off('click').on('click', function(e) {
 
-                       // the original handler
-                       else {
-                           e.stopImmediatePropagation();
-                           inst.searchInput.get(0).focus();
-                           inst.updatePlaceholder();
-                           if (inst.dropdown.is(':hidden') && inst.searchInput.val() != '') {
-                               inst.search();
-                           }
-                       }
-                   });
+                        // block refocus
+                        if (closing) {
+                            // console.log('blocking cont click handler');
+                            closing = false;
+                        }
 
-                   // modify the blur handler on the input
-                   $input.off('blur').on('blur', function() {
-                       if (closing) {
-                           $cont.removeClass('Focused');
-                           inst.dropdownHide();
-                           closing = false;
-                       } else {
-                           // we intend to close
-                           closing = true;
-                       }
-                   });
+                        // the original handler
+                        else {
+                            e.stopImmediatePropagation();
+                            inst.searchInput.get(0).focus();
+                            inst.updatePlaceholder();
+                            if (inst.dropdown.is(':hidden') && inst.searchInput.val() != '') {
+                                inst.search();
+                            }
+                        }
+                    });
 
-                   // modify the document handler
-                   $(document).on('click.multi', function(){
+                    // modify the blur handler on the input
+                    $input.off('blur').on('blur', function() {
+                        if (closing) {
+                            $cont.removeClass('Focused');
+                            inst.dropdownHide();
+                            closing = false;
+                        } else {
+                            // we intend to close
+                            closing = true;
+                        }
+                    });
 
-                       // manually close the thing
-                       closing = true;
-                       $input.trigger('blur');
+                    // modify the document handler
+                    $(document).on('click.multi', function() {
 
-                       if (inst.options.maxElements == 1) {
-                           if (inst.searchInput.val()) {
-                               inst.tokenAdd(inst.searchInput.val(), '');
-                           }
-                       }
-                   });
+                        // manually close the thing
+                        closing = true;
+                        $input.trigger('blur');
 
-                   // update input
-                   $input.attr('id', 'multi-select-' + i);
+                        if (inst.options.maxElements == 1) {
+                            if (inst.searchInput.val()) {
+                                inst.tokenAdd(inst.searchInput.val(), '');
+                            }
+                        }
+                    });
 
-                   // don't add more than one button
-                   if (!$('#multi-select-button-' + i).length) {
-                       $input.before(
-                           $(
-                               '<button class="multi-select-input-label" id="multi-select-button-' + i + '">' +
-                               $sel.attr('data-' + ($cont.find('.Token').length < 1 ? 'empty' : 'filled') + '-label') +
-                               '</button>'
-                           ).on('click', function(e) {
-                               triggerSelect(e);
-                           })
-                       );
-                   }
+                    // update input
+                    $input.attr('id', 'multi-select-' + i);
 
-                   // using a label
-                   $("label[for='" + id + "']").off('click').on('click', function(e) {
-                       triggerSelect(e);
-                   });
+                    // don't add more than one button
+                    if (!$('#multi-select-button-' + i).length) {
+                        $input.before(
+                            $(
+                                '<button class="multi-select-input-label" id="multi-select-button-' + i + '">' +
+                                $sel.attr('data-' + ($cont.find('.Token').length < 1 ? 'empty' : 'filled') + '-label') +
+                                '</button>'
+                            ).on('click', function(e) {
+                                triggerSelect(e);
+                            })
+                        );
+                    }
 
-                   // trigger the select
-                   function triggerSelect(e) {
-                       // prevent the default behaviour
-                       e.preventDefault();
+                    // using a label
+                    $("label[for='" + id + "']").off('click').on('click', function(e) {
+                        triggerSelect(e);
+                    });
 
-                       // prevent the event from propagating to the parent handlers
-                       e.stopPropagation();
+                    // trigger the select
+                    function triggerSelect(e) {
+                        // prevent the default behaviour
+                        e.preventDefault();
 
-                       var $ms = $input.closest('.multi-select');
+                        // prevent the event from propagating to the parent handlers
+                        e.stopPropagation();
 
-                       // trigger focus / blur appropriately
-                       if ($cont.is('.Focused') || closing) {
-                           $ms.trigger('multi-select:close');
-                           $input.trigger('blur');
-                       } else {
-                           // focus doesn't seem to trigger properly so we are using click
-                           $ms.trigger('multi-select:open');
-                           $input.trigger('click');
-                       }
-                   }
+                        var $ms = $input.closest('.multi-select');
+
+                        // trigger focus / blur appropriately
+                        if ($cont.is('.Focused') || closing) {
+                            $ms.trigger('multi-select:close');
+                            $input.trigger('blur');
+                        } else {
+                            // focus doesn't seem to trigger properly so we are using click
+                            $ms.trigger('multi-select:open');
+                            $input.trigger('click');
+                        }
+                    }
                });
            });
        },
