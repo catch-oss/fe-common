@@ -77,9 +77,13 @@
                         $('.multi-select').removeClass('s-active');
                     },
                     onDropdownAddItem: function(value, text, html, _this) {
-                        var $option = $(_this.dropdown).find('li[data-value="' + value + '"]');
-                        var eventList = $._data($option[0], 'events');
-                        eventList.click.unshift(eventList.click.pop());
+
+                        var $option = $(_this.dropdown).find('li[data-value="' + value.replace(/\\/g, '\\\\') + '"]');
+
+                        if (typeof $option[0] != 'undefined') {
+                            var eventList = $._data($option[0], 'events');
+                            eventList.click.unshift(eventList.click.pop());
+                        }
 
                         // if you do a search...
                         // chrome seems to run the doc onclick handler and the search input blur over the option onclick method
