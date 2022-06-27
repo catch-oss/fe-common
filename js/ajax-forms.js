@@ -81,7 +81,7 @@
                 serialiser = conf.serialiser || function($form, action) {
 
                     var data = $form.serialize(),
-                        method = $form.attr('method') ? $form.attr('method') : 'get';
+                        method = ($form.attr('method') ? $form.attr('method') : 'get').toLowerCase();
 
 
                     // if we are doing a get then jQuery is a bit of retard in terms of building the URL
@@ -109,7 +109,7 @@
 
                     // vars
                     var enctype = $form.attr('enctype') ? $form.attr('enctype') : 'application/x-www-form-urlencoded',
-                        method = $form.attr('method') ? $form.attr('method') : 'get',
+                        method = ($form.attr('method') ? $form.attr('method') : 'get').toLowerCase(),
                         serialised = serialiser($form, action),
                         data = serialised.data;
 
@@ -181,7 +181,7 @@
                             maxSubmissions = $this.attr('data-max-submissions'),
                             disabled =  $this.is('.' + disabledClass),
                             submissionCount = $this.attr('data-submission-count') || 0,
-                            method = $this.attr('method') ? $this.attr('method') : 'get',
+                            method = ($this.attr('method') ? $this.attr('method') : 'get').toLowerCase(),
                             validate = $this.is('[data-validate]'),
                             validateOnly = $this.attr('data-ajax-validate-only') || null;
 
@@ -329,7 +329,7 @@
                                 maxSubmissions = $this.attr('data-max-submissions') || $form.attr('data-max-submissions'),
                                 disabled =  $this.is('.' + disabledClass),
                                 submissionCount = $this.attr('data-submission-count') || $form.attr('data-submission-count') || 0,
-                                method = $this.attr('data-method') ? $this.attr('data-method') : 'get',
+                                method = ($this.attr('data-method') ? $this.attr('data-method') : 'get').toLowerCase(),
                                 validate = $this.is('[data-validate]'),
                                 validateOnly = $this.attr('data-ajax-validate-only') || $form.attr('data-ajax-validate-only');
 
