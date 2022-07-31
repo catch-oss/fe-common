@@ -78,7 +78,7 @@
                     },
                     onDropdownAddItem: function(value, text, html, _this) {
 
-                        var $option = $(_this.dropdown).find('li[data-value="' + value.replace(/\\/g, '\\\\') + '"]');
+                        var $option = $(_this.dropdown).find('li[data-value="' + String(value).replace(/\\/g, '\\\\') + '"]');
 
                         if (typeof $option[0] != 'undefined') {
                             var eventList = $._data($option[0], 'events');
