@@ -38,7 +38,8 @@
             preventCloseSelector: '.c-modal__body',
             overlayClass: 'c-modal-overlay',
             visibleClass: 's-modal-visible',
-            modalTrigger: '.js-modal-trigger'
+            modalTrigger: '.js-modal-trigger',
+            escKeyCanClose: true
         },
         setOpts: function(opts) {
             for (i in opts) {
@@ -180,12 +181,16 @@
                         if (preventModalPropagation) e.stopPropagation();
                     });
 
-                $(document)
-                    .off('keyup.modal')
-                    .on('keyup.modal', function(e) {
-                        // escape key maps to keycode `27`
-                        if (e.keyCode == 27) obj.closeModal(e);
-                    });
+
+                if(opts.escKeyCanClose) {
+                    $(document)
+                        .off('keyup.modal')
+                        .on('keyup.modal', function(e) {
+                            // escape key maps to keycode `27`
+                            if (e.keyCode == 27) obj.closeModal(e);
+                        });
+                    }
+
             });
 
             return obj;
