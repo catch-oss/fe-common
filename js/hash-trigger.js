@@ -33,7 +33,7 @@
 
             // vars
             var $el         = $(hash),
-                $scrollElem = $.scrollElem(),
+                $scrollElem = $.scrollElem(true),
                 clearHeight = 0;
 
             // check for the opt out flag
@@ -95,6 +95,8 @@
                 .on('click.hashTrigger', function(e) {
                     var link = $(this).attr('href'),
                         hash = link.substr(link.indexOf('#'));
+
+                    hash = hash == '#' ? 'html' : hash;
 
                     if ($(hash).length) {
                         e.preventDefault();
