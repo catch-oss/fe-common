@@ -99,6 +99,16 @@
                     },
                     onRemoveToken: function(val, e) {
 
+                        // re implement the remove logic here to accomodate for \ chars
+                        var option = $('option[value="' + String(val).replace(/\\/g, '\\\\') + '"]', e.select);
+                        if(option.attr('data-type') == 'custom'){
+                            option.remove();
+                        } else {
+                            option.removeAttr('selected').prop('selected', false);
+                        }
+                        $('li.Token[data-value="' + String(val).replace(/\\/g, '\\\\') + '"]', e.tokensContainer).remove();
+
+                        // our custom logic
                         var $sel = $(e.select),
                             $cont = $(e.tokensContainer);
 
