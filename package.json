@@ -18,7 +18,7 @@
         "graphraptor": "git+ssh://git@gl.catchdesign.co.nz:catch/graphraptor.git#2.0.0-alpha.1",
         "jquery": "~3",
         "jquery-mask-plugin": "~1.14.3",
-        "jquery-mobile": "jquery/jquery-mobile#1.5.0-rc1",
+        "jquery-mobile": "https://github.com/catchnz/jquery-mobile.git#1.5.0-rc2",
         "jsencrypt": "v3.0.0-rc.1",
         "jsrsasign": "~8",
         "labelizr": "https://github.com/catchnz/labelizr.git#semver:~0.2",
