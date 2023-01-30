@@ -1975,9 +1975,9 @@ jquery-mask-plugin@~1.14.3:
   resolved "https://registry.yarnpkg.com/jquery-mask-plugin/-/jquery-mask-plugin-1.14.16.tgz#9ebb55947d984da5aade45315b2fe6b113e28aae"
   integrity sha512-reywdHlYEkPbzWjTpcc1fk9XQ3PLvO5dzEAVqy8zI7NTF22tB1HbeU3iboZTLdkBEPaWAqeI2HtEjsGQ4roZKw==
 
-jquery-mobile@jquery/jquery-mobile#1.5.0-rc1:
-  version "1.5.0-rc1"
-  resolved "https://codeload.github.com/jquery/jquery-mobile/tar.gz/271c684f9d687592eafee82d58df5608769c1d1c"
+"jquery-mobile@https://github.com/catchnz/jquery-mobile.git#1.5.0-rc2":
+  version "1.5.0-rc2"
+  resolved "https://github.com/catchnz/jquery-mobile.git#f3ee6d43c7e22408d084d5536661e692f84c54d7"
   dependencies:
     jquery ">=1.8.3"
 
