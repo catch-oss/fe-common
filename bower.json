@@ -18,7 +18,7 @@
         "jquery": "~3",
         "jquery-mask-plugin": "~1.14.3",
         "jquery-mobile": "https://github.com/catchnz/jquery-mobile.git#1.5.0-rc2",
-        "tokenize2": "~1.2",
+        "tokenize2": "https://github.com/dragonofmercy/Tokenize2#~1.2",
         "jsencrypt": "v3.0.0-rc.1",
         "jsrsasign": "~8",
         "labelizr": "https://github.com/catchnz/labelizr.git#~0.2",
