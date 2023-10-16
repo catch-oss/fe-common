@@ -35,6 +35,7 @@
                 ajax: true,
                 behaviour: 'append',
                 pager: false,
+                pageLinkSelector: '.' + namespace + 'page-link',
                 requestNotifier: function(pagr, requestUrl, qs, url) {
 
                     var $el         = pagr.$element,
@@ -94,7 +95,7 @@
                 onInit: function(pagr, e) {
 
                     // find next buttons
-                    var $els = $('.page-link[data-page="next"]');
+                    var $els = $('.' + namespace + 'page-link[data-page="next"]');
 
                     // update classes and emit events
                     $els.each(function() {
@@ -106,7 +107,7 @@
                 onAfterPage: function(pagr, e) {
 
                     // find next buttons
-                    var $els = $('.page-link[data-page="next"]');
+                    var $els = $('.' + namespace + 'page-link[data-page="next"]');
 
                     // re-bind
                     if (typeof picturefill == 'function') picturefill();
