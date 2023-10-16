@@ -17,21 +17,21 @@
 
     'use strict';
 
-    return function(onUpdate) {
+    return function(onUpdate, namespace = '') {
 
         $(function() {
 
             // ensure that when you click on a sort link it is selected
             // we also flush the table contents here as pagr will reload the data
-            $('.pagination-sort a').on('tap, click', function(e) {
+            $('.' + namespace + 'pagination-sort a').on('tap, click', function(e) {
                 e.preventDefault();
-                $('.pagination-sort a').removeClass('selected');
+                $('.' + namespace + 'pagination-sort a').removeClass('selected');
                 $(this).addClass('selected');
-                $('.paginated.paginated-more').html('');
+                $('.' + namespace + 'paginated.' + namespace + 'paginated-more').html('');
             });
 
             // init load more containers with pagr
-            $('.paginated.paginated-more').pagr({
+            $('.' + namespace + 'paginated.' + namespace + 'paginated-more').pagr({
                 ajax: true,
                 behaviour: 'append',
                 pager: false,
@@ -87,8 +87,8 @@
                     }
 
                     // sort links
-                    if ($('.pagination-sort a').length)
-                        pagr.$element.attr('data-sort-by', $('.pagination-sort a.selected').attr('data-sort'));
+                    if ($('.' + namespace + 'pagination-sort a').length)
+                        pagr.$element.attr('data-sort-by', $('.' + namespace + 'pagination-sort a.selected').attr('data-sort'));
 
                 },
                 onInit: function(pagr, e) {
@@ -119,9 +119,9 @@
                              .trigger('noMorePages', [$this.is(".disabled")]);
                     });
 
-                    // update pagination stuff
-                    $('.pagination-appended-total').html(pagr.appendedTotal());
-                    $('.pagination-total').html(pagr.getTotal());
+                    // update ' + namespace + 'pagination stuff
+                    $('.' + namespace + 'pagination-appended-total').html(pagr.appendedTotal());
+                    $('.' + namespace + 'pagination-total').html(pagr.getTotal());
 
                     if (typeof onUpdate === 'function') {
                         onUpdate();
