@@ -31,7 +31,7 @@
         "react": "~16",
         "slidatron": "azt3k/slidatron#semver:^0.5.3",
         "tablizr": "azt3k/tablizr#semver:~0.3.0",
-        "tokenize2": "dragonofmercy/Tokenize2#1.2"
+        "tokenize2": "dragonofmercy/Tokenize2#1.3.5"
     },
     "engines": {
         "node": ">=0.10.0"
