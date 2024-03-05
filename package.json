@@ -15,7 +15,7 @@
         "css-grid-polyfill-binaries": "FremyCompany/css-grid-polyfill#master",
         "dimensionator": "https://github.com/azt3k/dimensionator.git#semver:~0.3",
         "droposaurus": "https://github.com/catch-oss/droposaurus.git#master",
-        "graphraptor": "https://github.com/catch-oss/graphraptor.git#master",
+        "graphraptor": "https://github.com/catch-oss/graphraptor.git#v2",
         "jquery": "^3.6.2",
         "jquery-mask-plugin": "~1.14.3",
         "jquery-mobile": "git+ssh://git@github.com:catch-oss/jquery-mobile.git#1.5.0-rc2",
