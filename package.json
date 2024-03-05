@@ -18,7 +18,7 @@
         "graphraptor": "https://github.com/catch-oss/graphraptor.git#v2",
         "jquery": "^3.6.2",
         "jquery-mask-plugin": "~1.14.3",
-        "jquery-mobile": "git+ssh://git@github.com:catch-oss/jquery-mobile.git#1.5.0-rc2",
+        "jquery-mobile": "https://github.com/catch-oss/jquery-mobile.git#1.5.0-rc2",
         "jsencrypt": "v3.0.0-rc.1",
         "jsrsasign": "~8",
         "labelizr": "https://github.com/catch-oss/labelizr.git#master",
